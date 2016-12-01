@@ -26,7 +26,7 @@ namespace Tecan_Quote_Generator
         Boolean salesTypeChanged = false;
         Boolean instrumentChanged = false;
         Boolean categoryChanged = false;
-        Boolean subCategoryChanged = false;
+        // Boolean subCategoryChanged = false;
         Boolean formatOnly = false;
 
         PartsListDetailDisplay DetailsForm;
@@ -59,9 +59,10 @@ namespace Tecan_Quote_Generator
             if (partsListBindingSource.Count != 0)
             {
                 loadFilterComboBoxes();
-                int newGridHeight;
-                newGridHeight = Screen.PrimaryScreen.Bounds.Height - (this.menuStrip1.Height + this.partsListBindingNavigator.Height);
-                this.partsListDataGridView.Height = newGridHeight - 500;
+                // int newGridHeight;
+                // newGridHeight = Screen.PrimaryScreen.Bounds.Height - (this.menuStrip1.Height + this.partsListBindingNavigator.Height);
+                // this.partsListDataGridView.Height = newGridHeight - 500;
+                this.partsListDataGridView.Height = 525;
                 setPartDetailTextBox();
                 QuoteDataGridView.AllowDrop = true;
                 OptionsDataGridView.AllowDrop = true;
@@ -75,106 +76,138 @@ namespace Tecan_Quote_Generator
         // Reads or Creates this users profile xml file.
         private void getProfileAndDatabase(object sender, EventArgs e)
         {
-            String profileFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanConfig.cfg");
+            String profileFile = @"c:\TecanFiles\" + "TecanQuoteConfig.cfg";
+            // Normal Condition, just load profile and run
+            if (File.Exists(profileFile) && partsListBindingSource.Count > 1)
+            {
+                getUsersProfile();
+            }
+            // Checks DB and copies / loads if required
+            else if (partsListBindingSource.Count == 1)
+            {
+                showUserProfileForm(true);
+            }
+            else if (!File.Exists(profileFile))
+            {
+                showUserProfileForm(false);
+            }
 
             // If = 1 then no DB, requires intilization
-            if (partsListBindingSource.Count == 1)
-            {
+            //if (partsListBindingSource.Count == 1)
+            //{
 
-                if (MessageBox.Show("The Tecan Quote Generator must be intilized!\r\n\r\nDo you want to perform intialization now?", "Initial Installation", MessageBoxButtons.YesNo) == DialogResult.No)
-                {
-                    this.Close();
-                }
-                else
-                {
-                    if (!File.Exists(profileFile))
-                    {
-                        ProfileForm profileForm = new ProfileForm(true);
-                        profileForm.SetForm1Instance(this);
-                        profileForm.Show();
-                        Application.OpenForms["ProfileForm"].BringToFront();
-                    }
-                    else
-                    {
-                        String distributionFolder;
-                        getUsersProfile();
-                        distributionFolder = profile.DistributionFolder;
+            //    if (MessageBox.Show("The Tecan Quote Generator must be intilized!\r\n\r\nDo you want to perform intialization now?", "Initial Installation", MessageBoxButtons.YesNo) == DialogResult.No)
+            //    {
+            //        this.Close();
+            //    }
+            //    else
+            //    {
+            //        if (!File.Exists(profileFile))
+            //        {
+            //            ProfileForm profileForm = new ProfileForm(true);
+            //            profileForm.SetForm1Instance(this);
+            //            profileForm.Show();
+            //            Application.OpenForms["ProfileForm"].BringToFront();
+            //        }
+            //        else
+            //        {
+            //            String distributionFolder;
+            //            getUsersProfile();
+            //            distributionFolder = profile.DistributionFolder;
 
-                        if (distributionFolder == null)
-                        {
-                            ProfileForm profileForm = new ProfileForm(true);
-                            profileForm.SetForm1Instance(this);
-                            profileForm.Show();
-                            Application.OpenForms["ProfileForm"].BringToFront();
-                            MessageBox.Show("There's a problem with your profile settings.  Please re-enter and save your information!");
-                        }
+            //            if (distributionFolder == null)
+            //            {
+            //                ProfileForm profileForm = new ProfileForm(true);
+            //                profileForm.SetForm1Instance(this);
+            //                profileForm.Show();
+            //                Application.OpenForms["ProfileForm"].BringToFront();
+            //                MessageBox.Show("There's a problem with your profile settings.  Please re-enter and save your information!");
+            //            }
 
-                        Boolean fileFound;
-                        fileFound = copyDatabaseToWorkingFolder(distributionFolder);
-                        if (!fileFound)
-                        {
-                            MessageBox.Show("The Distribution Folder you selected in your profile does not contain the Parts List Database!\n\nPlease select a new folder");
-                            ProfileForm profileForm = new ProfileForm(true);
-                            profileForm.SetForm1Instance(this);
-                            profileForm.Show();
-                            Application.OpenForms["ProfileForm"].BringToFront();
-                        }
-                        else
-                        {
-                            MainQuoteForm_Load(sender, e);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (!File.Exists(profileFile))
-                {
-                    ProfileForm profileForm = new ProfileForm(false);
-                    profileForm.SetForm1Instance(this);
-                    profileForm.Show();
-                    Application.OpenForms["ProfileForm"].BringToFront();
-                }
-                else
-                {
-                    getUsersProfile();
-                }
-            }
+            //            Boolean fileFound;
+            //            fileFound = copyDatabaseToWorkingFolder(distributionFolder);
+            //            if (!fileFound)
+            //            {
+            //                MessageBox.Show("The Distribution Folder you selected in your profile does not contain the Parts List Database!\n\nPlease select a new folder");
+            //                ProfileForm profileForm = new ProfileForm(true);
+            //                profileForm.SetForm1Instance(this);
+            //                profileForm.Show();
+            //                Application.OpenForms["ProfileForm"].BringToFront();
+            //            }
+            //            else
+            //            {
+            //                MainQuoteForm_Load(sender, e);
+            //            }
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    if (!File.Exists(profileFile))
+            //    {
+            //        ProfileForm profileForm = new ProfileForm(false);
+            //        profileForm.SetForm1Instance(this);
+            //        profileForm.Show();
+            //        Application.OpenForms["ProfileForm"].BringToFront();
+            //    }
+            //    else
+            //    {
+            //        getUsersProfile();
+            //    }
+            //}
+        }
+
+        public void showUserProfileForm(Boolean NeedsDB)
+        {
+            ProfileForm profileForm = new ProfileForm(NeedsDB);
+            profileForm.SetForm1Instance(this);
+            profileForm.Show();
+            Application.OpenForms["ProfileForm"].BringToFront();
         }
 
         // If blank database or new database available copy new database to working folder
         public Boolean copyDatabaseToWorkingFolder(String sourcePath)
         {
-            String quoteSourceFile = "";
-            String supplementSourceFile;
-
-            // Where new files will go
-            String quoteTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanQuoteGeneratorPartsList.sdf");
-            String supplementTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanSuppDocs.sdf");
-
-            // Where the new files will come from
-            try
+            String profileFile = @"c:\TecanFiles\" + "TecanQuoteConfig.cfg";
+            if (File.Exists(profileFile))
             {
-                quoteSourceFile = System.IO.Path.Combine(sourcePath, "TecanQuoteGeneratorPartsList.sdf");
+                String quoteSourceFile = "";
+                String supplementSourceFile;
+
+                // Where new files will go
+                String quoteTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanQuoteGeneratorPartsList.sdf");
+                String supplementTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanSuppDocs.sdf");
+
+                // Where the new files will come from
+                try
+                {
+                    quoteSourceFile = System.IO.Path.Combine(sourcePath, "TecanQuoteGeneratorPartsList.sdf");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
+                supplementSourceFile = System.IO.Path.Combine(sourcePath, "TecanSuppDocs.sdf");
+
+                // Verify the files exisit before copy
+                if (!File.Exists(quoteSourceFile))
+                {
+                    return false;
+                }
+
+                getUsersProfile();
+                FileInfo fi = new FileInfo(quoteSourceFile);
+                profile.DatabaseCreationDate = fi.CreationTime;
+                saveUsersProfile();
+                System.IO.File.Copy(quoteSourceFile, quoteTargetFile, true);
+                System.IO.File.Copy(supplementSourceFile, supplementTargetFile, true);
+                return true;
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message.ToString());
-            }
-            supplementSourceFile = System.IO.Path.Combine(sourcePath, "TecanSuppDocs.sdf");
-
-            // Verify the files exisit before copy
-            if (!File.Exists(quoteSourceFile))
-            {
+                getUsersProfile();
                 return false;
             }
-
-            FileInfo fi = new FileInfo(quoteSourceFile);
-            profile.DatabaseCreationDate = fi.CreationTime;
-            saveUsersProfile();
-            System.IO.File.Copy(quoteSourceFile, quoteTargetFile, true);
-            System.IO.File.Copy(supplementSourceFile, supplementTargetFile, true);
-            return true;
         }
 
         // Initial Lookup Table lists, used for filtering displayed Parts
@@ -214,6 +247,7 @@ namespace Tecan_Quote_Generator
             SelectedRowView = (System.Data.DataRowView)partsListBindingSource.Current;
             SelectedRow = (TecanQuoteGeneratorPartsListDataSet.PartsListRow)SelectedRowView.Row;
             PartDetailTextBox.Text = SelectedRow.DetailDescription;
+            itemPriceTextBox.Text = String.Format("{0:C2}", SelectedRow.ILP);
             NotesTextBox.Text = SelectedRow.NotesFromFile;
             loadImage(SelectedRow.SAPId);
         }
@@ -1213,27 +1247,32 @@ namespace Tecan_Quote_Generator
 
         private void myProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ProfileForm profileForm = new ProfileForm(false);
-            profileForm.SetForm1Instance(this);
-            profileForm.Show();
-            Application.OpenForms["ProfileForm"].BringToFront();
+            showUserProfileForm(false);
         }
 
         public void getUsersProfile()
         {
-            String profileFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanConfig.cfg");
-            System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(Profile));
-            System.IO.StreamReader file = new System.IO.StreamReader(profileFile);
-            // Profile profile = new Profile();
-            profile = (Profile)reader.Deserialize(file);
-            file.Close();
-            SalemansNameLabel.Text = "Welcome " + profile.Name;
+            String profileFile = @"c:\TecanFiles\" + "TecanQuoteConfig.cfg";
+            if (File.Exists(profileFile))
+            {
+                System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(Profile));
+                System.IO.StreamReader file = new System.IO.StreamReader(profileFile);
+                // Profile profile = new Profile();
+                profile = (Profile)reader.Deserialize(file);
+                file.Close();
+                SalemansNameLabel.Text = "Welcome " + profile.Name;
+            }
+            else
+            {
+                MessageBox.Show("There was an error getting your profile information!\n\nPlease re-enter your profile");
+                showUserProfileForm(false);
+            }
         }
 
         private void saveUsersProfile()
         {
             // Save to Profile config file
-            String profileFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanConfig.cfg");
+            String profileFile = @"c:\TecanFiles\" + "TecanQuoteConfig.cfg";
             System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(Profile));
             System.IO.StreamWriter file = new System.IO.StreamWriter(profileFile);
             writer.Serialize(file, profile);
@@ -1255,8 +1294,7 @@ namespace Tecan_Quote_Generator
             System.IO.File.WriteAllText(fieldsFile, sb.ToString());
 
             string newFile = @"c:\temp\output.pdf";
-            PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileStream(
-                newFile, FileMode.Create));
+            PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileStream(newFile, FileMode.Create));
             AcroFields pdfFormFields = pdfStamper.AcroFields;
 
             // set form pdfFormFields
@@ -1282,6 +1320,11 @@ namespace Tecan_Quote_Generator
             
             // close the pdf
             pdfStamper.Close();
+        }
+
+        private void clearQuoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

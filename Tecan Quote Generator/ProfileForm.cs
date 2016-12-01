@@ -20,12 +20,12 @@ namespace Tecan_Quote_Generator
             mainForm = inst;
         }
 
-        public ProfileForm(Boolean howCalled)
+        public ProfileForm(Boolean NeedsDB)
         {
             InitializeComponent();
-            doInitialization = howCalled;
-            String profileFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanConfig.cfg");
-            if (File.Exists(profileFile) && !doInitialization)
+            doInitialization = NeedsDB;
+            String profileFile = @"c:\TecanFiles\" + "TecanQuoteConfig.cfg";
+            if (File.Exists(profileFile))
             {
                 System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(Profile));
                 System.IO.StreamReader file = new System.IO.StreamReader(profileFile);
@@ -100,16 +100,30 @@ namespace Tecan_Quote_Generator
                 profile.DistributionFolder = ProfileDistributionFolderTextBox.Text;
 
                 // Save to Profile config file
-                String profileFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanConfig.cfg");
+                String tecanFilesFilePath = @"c:\TecanFiles";
+                System.IO.Directory.CreateDirectory(tecanFilesFilePath);
+
+                String profileFile = @"c:\TecanFiles\" + "TecanQuoteConfig.cfg";
                 System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(Profile));
                 System.IO.StreamWriter file = new System.IO.StreamWriter(profileFile);
                 writer.Serialize(file, profile);
                 file.Close();
                 this.Close();
+
                 if (doInitialization)
                 {
-                    mainForm.copyDatabaseToWorkingFolder(profile.DistributionFolder);
-                    mainForm.MainQuoteForm_Load(sender, e);
+                    Boolean fileFound;
+                    fileFound = mainForm.copyDatabaseToWorkingFolder(profile.DistributionFolder);
+                    if (!fileFound)
+                    {
+                        MessageBox.Show("The Distribution Folder you selected does not contain the Quote Database!\n\nPlease select a new folder");
+                        mainForm.showUserProfileForm(true);
+                    }
+                    else
+                    {
+                        mainForm.getUsersProfile();
+                        mainForm.MainQuoteForm_Load(sender, e);
+                    }
                 }
                 else
                 {

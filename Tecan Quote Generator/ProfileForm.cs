@@ -112,6 +112,7 @@ namespace Tecan_Quote_Generator
 
                 if (doInitialization)
                 {
+                    // Copy database from distribution folder 
                     Boolean fileFound;
                     fileFound = mainForm.copyDatabaseToWorkingFolder(profile.DistributionFolder);
                     if (!fileFound)

@@ -187,6 +187,7 @@
     <Content Include="Customers.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="noimage.bmp" />
     <Content Include="Tecan Logo.png" />
     <Content Include="TecanQuoteGeneratorPartsList.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

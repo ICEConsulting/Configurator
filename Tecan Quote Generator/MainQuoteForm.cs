@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
 using System.Globalization;
 using iTextSharp;
 using iTextSharp.text;
@@ -569,7 +570,13 @@ namespace Tecan_Quote_Generator
                 }
                 else
                 {
-                    partImagePictureBox.Image = null;
+                    // partImagePictureBox.Image = null;
+                    System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                    Stream myStream = myAssembly.GetManifestResourceStream("Tecan_Quote_Generator.noimage.bmp");
+                    Bitmap image = new Bitmap(myStream);
+                    System.Drawing.Image newImage = image;
+                    newImage = ResizeImage(newImage, new Size(123, 135));
+                    partImagePictureBox.Image = newImage;
                 }
 
             }
@@ -774,7 +781,7 @@ namespace Tecan_Quote_Generator
             // SalesTypes
             instrumentChanged = false;
             categoryChanged = false;
-            subCategoryChanged = false;
+            // subCategoryChanged = false;
             String CurrentSalesTypeSearchValue = SalesTypeComboBox.SelectedValue.ToString();
             short InstrumentSearchValue = (short)Convert.ToInt16(InstrumentComboBox.SelectedValue);
             short CategorySearchValue = (short)Convert.ToInt16(CategoryComboBox.SelectedValue);
@@ -818,7 +825,7 @@ namespace Tecan_Quote_Generator
             // Instruments
             salesTypeChanged = false;
             categoryChanged = false;
-            subCategoryChanged = false;
+            // subCategoryChanged = false;
             String CurrentInstrumentSearchValue = InstrumentComboBox.SelectedValue.ToString();
             short SalesTypeSearchValue = (short)Convert.ToInt16(SalesTypeComboBox.SelectedValue);
             short CategorySearchValue = (short)Convert.ToInt16(CategoryComboBox.SelectedValue);
@@ -1076,7 +1083,7 @@ namespace Tecan_Quote_Generator
         private void SubCategoryComboBox_Click(object sender, EventArgs e)
         {
             searchPreformed = false;
-            subCategoryChanged = true;
+            // subCategoryChanged = true;
         }
 
         private void SubCategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)

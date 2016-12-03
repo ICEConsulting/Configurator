@@ -1160,19 +1160,39 @@ namespace Tecan_Quote_Generator
                 MessageBox.Show("Please enter a Quote Title before saving.");
                 return;
             }
-            String QuoteFileName = QuoteTitleTextBox.Text + ".tbq";
+            
             Quote quote = new Quote();
             quote.QuoteTitle = QuoteTitleTextBox.Text;
             quote.Items = AddQuoteItems(QuoteDataGridView);
             quote.Options = AddQuoteItems(OptionsDataGridView);
             quote.ThirdParty = AddQuoteItems(ThirdPartyDataGridView);
             quote.SmartStart = AddQuoteItems(SmartStartDataGridView);
-
             System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(Quote));
 
-            System.IO.StreamWriter file = new System.IO.StreamWriter(@"c:\temp\" + QuoteFileName);
-            writer.Serialize(file, quote);
-            file.Close();
+            // Save theQuote file
+            String tecanFilesFilePath = @"c:\TecanFiles";
+            System.IO.Directory.CreateDirectory(tecanFilesFilePath);
+            String QuoteFileName = QuoteTitleTextBox.Text + ".tbq";
+
+            if(File.Exists(@"c:\TecanFiles\" + QuoteFileName))
+            {
+                if (MessageBox.Show("The Quote file c:\\TecanFiles\\" + QuoteFileName + " already exists!\r\n\r\nDo you want to overwrite quote?", "Overwrite Quote", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    MessageBox.Show("Please select a new title for this quote.");
+                    if (QuoteTabControl.SelectedTab != QuoteSettingTabPage)
+                    {
+                        QuoteTabControl.SelectedTab = QuoteSettingTabPage;
+                    }
+                    return;
+                }
+                else
+                {
+                    System.IO.StreamWriter file = new System.IO.StreamWriter(@"c:\TecanFiles\" + QuoteFileName);
+                    writer.Serialize(file, quote);
+                    file.Close();
+                    MessageBox.Show("Quote c:\\TecanFiles\\" + QuoteFileName + " saved.");
+                }
+            }
         }
 
         private ArrayList AddQuoteItems(DataGridView myDataGridView)
@@ -1226,30 +1246,70 @@ namespace Tecan_Quote_Generator
 
         private void loadQuoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(Quote));
-            System.IO.StreamReader file = new System.IO.StreamReader(@"c:\temp\MyFirstQuote.tbq");
-            Quote quote = new Quote();
-            quote = (Quote)reader.Deserialize(file);
-
-            String itemSAPID;
-            String itemDescription;
-            Decimal itemPrice;
-            Int32 itemQuantity;
-            Decimal itemDiscount;
-
-            foreach (QuoteItems row in quote.Items)
+            Int32 quoteRowCount = QuoteDataGridView.Rows.GetRowCount(DataGridViewElementStates.Displayed);
+            Int32 optionsRowCount = QuoteDataGridView.Rows.GetRowCount(DataGridViewElementStates.Displayed);
+            Int32 thirdPartyRowCount = QuoteDataGridView.Rows.GetRowCount(DataGridViewElementStates.Displayed);
+            Int32 smartStartRowCount = QuoteDataGridView.Rows.GetRowCount(DataGridViewElementStates.Displayed);
+            if (quoteRowCount > 0 || optionsRowCount > 0 || thirdPartyRowCount > 0 || smartStartRowCount > 0)
             {
-                itemSAPID = row.SAPID;
-                itemDescription = row.Description;
-                itemPrice = row.Price;
-                itemQuantity = row.Quantity;
-                itemDiscount = row.Discount;
+                if (MessageBox.Show("You already have items selected!\r\n\r\nDo you want to clear these items?", "Clear List", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
 
-                QuoteDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice);
             }
-            SumItems(QuoteDataGridView);
+            QuoteDataGridView.Rows.Clear();
+            QuoteItemsPriceTextBox.Text = "";
+            OptionsDataGridView.Rows.Clear();
+            OptionsItemsPriceTextBox.Text = "";
+            ThirdPartyDataGridView.Rows.Clear();
+            SmartStartDataGridView.Rows.Clear();
 
+            // Get Quote Filename and Path
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
+            openFileDialog1.InitialDirectory = "c:\\TecanFiles";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(Quote));
+                System.IO.StreamReader file = new System.IO.StreamReader(openFileDialog1.FileName);
+                Quote quote = new Quote();
+                quote = (Quote)reader.Deserialize(file);
+
+                String itemSAPID;
+                String itemDescription;
+                Decimal itemPrice;
+                Int32 itemQuantity;
+                Decimal itemDiscount;
+
+                foreach (QuoteItems row in quote.Items)
+                {
+                    itemSAPID = row.SAPID;
+                    itemDescription = row.Description;
+                    itemPrice = row.Price;
+                    itemQuantity = row.Quantity;
+                    itemDiscount = row.Discount;
+
+                    QuoteDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice);
+                }
+
+                foreach (QuoteItems row in quote.Options)
+                {
+                    itemSAPID = row.SAPID;
+                    itemDescription = row.Description;
+                    itemPrice = row.Price;
+                    itemQuantity = row.Quantity;
+                    itemDiscount = row.Discount;
+
+                    OptionsDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice);
+                }
+                QuoteTabControl.SelectedTab = QuoteTabPage;
+                SumItems(QuoteDataGridView);
+                SumItems(QuoteDataGridView);
+            }
         }
 
         private void myProfileToolStripMenuItem_Click(object sender, EventArgs e)

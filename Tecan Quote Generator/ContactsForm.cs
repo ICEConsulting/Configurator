@@ -7,12 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
+using System.IO;
+using System.Diagnostics;
 
 namespace Tecan_Quote_Generator
 {
     public partial class ContactsForm : Form
     {
-        Boolean updateMode;
+        Boolean contactUpdateMode;
+        Boolean accountUpdateMode;
         int[] currentContacts = new int[10];
         SqlCeConnection ContactsDatabase = null;
         public ContactsForm()
@@ -40,7 +43,7 @@ namespace Tecan_Quote_Generator
 
             openDB();
             SqlCeCommand cmd = ContactsDatabase.CreateCommand();
-            cmd.CommandText = "SELECT First, Last, ContactID FROM Contacts WHERE AccountID = " + selectedAccount + " ORDER BY Last";
+            cmd.CommandText = "SELECT First, Last, ContactID FROM Contacts WHERE AccountID = " + selectedAccount + " ORDER BY First";
             SqlCeDataReader reader = cmd.ExecuteReader();
 
             int contactCount = 0;
@@ -53,15 +56,7 @@ namespace Tecan_Quote_Generator
             reader.Dispose();
             ContactsDatabase.Close();
 
-            if (ContactsListBox.Items.Count == 0)
-            {
-                ContactsListBox.Items.Add("Seleced account has no contacts.");
-            }
-            else
-            {
-                ContactsListBox.SelectedIndex = 0;
-                displayContact();
-            }
+            setDisplayHeightListContacts();
 
         }
 
@@ -72,8 +67,25 @@ namespace Tecan_Quote_Generator
 
         private void ContactsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(currentContacts != null)
+            if(currentContacts != null) displayContact();
+        }
+
+        private void setDisplayHeightListContacts()
+        {
+            if (ContactsListBox.Items.Count == 0)
+            {
+                ContactsListBox.Items.Add("Seleced account has no contacts.");
+                clearContact();
+                this.Height = 175;
+                editLabel.Visible = false;
+            }
+            else
+            {
+                ContactsListBox.SelectedIndex = 0;
                 displayContact();
+                this.Height = 375;
+                editLabel.Visible = true;
+            }
         }
 
         private void displayContact()
@@ -103,30 +115,58 @@ namespace Tecan_Quote_Generator
             }
             reader.Dispose();
             ContactsDatabase.Close();
-            updateMode = true;
+            contactUpdateMode = true;
         }
 
         private void AddAccountButton_Click(object sender, EventArgs e)
         {
+            accountUpdateMode = false;
             AddAccountPanel.Visible = true;
+            AddAccountTextBox.Focus();
+        }
+
+        private void editAccountNameButton_Click(object sender, EventArgs e)
+        {
+            accountUpdateMode = true;
+            this.Height = 175;
+            editLabel.Visible = false;
+            AddAccountPanel.Visible = true;
+            AddAccountTextBox.Text = AccountsComboBox.Text;
             AddAccountTextBox.Focus();
         }
 
         private void AddAcountConfirmButton_Click(object sender, EventArgs e)
         {
-            if (AddAccountTextBox.Text != "")
+            openDB();
+            SqlCeCommand cmd = ContactsDatabase.CreateCommand();
+            short selectedAccount;
+            
+            if (accountUpdateMode)
             {
-                short newAccountID;
-                newAccountID = getNewID("AccountID", "Accounts");
-                openDB();
-                SqlCeCommand cmd = ContactsDatabase.CreateCommand();
-                cmd.CommandText = "INSERT INTO Accounts (AccountID, AccountName) Values (" + newAccountID + ", '" + AddAccountTextBox.Text + "')";
-                cmd.ExecuteNonQuery();
-                ContactsDatabase.Close();
-                this.accountsTableAdapter.Fill(this.customersDataSet.Accounts);
-                AccountsComboBox.SelectedIndex = AccountsComboBox.Items.Count - 1;
-
+                selectedAccount = (short)Convert.ToInt16(AccountsComboBox.SelectedValue);
+                cmd.CommandText = "UPDATE Accounts SET AccountName='" + AddAccountTextBox.Text + "' WHERE AccountID = " + selectedAccount;
             }
+            else
+            {
+                if (AddAccountTextBox.Text != "")
+                {
+                    short newAccountID;
+                    newAccountID = getNewID("AccountID", "Accounts");
+                    cmd.CommandText = "INSERT INTO Accounts (AccountID, AccountName) Values (" + newAccountID + ", '" + AddAccountTextBox.Text + "')";
+                }
+            }
+            cmd.ExecuteNonQuery();
+            ContactsDatabase.Close();
+            this.accountsTableAdapter.Fill(this.customersDataSet.Accounts);
+            if (!accountUpdateMode)
+            {
+                AccountsComboBox.SelectedIndex = AccountsComboBox.Items.Count - 1;
+            }
+            else
+            {
+                loadContactsList();
+            }
+            
             AddAccountPanel.Visible = false;
         }
 
@@ -134,20 +174,14 @@ namespace Tecan_Quote_Generator
         {
             AddAccountTextBox.Text = "";
             AddAccountPanel.Visible = false;
+            setDisplayHeightListContacts();
         }
 
         private void AddContact_Click(object sender, EventArgs e)
         {
-            updateMode = false;
-            FirstNameTextBox.Text = "";
-            LastNameTextBox.Text = "";
-            AddressTextBox.Text = "";
-            CityTextBox.Text = "";
-            StateTextBox.Text = "";
-            ZipTextBox.Text = "";
-            PhoneTextBox.Text = "";
-            FaxTextBox.Text = "";
-            EmailTextBox.Text = "";
+            contactUpdateMode = false;
+            clearContact();
+            this.Height = 375;
             FirstNameTextBox.Focus();
         }
 
@@ -160,7 +194,7 @@ namespace Tecan_Quote_Generator
             short newContactID = 0;
             selectedAccount = (short)Convert.ToInt16(AccountsComboBox.SelectedValue);
 
-            if (updateMode)
+            if (contactUpdateMode)
             {
                 selectedContactID = (short)currentContacts[ContactsListBox.SelectedIndex];
                 cmd.CommandText = "UPDATE Contacts SET First=@First, Last=@Last, Address=@Address, City=@City, State=@State, PostalCode=@PostalCode," +
@@ -183,14 +217,28 @@ namespace Tecan_Quote_Generator
             cmd.Parameters.AddWithValue("@WorkPhone", PhoneTextBox.Text);
             cmd.Parameters.AddWithValue("@Fax", FaxTextBox.Text);
             cmd.Parameters.AddWithValue("@Email", EmailTextBox.Text);
-            if (!updateMode)
+            if (!contactUpdateMode)
             {
                 cmd.Parameters.AddWithValue("@ContactID", newContactID);
                 cmd.Parameters.AddWithValue("@AccountID", selectedAccount);
             }
             cmd.ExecuteNonQuery();
             ContactsDatabase.Close();
+            loadContactsList();
 
+        }
+
+        private void clearContact()
+        {
+            FirstNameTextBox.Text = "";
+            LastNameTextBox.Text = "";
+            AddressTextBox.Text = "";
+            CityTextBox.Text = "";
+            StateTextBox.Text = "";
+            ZipTextBox.Text = "";
+            PhoneTextBox.Text = "";
+            FaxTextBox.Text = "";
+            EmailTextBox.Text = "";
         }
 
         private void openDB()
@@ -207,7 +255,7 @@ namespace Tecan_Quote_Generator
             int newRowCountNum = 0;
             openDB();
             SqlCeCommand cmd = ContactsDatabase.CreateCommand();
-            if (indexFieldName == "Accounts")
+            if (indexFieldName == "AccountID")
             {
                 cmd.CommandText = "SELECT " + indexFieldName + " FROM " + currentTable + " ORDER BY " + indexFieldName;
             }
@@ -233,6 +281,45 @@ namespace Tecan_Quote_Generator
                 newRowCountNum = 1;
             }
             return (short)newRowCountNum;
+        }
+
+        private void listPrintContactsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Create the new file in temp directory
+            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "temp";
+            System.IO.Directory.CreateDirectory(tempFilePath);
+
+            // If temp directory current contains any files, delete them
+            System.IO.DirectoryInfo tempFiles = new DirectoryInfo(tempFilePath);
+
+            foreach (FileInfo file in tempFiles.GetFiles())
+            {
+                file.Delete();
+            }
+            String fullFilePathName = @tempFilePath + "\\ContactsList.csv";
+
+            string sData = "Account Name,First,Last,Address,City,State,Postal Code,Work Phone,Fax,Email\n";
+
+            openDB();
+            SqlCeCommand cmd = ContactsDatabase.CreateCommand();
+
+            cmd.CommandText = "SELECT A.AccountName, C.First, C.Last, C.Address, C.City, C.State, C.PostalCode,  C.WorkPhone, C.Fax, C.Email " +
+                " FROM Accounts A LEFT OUTER JOIN Contacts C " +
+                " ON A.AccountID = C.AccountID" +
+                " ORDER BY A.AccountName, C.First";
+            SqlCeDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                sData += reader[0].ToString() + "," + reader[1].ToString() + "," + reader[2].ToString() + "," + reader[3].ToString() +
+                "," + reader[4].ToString() + "," + reader[5].ToString() + "," + reader[6].ToString() + "," + reader[7].ToString() +
+                "," + reader[8].ToString() + "," + reader[9].ToString() + "\n";
+            }
+            reader.Dispose();
+            ContactsDatabase.Close();
+
+            File.WriteAllText(fullFilePathName, sData);
+            Process.Start(fullFilePathName);
         }
 
     }

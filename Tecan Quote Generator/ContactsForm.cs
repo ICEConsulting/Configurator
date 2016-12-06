@@ -322,5 +322,142 @@ namespace Tecan_Quote_Generator
             Process.Start(fullFilePathName);
         }
 
+        private void importContactsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Height = 375;
+            importContactsPanel.Visible = true;
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://support.office.com/en-US/article/Introduction-to-importing-and-exporting-data-08422593-42DD-4E73-BDF1-4C21FC3AA1B0");
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://support.office.com/en-us/article/Export-contacts-from-Outlook-10f09abd-643c-4495-bb80-543714eca73f");
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://support.office.com/en-us/article/Import-or-export-text-txt-or-csv-files-5250ac4c-663c-47ce-937b-339e391393ba");
+        }
+
+        private void label19_Click(object sender, EventArgs e)
+        {
+            Process.Start("http://support2.constantcontact.com/articles/FAQ/2411");
+        }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://support.google.com/mail/answer/1069522?hl=en");
+        }
+
+        private void importContactsButton_Click(object sender, EventArgs e)
+        {
+            
+            Boolean deleteDb = false;
+            short newAccountID = 0;
+            short newContactID = 0;
+            // If replace is selected and contacts dB not empty, verify action
+            if (replaceRadioButton.Checked == true && AccountsComboBox.Items.Count != 0)
+            {
+                if (MessageBox.Show("This will delete all current Accounts and Contacts and Replace them with your selected Contacts List.\r\n\r\nDo you want to proceed?", "Replace Contacts", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+                else
+                {
+                    deleteDb = true;
+                }
+            }
+            
+            openDB();
+            SqlCeCommand cmd = ContactsDatabase.CreateCommand();
+            SqlCeDataReader reader;
+
+            if (deleteDb)
+            {
+                cmd.CommandText = "DELETE FROM Accounts";
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = "DELETE FROM Contacts";
+                cmd.ExecuteNonQuery();
+            }
+
+            // Get the contacts cvs file
+            String filePath;
+
+            // Get csv Filename and Path
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.Title = "Please select your contacts csv file";
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "csv files (*.csv)|*.csv";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            // read csv file and place in array
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                filePath = openFileDialog1.FileName;
+                try
+                {
+                    var newContacts = File.ReadAllLines(filePath).Select(x => x.Split(',')).ToArray();
+                    foreach (string[] newContact in newContacts)
+                    {
+                        // Get Account Name, test if exists, add or use AccountID
+                        cmd.CommandText = "SELECT AccountName, AccountID FROM Accounts WHERE AccountName = '" + newContact[0] + "'";
+                        reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            newAccountID = (short)Convert.ToInt16(reader[1]);
+                        }
+                        else if (newContact[0] != "")
+                        {
+                            newAccountID = getNewID("AccountID", "Accounts");
+                            cmd.CommandText = "INSERT INTO Accounts (AccountID, AccountName) Values (" + newAccountID + ", '" + newContact[0] + "')";
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Get Contact Name, test if exists, add if not found
+                        cmd.CommandText = "SELECT AccountID, First, Last FROM Contacts WHERE AccountID = '" + newAccountID + "' AND First = '" +
+                            newContact[1] + "' AND Last = '" + newContact[2] + "'";
+                        reader = cmd.ExecuteReader();
+                        if (!reader.Read() && (newContact[1] != "" || newContact[2] != ""))
+                        {
+                            newContactID = getNewID("ContactID", "Contacts");
+                            cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, ContactID, AccountID)" +
+                            " Values " +
+                            "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @ContactID, @AccountID)";
+
+                            cmd.Parameters.AddWithValue("@First", newContact[1]);
+                            cmd.Parameters.AddWithValue("@Last", newContact[2]);
+                            cmd.Parameters.AddWithValue("@Address", newContact[3]);
+                            cmd.Parameters.AddWithValue("@City", newContact[4]);
+                            cmd.Parameters.AddWithValue("@State", newContact[5]);
+                            cmd.Parameters.AddWithValue("@PostalCode", newContact[6]);
+                            cmd.Parameters.AddWithValue("@WorkPhone", newContact[7]);
+                            cmd.Parameters.AddWithValue("@Fax", newContact[8]);
+                            cmd.Parameters.AddWithValue("@Email", newContact[9]);
+                            cmd.Parameters.AddWithValue("@ContactID", newContactID);
+                            cmd.Parameters.AddWithValue("@AccountID", newAccountID);
+                            cmd.ExecuteNonQuery();
+                            cmd.Parameters.Clear();
+                        }
+                        reader.Dispose();
+                    }
+                    ContactsDatabase.Close();
+                    importContactsPanel.Visible = false;
+                    this.accountsTableAdapter.Fill(this.customersDataSet.Accounts);
+                    this.Show();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Please close the contacts file and try again");
+                    importContactsPanel.Visible = false;
+                    return;
+                }
+            }
+        }
     }
 }

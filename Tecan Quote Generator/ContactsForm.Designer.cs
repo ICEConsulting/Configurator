@@ -69,10 +69,25 @@
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listPrintContactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importContactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.importContactsPanel = new System.Windows.Forms.Panel();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.replaceRadioButton = new System.Windows.Forms.RadioButton();
+            this.updateRadioButton = new System.Windows.Forms.RadioButton();
+            this.importContactsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.AccountsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.customersDataSet)).BeginInit();
             this.AddAccountPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.importContactsPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -463,6 +478,171 @@
             this.importContactsToolStripMenuItem.Name = "importContactsToolStripMenuItem";
             this.importContactsToolStripMenuItem.Size = new System.Drawing.Size(232, 30);
             this.importContactsToolStripMenuItem.Text = "Import Contacts";
+            this.importContactsToolStripMenuItem.Click += new System.EventHandler(this.importContactsToolStripMenuItem_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(18, 14);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(247, 24);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Import / Update Contacts";
+            // 
+            // label14
+            // 
+            this.label14.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(35, 48);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(704, 76);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "You can import contacts from any source that you can save (export) as a comma \r\ns" +
+    "eperated file (csv). MS Access, MS Outlook, MS Excel, Thunderbird, Google and ot" +
+    "hers.";
+            // 
+            // importContactsPanel
+            // 
+            this.importContactsPanel.Controls.Add(this.importContactsButton);
+            this.importContactsPanel.Controls.Add(this.updateRadioButton);
+            this.importContactsPanel.Controls.Add(this.replaceRadioButton);
+            this.importContactsPanel.Controls.Add(this.label22);
+            this.importContactsPanel.Controls.Add(this.label21);
+            this.importContactsPanel.Controls.Add(this.label20);
+            this.importContactsPanel.Controls.Add(this.label19);
+            this.importContactsPanel.Controls.Add(this.label18);
+            this.importContactsPanel.Controls.Add(this.label17);
+            this.importContactsPanel.Controls.Add(this.label16);
+            this.importContactsPanel.Controls.Add(this.label15);
+            this.importContactsPanel.Controls.Add(this.label14);
+            this.importContactsPanel.Controls.Add(this.label13);
+            this.importContactsPanel.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.importContactsPanel.Location = new System.Drawing.Point(14, 46);
+            this.importContactsPanel.Name = "importContactsPanel";
+            this.importContactsPanel.Size = new System.Drawing.Size(780, 480);
+            this.importContactsPanel.TabIndex = 33;
+            this.importContactsPanel.Visible = false;
+            // 
+            // label22
+            // 
+            this.label22.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(45, 247);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(699, 72);
+            this.label22.TabIndex = 10;
+            this.label22.Text = "Account Name, First Name, Last Name, Street Address, City, State (2 characters), " +
+    "Zip Code, Phone Number, Fax Number, Email Address";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(32, 222);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(486, 19);
+            this.label21.TabIndex = 9;
+            this.label21.Text = "CSV file must have the following columns with no heading row.";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(576, 169);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(68, 21);
+            this.label20.TabIndex = 8;
+            this.label20.Text = "Google";
+            this.label20.Click += new System.EventHandler(this.label20_Click);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(441, 169);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(108, 21);
+            this.label19.TabIndex = 7;
+            this.label19.Text = "Thunderbird";
+            this.label19.Click += new System.EventHandler(this.label19_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(323, 169);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(85, 21);
+            this.label18.TabIndex = 6;
+            this.label18.Text = "MS Excel";
+            this.label18.Click += new System.EventHandler(this.label18_Click);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(190, 169);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(104, 21);
+            this.label17.TabIndex = 5;
+            this.label17.Text = "MS Outlook";
+            this.label17.Click += new System.EventHandler(this.label17_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(59, 169);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(98, 21);
+            this.label16.TabIndex = 4;
+            this.label16.Text = "MS Access";
+            this.label16.Click += new System.EventHandler(this.label16_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(31, 141);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(248, 19);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "Instructions to export contacts:";
+            // 
+            // replaceRadioButton
+            // 
+            this.replaceRadioButton.AutoSize = true;
+            this.replaceRadioButton.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.replaceRadioButton.Location = new System.Drawing.Point(196, 334);
+            this.replaceRadioButton.Name = "replaceRadioButton";
+            this.replaceRadioButton.Size = new System.Drawing.Size(169, 23);
+            this.replaceRadioButton.TabIndex = 13;
+            this.replaceRadioButton.Text = "Replace Contacts";
+            this.replaceRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // updateRadioButton
+            // 
+            this.updateRadioButton.AutoSize = true;
+            this.updateRadioButton.Checked = true;
+            this.updateRadioButton.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.updateRadioButton.Location = new System.Drawing.Point(414, 334);
+            this.updateRadioButton.Name = "updateRadioButton";
+            this.updateRadioButton.Size = new System.Drawing.Size(162, 23);
+            this.updateRadioButton.TabIndex = 14;
+            this.updateRadioButton.TabStop = true;
+            this.updateRadioButton.Text = "Update Contacts";
+            this.updateRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // importContactsButton
+            // 
+            this.importContactsButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.importContactsButton.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.importContactsButton.Location = new System.Drawing.Point(310, 399);
+            this.importContactsButton.Name = "importContactsButton";
+            this.importContactsButton.Size = new System.Drawing.Size(152, 34);
+            this.importContactsButton.TabIndex = 15;
+            this.importContactsButton.Text = "Import Contacts";
+            this.importContactsButton.UseVisualStyleBackColor = false;
+            this.importContactsButton.Click += new System.EventHandler(this.importContactsButton_Click);
             // 
             // ContactsForm
             // 
@@ -470,6 +650,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.BlanchedAlmond;
             this.ClientSize = new System.Drawing.Size(806, 550);
+            this.Controls.Add(this.importContactsPanel);
             this.Controls.Add(this.editLabel);
             this.Controls.Add(this.CancelNewContactButton);
             this.Controls.Add(this.SaveContactButton);
@@ -513,6 +694,8 @@
             this.AddAccountPanel.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.importContactsPanel.ResumeLayout(false);
+            this.importContactsPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -560,5 +743,19 @@
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listPrintContactsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importContactsToolStripMenuItem;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Panel importContactsPanel;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.RadioButton updateRadioButton;
+        private System.Windows.Forms.RadioButton replaceRadioButton;
+        private System.Windows.Forms.Button importContactsButton;
     }
 }

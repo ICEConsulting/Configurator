@@ -40,6 +40,8 @@ namespace Tecan_Quote_Generator
 
         public void MainQuoteForm_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'customersDataSet.Accounts' table. You can move, or remove it, as needed.
+            this.accountsTableAdapter.Fill(this.customersDataSet.Accounts);
             System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
             ToolTip1.SetToolTip(this.PartNumberClearButton, "Clear Part Number Search");
             ToolTip1.SetToolTip(this.DescriptionClearButton, "Clear Description Search");
@@ -1102,6 +1104,12 @@ namespace Tecan_Quote_Generator
         {
             ContactsForm contacts = new ContactsForm();
             contacts.Show();
+            contacts.FormClosing += new FormClosingEventHandler(reloadMe);
+        }
+
+        private void reloadMe(object sender, EventArgs e)
+        {
+            MainQuoteForm_Load(sender, e);
         }
 
         private void QuoteRemoveSelectedButton_Click(object sender, EventArgs e)
@@ -1246,11 +1254,9 @@ namespace Tecan_Quote_Generator
 
         private void loadQuoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Int32 quoteRowCount = QuoteDataGridView.Rows.GetRowCount(DataGridViewElementStates.Displayed);
-            Int32 optionsRowCount = QuoteDataGridView.Rows.GetRowCount(DataGridViewElementStates.Displayed);
-            Int32 thirdPartyRowCount = QuoteDataGridView.Rows.GetRowCount(DataGridViewElementStates.Displayed);
-            Int32 smartStartRowCount = QuoteDataGridView.Rows.GetRowCount(DataGridViewElementStates.Displayed);
-            if (quoteRowCount > 0 || optionsRowCount > 0 || thirdPartyRowCount > 0 || smartStartRowCount > 0)
+            Int32 quoteRowCount = QuoteDataGridView.Rows.Count;
+            Int32 optionsRowCount = OptionsDataGridView.Rows.Count;
+            if (quoteRowCount > 0 || optionsRowCount > 0)
             {
                 if (MessageBox.Show("You already have items selected!\r\n\r\nDo you want to clear these items?", "Clear List", MessageBoxButtons.YesNo) == DialogResult.No)
                 {
@@ -1278,6 +1284,8 @@ namespace Tecan_Quote_Generator
                 System.IO.StreamReader file = new System.IO.StreamReader(openFileDialog1.FileName);
                 Quote quote = new Quote();
                 quote = (Quote)reader.Deserialize(file);
+
+                QuoteTitleTextBox.Text = quote.QuoteTitle;
 
                 String itemSAPID;
                 String itemDescription;
@@ -1391,6 +1399,10 @@ namespace Tecan_Quote_Generator
 
         private void clearQuoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            QuoteDataGridView.Rows.Clear();
+            QuoteItemsPriceTextBox.Text = "";
+            OptionsDataGridView.Rows.Clear();
+            OptionsItemsPriceTextBox.Text = "";
 
         }
 

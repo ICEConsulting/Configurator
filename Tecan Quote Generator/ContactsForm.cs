@@ -18,6 +18,7 @@ namespace Tecan_Quote_Generator
         Boolean accountUpdateMode;
         int[] currentContacts = new int[10];
         SqlCeConnection ContactsDatabase = null;
+
         public ContactsForm()
         {
             InitializeComponent();

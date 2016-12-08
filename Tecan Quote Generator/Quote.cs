@@ -15,7 +15,7 @@ namespace Tecan_Quote_Generator
         }
 
         [XmlElementAttribute("Account")]
-        public string QuoteAccount;
+        public short QuoteAccount;
 
         [XmlElementAttribute("Contact")]
         public string QuoteContact;
@@ -25,6 +25,18 @@ namespace Tecan_Quote_Generator
 
         [XmlElementAttribute("Date")]
         public string QuoteDate;
+
+        [XmlElementAttribute("Description")]
+        public string QuoteDescription;
+
+        [XmlElementAttribute("Type")]
+        public short QuoteType;
+
+        [XmlElementAttribute("isSSP")]
+        public bool QuoteisSSP;
+
+        [XmlElementAttribute("Template")]
+        public short QuoteTemplate;
 
         // Serializes an ArrayList as a "Items" array of XML elements of custom type QuoteItems named "Items".
         [XmlArray("Items"), XmlArrayItem("Item", typeof(QuoteItems))]

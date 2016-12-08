@@ -188,45 +188,96 @@ namespace Tecan_Quote_Generator
 
         private void SaveContactButton_Click(object sender, EventArgs e)
         {
-            openDB();
-            SqlCeCommand cmd = ContactsDatabase.CreateCommand();
-            short selectedAccount;
-            short selectedContactID;
-            short newContactID = 0;
-            selectedAccount = (short)Convert.ToInt16(AccountsComboBox.SelectedValue);
-
-            if (contactUpdateMode)
+            String errorMessage = "All fields must be entered!\n\nPlease enter \\ correct the following information.\n\n";
+            Boolean contactError = false;
+            
+            if (FirstNameTextBox.Text == "")
             {
-                selectedContactID = (short)currentContacts[ContactsListBox.SelectedIndex];
-                cmd.CommandText = "UPDATE Contacts SET First=@First, Last=@Last, Address=@Address, City=@City, State=@State, PostalCode=@PostalCode," +
-                    " WorkPhone=@WorkPhone, Fax=@Fax, Email=@Email WHERE ContactID = " + selectedContactID + " AND AccountID = " + selectedAccount;
+                contactError = true;
+                errorMessage = errorMessage + "First Name.\n\n";
+            }
+            if (LastNameTextBox.Text == "")
+            {
+                contactError = true;
+                errorMessage = errorMessage + "Last Name.\n\n";
+            }
+            if (AddressTextBox.Text == "")
+            {
+                contactError = true;
+                errorMessage = errorMessage + "Address.\n\n";
+            }
+            if (CityTextBox.Text == "")
+            {
+                contactError = true;
+                errorMessage = errorMessage + "City.\n\n";
+            }
+            if (StateTextBox.Text == "")
+            {
+                contactError = true;
+                errorMessage = errorMessage + "State.\n\n";
+            }
+            if (ZipTextBox.Text == "")
+            {
+                contactError = true;
+                errorMessage = errorMessage + "Zip Code.\n\n";
+            }
+            if (PhoneTextBox.Text == "" || PhoneTextBox.Text.Length < 12)
+            {
+                contactError = true;
+                errorMessage = errorMessage + "Phone Number.\n\n";
+            }
+            RegexUtilities util = new RegexUtilities();
+            if (EmailTextBox.Text == "" || !util.IsValidEmail(EmailTextBox.Text))
+            {
+                contactError = true;
+                errorMessage = errorMessage + "Email Address.\n\n";
+            }
+            if (contactError)
+            {
+                MessageBox.Show(errorMessage);
+                // return;
             }
             else
             {
-                newContactID = getNewID("ContactID", "Contacts");
-                cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, ContactID, AccountID)" +
-                    " Values " +
-                    "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @ContactID, @AccountID)";
-            }
+                openDB();
+                SqlCeCommand cmd = ContactsDatabase.CreateCommand();
+                short selectedAccount;
+                short selectedContactID;
+                short newContactID = 0;
+                selectedAccount = (short)Convert.ToInt16(AccountsComboBox.SelectedValue);
 
-            cmd.Parameters.AddWithValue("@First", FirstNameTextBox.Text);
-            cmd.Parameters.AddWithValue("@Last", LastNameTextBox.Text);
-            cmd.Parameters.AddWithValue("@Address", AddressTextBox.Text);
-            cmd.Parameters.AddWithValue("@City", CityTextBox.Text);
-            cmd.Parameters.AddWithValue("@State", StateTextBox.Text);
-            cmd.Parameters.AddWithValue("@PostalCode", ZipTextBox.Text);
-            cmd.Parameters.AddWithValue("@WorkPhone", PhoneTextBox.Text);
-            cmd.Parameters.AddWithValue("@Fax", FaxTextBox.Text);
-            cmd.Parameters.AddWithValue("@Email", EmailTextBox.Text);
-            if (!contactUpdateMode)
-            {
-                cmd.Parameters.AddWithValue("@ContactID", newContactID);
-                cmd.Parameters.AddWithValue("@AccountID", selectedAccount);
-            }
-            cmd.ExecuteNonQuery();
-            ContactsDatabase.Close();
-            loadContactsList();
+                if (contactUpdateMode)
+                {
+                    selectedContactID = (short)currentContacts[ContactsListBox.SelectedIndex];
+                    cmd.CommandText = "UPDATE Contacts SET First=@First, Last=@Last, Address=@Address, City=@City, State=@State, PostalCode=@PostalCode," +
+                        " WorkPhone=@WorkPhone, Fax=@Fax, Email=@Email WHERE ContactID = " + selectedContactID + " AND AccountID = " + selectedAccount;
+                }
+                else
+                {
+                    newContactID = getNewID("ContactID", "Contacts");
+                    cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, ContactID, AccountID)" +
+                        " Values " +
+                        "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @ContactID, @AccountID)";
+                }
 
+                cmd.Parameters.AddWithValue("@First", FirstNameTextBox.Text);
+                cmd.Parameters.AddWithValue("@Last", LastNameTextBox.Text);
+                cmd.Parameters.AddWithValue("@Address", AddressTextBox.Text);
+                cmd.Parameters.AddWithValue("@City", CityTextBox.Text);
+                cmd.Parameters.AddWithValue("@State", StateTextBox.Text);
+                cmd.Parameters.AddWithValue("@PostalCode", ZipTextBox.Text);
+                cmd.Parameters.AddWithValue("@WorkPhone", PhoneTextBox.Text);
+                cmd.Parameters.AddWithValue("@Fax", FaxTextBox.Text);
+                cmd.Parameters.AddWithValue("@Email", EmailTextBox.Text);
+                if (!contactUpdateMode)
+                {
+                    cmd.Parameters.AddWithValue("@ContactID", newContactID);
+                    cmd.Parameters.AddWithValue("@AccountID", selectedAccount);
+                }
+                cmd.ExecuteNonQuery();
+                ContactsDatabase.Close();
+                loadContactsList();
+            }
         }
 
         private void clearContact()

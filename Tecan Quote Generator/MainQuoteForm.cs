@@ -42,6 +42,7 @@ namespace Tecan_Quote_Generator
         {
             // TODO: This line of code loads data into the 'customersDataSet.Accounts' table. You can move, or remove it, as needed.
             this.accountsTableAdapter.Fill(this.customersDataSet.Accounts);
+            
             System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
             ToolTip1.SetToolTip(this.PartNumberClearButton, "Clear Part Number Search");
             ToolTip1.SetToolTip(this.DescriptionClearButton, "Clear Description Search");
@@ -572,7 +573,7 @@ namespace Tecan_Quote_Generator
                 }
                 else
                 {
-                    // partImagePictureBox.Image = null;
+                    // If no image available
                     System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                     Stream myStream = myAssembly.GetManifestResourceStream("Tecan_Quote_Generator.noimage.bmp");
                     Bitmap image = new Bitmap(myStream);
@@ -1170,7 +1171,20 @@ namespace Tecan_Quote_Generator
             }
             
             Quote quote = new Quote();
+            quote.QuoteAccount = (short)Convert.ToInt16(AccountComboBox.SelectedValue);
             quote.QuoteTitle = QuoteTitleTextBox.Text;
+            quote.QuoteDate = QuoteDateTimePicker.Text;
+            quote.QuoteDescription = QuoteDescriptionTextBox.Text;
+            quote.QuoteType = (short)Convert.ToInt16(QuoteTypeComboBox.SelectedValue);
+            if (IsSSPCheckBox.Checked)
+            {
+                quote.QuoteisSSP = true;
+            }
+            else
+            {
+                quote.QuoteisSSP = false;            
+            }
+            quote.QuoteTemplate = (short)Convert.ToInt16(QuoteTemplateComboBox.SelectedValue);
             quote.Items = AddQuoteItems(QuoteDataGridView);
             quote.Options = AddQuoteItems(OptionsDataGridView);
             quote.ThirdParty = AddQuoteItems(ThirdPartyDataGridView);
@@ -1187,20 +1201,14 @@ namespace Tecan_Quote_Generator
                 if (MessageBox.Show("The Quote file c:\\TecanFiles\\" + QuoteFileName + " already exists!\r\n\r\nDo you want to overwrite quote?", "Overwrite Quote", MessageBoxButtons.YesNo) == DialogResult.No)
                 {
                     MessageBox.Show("Please select a new title for this quote.");
-                    if (QuoteTabControl.SelectedTab != QuoteSettingTabPage)
-                    {
-                        QuoteTabControl.SelectedTab = QuoteSettingTabPage;
-                    }
+                    QuoteTabControl.SelectedTab = QuoteSettingTabPage;
                     return;
                 }
-                else
-                {
-                    System.IO.StreamWriter file = new System.IO.StreamWriter(@"c:\TecanFiles\" + QuoteFileName);
-                    writer.Serialize(file, quote);
-                    file.Close();
-                    MessageBox.Show("Quote c:\\TecanFiles\\" + QuoteFileName + " saved.");
-                }
             }
+            System.IO.StreamWriter file = new System.IO.StreamWriter(@"c:\TecanFiles\" + QuoteFileName);
+            writer.Serialize(file, quote);
+            file.Close();
+            MessageBox.Show("Quote c:\\TecanFiles\\" + QuoteFileName + " saved.");
         }
 
         private ArrayList AddQuoteItems(DataGridView myDataGridView)
@@ -1285,13 +1293,28 @@ namespace Tecan_Quote_Generator
                 Quote quote = new Quote();
                 quote = (Quote)reader.Deserialize(file);
 
+                AccountComboBox.SelectedValue = quote.QuoteAccount;
                 QuoteTitleTextBox.Text = quote.QuoteTitle;
+                QuoteDateTimePicker.Text = quote.QuoteDate;
+                QuoteDescriptionTextBox.Text = quote.QuoteDescription;
+                QuoteTypeComboBox.SelectedValue = quote.QuoteType;
+                if (quote.QuoteisSSP == true)
+                {
+                    IsSSPCheckBox.Checked = true;
+                }
+                else
+                {
+                    IsSSPCheckBox.Checked = false;
+                }
+                QuoteTemplateComboBox.SelectedValue = quote.QuoteTemplate;
 
                 String itemSAPID;
                 String itemDescription;
                 Decimal itemPrice;
                 Int32 itemQuantity;
                 Decimal itemDiscount;
+                Boolean itemNote;
+                Boolean itemImage;
 
                 foreach (QuoteItems row in quote.Items)
                 {
@@ -1300,8 +1323,10 @@ namespace Tecan_Quote_Generator
                     itemPrice = row.Price;
                     itemQuantity = row.Quantity;
                     itemDiscount = row.Discount;
+                    itemNote = row.IncludeNote;
+                    itemImage = row.IncludeImage;
 
-                    QuoteDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice);
+                    QuoteDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice, itemNote, itemImage);
                 }
 
                 foreach (QuoteItems row in quote.Options)
@@ -1311,8 +1336,10 @@ namespace Tecan_Quote_Generator
                     itemPrice = row.Price;
                     itemQuantity = row.Quantity;
                     itemDiscount = row.Discount;
+                    itemNote = row.IncludeNote;
+                    itemImage = row.IncludeImage;
 
-                    OptionsDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice);
+                    OptionsDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice, itemNote, itemImage);
                 }
                 QuoteTabControl.SelectedTab = QuoteTabPage;
                 SumItems(QuoteDataGridView);

@@ -21,6 +21,7 @@ namespace Tecan_Quote_Generator
 {
     public partial class MainQuoteForm : Form
     {
+        public static Boolean isManager = false;
         SqlCeConnection TecanDatabase = null;
 
         Boolean searchPreformed = true;
@@ -40,9 +41,13 @@ namespace Tecan_Quote_Generator
 
         public void MainQuoteForm_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'customersDataSet.Contacts' table. You can move, or remove it, as needed.
+            // this.contactsTableAdapter.Fill(this.customersDataSet.Contacts);
             // TODO: This line of code loads data into the 'customersDataSet.Accounts' table. You can move, or remove it, as needed.
             this.accountsTableAdapter.Fill(this.customersDataSet.Accounts);
-            
+            short currentAccountID = Convert.ToInt16(AccountComboBox.SelectedValue);
+            this.contactsTableAdapter.FillByAccountID(this.customersDataSet.Contacts, currentAccountID);
+
             System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
             ToolTip1.SetToolTip(this.PartNumberClearButton, "Clear Part Number Search");
             ToolTip1.SetToolTip(this.DescriptionClearButton, "Clear Description Search");
@@ -331,7 +336,7 @@ namespace Tecan_Quote_Generator
             SumItems(QuoteDataGridView);
         }
 
-        private void SumItems(DataGridView myDataGridView)
+        public void SumItems(DataGridView myDataGridView)
         {
             Int32 rowCount = myDataGridView.Rows.GetRowCount(DataGridViewElementStates.Displayed);
             Int32 rowIndex;
@@ -1431,6 +1436,12 @@ namespace Tecan_Quote_Generator
             OptionsDataGridView.Rows.Clear();
             OptionsItemsPriceTextBox.Text = "";
 
+        }
+
+        private void AccountComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            short currentAccountID = Convert.ToInt16(AccountComboBox.SelectedValue);
+            this.contactsTableAdapter.FillByAccountID(this.customersDataSet.Contacts, currentAccountID);
         }
 
     }

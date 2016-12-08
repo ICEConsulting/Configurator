@@ -41,6 +41,7 @@ namespace Tecan_Quote_Generator
             ContactsListBox.Items.Clear();
             short selectedAccount;
             selectedAccount = (short)Convert.ToInt16(AccountsComboBox.SelectedValue);
+            // this.contactsTableAdapter.FillByAccountID(this.customersDataSet.Contacts, selectedAccount);
 
             openDB();
             SqlCeCommand cmd = ContactsDatabase.CreateCommand();
@@ -250,14 +251,14 @@ namespace Tecan_Quote_Generator
                 {
                     selectedContactID = (short)currentContacts[ContactsListBox.SelectedIndex];
                     cmd.CommandText = "UPDATE Contacts SET First=@First, Last=@Last, Address=@Address, City=@City, State=@State, PostalCode=@PostalCode," +
-                        " WorkPhone=@WorkPhone, Fax=@Fax, Email=@Email WHERE ContactID = " + selectedContactID + " AND AccountID = " + selectedAccount;
+                        " WorkPhone=@WorkPhone, Fax=@Fax, Email=@Email FullName=@FullName WHERE ContactID = " + selectedContactID + " AND AccountID = " + selectedAccount;
                 }
                 else
                 {
                     newContactID = getNewID("ContactID", "Contacts");
-                    cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, ContactID, AccountID)" +
+                    cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, FullName, ContactID, AccountID)" +
                         " Values " +
-                        "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @ContactID, @AccountID)";
+                        "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @FullName, @ContactID, @AccountID)";
                 }
 
                 cmd.Parameters.AddWithValue("@First", FirstNameTextBox.Text);
@@ -269,6 +270,7 @@ namespace Tecan_Quote_Generator
                 cmd.Parameters.AddWithValue("@WorkPhone", PhoneTextBox.Text);
                 cmd.Parameters.AddWithValue("@Fax", FaxTextBox.Text);
                 cmd.Parameters.AddWithValue("@Email", EmailTextBox.Text);
+                cmd.Parameters.AddWithValue("@FullName", FirstNameTextBox.Text + " " + LastNameTextBox.Text);
                 if (!contactUpdateMode)
                 {
                     cmd.Parameters.AddWithValue("@ContactID", newContactID);
@@ -478,9 +480,9 @@ namespace Tecan_Quote_Generator
                         if (!reader.Read() && (newContact[1] != "" || newContact[2] != ""))
                         {
                             newContactID = getNewID("ContactID", "Contacts");
-                            cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, ContactID, AccountID)" +
+                            cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, FullName, ContactID, AccountID)" +
                             " Values " +
-                            "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @ContactID, @AccountID)";
+                            "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @FullName, @ContactID, @AccountID)";
 
                             cmd.Parameters.AddWithValue("@First", newContact[1]);
                             cmd.Parameters.AddWithValue("@Last", newContact[2]);
@@ -491,6 +493,7 @@ namespace Tecan_Quote_Generator
                             cmd.Parameters.AddWithValue("@WorkPhone", newContact[7]);
                             cmd.Parameters.AddWithValue("@Fax", newContact[8]);
                             cmd.Parameters.AddWithValue("@Email", newContact[9]);
+                            cmd.Parameters.AddWithValue("@FullName", newContact[1] + " " + newContact[2]);
                             cmd.Parameters.AddWithValue("@ContactID", newContactID);
                             cmd.Parameters.AddWithValue("@AccountID", newAccountID);
                             cmd.ExecuteNonQuery();

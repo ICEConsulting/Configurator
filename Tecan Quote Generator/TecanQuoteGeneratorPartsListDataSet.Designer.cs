@@ -1809,6 +1809,8 @@ namespace Tecan_Quote_Generator {
             
             private global::System.Data.DataColumn columnCompatibility;
             
+            private global::System.Data.DataColumn columnCADInfo;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public PartsListDataTable() {
@@ -2092,6 +2094,14 @@ namespace Tecan_Quote_Generator {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CADInfoColumn {
+                get {
+                    return this.columnCADInfo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2158,7 +2168,8 @@ namespace Tecan_Quote_Generator {
                         string DetailDescription, 
                         string ThridPartyPartNum, 
                         string NotesFromFile, 
-                        string Compatibility) {
+                        string Compatibility, 
+                        string CADInfo) {
                 PartsListRow rowPartsListRow = ((PartsListRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Lab,
@@ -2191,7 +2202,8 @@ namespace Tecan_Quote_Generator {
                         DetailDescription,
                         ThridPartyPartNum,
                         NotesFromFile,
-                        Compatibility};
+                        Compatibility,
+                        CADInfo};
                 if ((parentInstrumentRowBySetInstrument != null)) {
                     columnValuesArray[4] = parentInstrumentRowBySetInstrument[0];
                 }
@@ -2257,6 +2269,7 @@ namespace Tecan_Quote_Generator {
                 this.columnThridPartyPartNum = base.Columns["ThridPartyPartNum"];
                 this.columnNotesFromFile = base.Columns["NotesFromFile"];
                 this.columnCompatibility = base.Columns["Compatibility"];
+                this.columnCADInfo = base.Columns["CADInfo"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2324,6 +2337,8 @@ namespace Tecan_Quote_Generator {
                 base.Columns.Add(this.columnNotesFromFile);
                 this.columnCompatibility = new global::System.Data.DataColumn("Compatibility", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCompatibility);
+                this.columnCADInfo = new global::System.Data.DataColumn("CADInfo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCADInfo);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnSAPId}, false));
                 this.columnSAPId.Unique = true;
@@ -2339,6 +2354,7 @@ namespace Tecan_Quote_Generator {
                 this.columnThridPartyPartNum.MaxLength = 50;
                 this.columnNotesFromFile.MaxLength = 536870911;
                 this.columnCompatibility.MaxLength = 50;
+                this.columnCADInfo.MaxLength = 100;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4618,7 +4634,9 @@ namespace Tecan_Quote_Generator {
                         return ((string)(this[this.tablePartsList.DetailDescriptionColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DetailDescription\' in table \'PartsList\' is DBNull.", e);
+                        // Unknown Error...
+                        return ((string)(this[this.tablePartsList.DetailDescriptionColumn]));
+                        // throw new global::System.Data.StrongTypingException("The value for column \'DetailDescription\' in table \'PartsList\' is DBNull.", e);
                     }
                 }
                 set {
@@ -4671,6 +4689,22 @@ namespace Tecan_Quote_Generator {
                 }
                 set {
                     this[this.tablePartsList.CompatibilityColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string CADInfo {
+                get {
+                    try {
+                        return ((string)(this[this.tablePartsList.CADInfoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CADInfo\' in table \'PartsList\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePartsList.CADInfoColumn] = value;
                 }
             }
             
@@ -5088,6 +5122,18 @@ namespace Tecan_Quote_Generator {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetCompatibilityNull() {
                 this[this.tablePartsList.CompatibilityColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsCADInfoNull() {
+                return this.IsNull(this.tablePartsList.CADInfoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetCADInfoNull() {
+                this[this.tablePartsList.CADInfoColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -7134,10 +7180,11 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             tableMapping.ColumnMappings.Add("ThridPartyPartNum", "ThridPartyPartNum");
             tableMapping.ColumnMappings.Add("NotesFromFile", "NotesFromFile");
             tableMapping.ColumnMappings.Add("Compatibility", "Compatibility");
+            tableMapping.ColumnMappings.Add("CADInfo", "CADInfo");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.InsertCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [PartsList] ([Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility]) VALUES (@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31)";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [PartsList] ([Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility], [CADInfo]) VALUES (@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25, @p26, @p27, @p28, @p29, @p30, @p31, @p32)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p1", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Lab", global::System.Data.DataRowVersion.Current, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p2", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
@@ -7170,6 +7217,7 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p29", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "ThridPartyPartNum", global::System.Data.DataRowVersion.Current, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p30", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "NotesFromFile", global::System.Data.DataRowVersion.Current, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p31", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Compatibility", global::System.Data.DataRowVersion.Current, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p32", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "CADInfo", global::System.Data.DataRowVersion.Current, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7185,24 +7233,24 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection = new global::System.Data.SqlServerCe.SqlCeCommand[18];
             this._commandCollection[0] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList]";
+            this._commandCollection[0].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ?";
+            this._commandCollection[1].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2)";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[2] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Category] = ?";
+            this._commandCollection[2].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Category = @Param3)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param3", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, true, 0, 0, "Category", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[3] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Category] = ?  AND [SalesType] = ?";
+            this._commandCollection[3].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Category = @Param3) AND (SalesType = @Param4)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
@@ -7210,7 +7258,7 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param4", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "SalesType", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[4] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Category] = ?  AND [SubCategory] = ?";
+            this._commandCollection[4].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Category = @Param3) AND (SubCategory = @Param4)";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
@@ -7218,7 +7266,7 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param4", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, true, 0, 0, "SubCategory", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[5] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[5].Connection = this.Connection;
-            this._commandCollection[5].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Category] = ?  AND [SubCategory] = ? AND [SalesType] = ?";
+            this._commandCollection[5].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Category = @Param3) AND (SubCategory = @Param4) AND (SalesType = @Param5)";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[5].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[5].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
@@ -7227,14 +7275,14 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection[5].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param5", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "SalesType", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[6] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[6].Connection = this.Connection;
-            this._commandCollection[6].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Instrument] = ?";
+            this._commandCollection[6].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Instrument = @Param3)";
             this._commandCollection[6].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[6].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[6].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[6].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param3", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "Instrument", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[7] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[7].Connection = this.Connection;
-            this._commandCollection[7].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Instrument] = ?  AND [Category] = ?";
+            this._commandCollection[7].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Instrument = @Param3) AND (Category = @Param4)";
             this._commandCollection[7].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[7].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[7].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
@@ -7242,7 +7290,7 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection[7].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param4", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, true, 0, 0, "Category", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[8] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[8].Connection = this.Connection;
-            this._commandCollection[8].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Instrument] = ? AND [Category] = ? AND [SalesType] = ?";
+            this._commandCollection[8].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Instrument = @Param3) AND (Category = @Param4) AND (SalesType = @Param5)";
             this._commandCollection[8].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[8].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[8].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
@@ -7251,7 +7299,7 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection[8].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param5", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "SalesType", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[9] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[9].Connection = this.Connection;
-            this._commandCollection[9].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Instrument] = ? AND [Category] = ? AND [SubCategory] = ?";
+            this._commandCollection[9].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Instrument = @Param3) AND (Category = @Param4) AND (SubCategory = @Param5)";
             this._commandCollection[9].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[9].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[9].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
@@ -7260,7 +7308,7 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection[9].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param5", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, true, 0, 0, "SubCategory", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[10] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[10].Connection = this.Connection;
-            this._commandCollection[10].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Instrument] = ? AND [Category] = ? AND [SubCategory] = ? AND [SalesType] = ?";
+            this._commandCollection[10].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Instrument = @Param3) AND (Category = @Param4) AND (SubCategory = @Param5) AND (SalesType = @Param6)";
             this._commandCollection[10].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[10].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[10].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
@@ -7270,7 +7318,7 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection[10].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param6", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "SalesType", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[11] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[11].Connection = this.Connection;
-            this._commandCollection[11].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Instrument] = ? AND [SalesType] = ?";
+            this._commandCollection[11].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Instrument = @Param3) AND (SalesType = @Param4)";
             this._commandCollection[11].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[11].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[11].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
@@ -7278,7 +7326,7 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection[11].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param4", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "SalesType", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[12] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[12].Connection = this.Connection;
-            this._commandCollection[12].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Instrument] = ? AND [SubCategory] = ?";
+            this._commandCollection[12].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Instrument = @Param3) AND (SubCategory = @Param4)";
             this._commandCollection[12].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[12].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[12].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
@@ -7286,7 +7334,7 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection[12].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param4", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, true, 0, 0, "SubCategory", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[13] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[13].Connection = this.Connection;
-            this._commandCollection[13].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [Instrument] = ? AND [SubCategory] = ? AND [SalesType] = ?";
+            this._commandCollection[13].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (Instrument = @Param3) AND (SubCategory = @Param4) AND (SalesType = @Param5)";
             this._commandCollection[13].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[13].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[13].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
@@ -7295,21 +7343,21 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection[13].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param5", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "SalesType", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[14] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[14].Connection = this.Connection;
-            this._commandCollection[14].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [SalesType] = ?";
+            this._commandCollection[14].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (SalesType = @Param3)";
             this._commandCollection[14].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[14].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[14].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[14].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param3", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "SalesType", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[15] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[15].Connection = this.Connection;
-            this._commandCollection[15].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [SubCategory] = ?";
+            this._commandCollection[15].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (SubCategory = @Param3)";
             this._commandCollection[15].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[15].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[15].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[15].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param3", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, true, 0, 0, "SubCategory", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[16] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[16].Connection = this.Connection;
-            this._commandCollection[16].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] LIKE ? AND [Description] LIKE ? AND [SubCategory] = ? AND [SalesType] = ?";
+            this._commandCollection[16].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId LIKE @Param1) AND (Description LIKE @Param2) AND (SubCategory = @Param3) AND (SalesType = @Param4)";
             this._commandCollection[16].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[16].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[16].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param2", global::System.Data.SqlDbType.NText, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
@@ -7317,7 +7365,7 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             this._commandCollection[16].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param4", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "SalesType", global::System.Data.DataRowVersion.Current, null));
             this._commandCollection[17] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[17].Connection = this.Connection;
-            this._commandCollection[17].CommandText = @"SELECT [Lab], [SAPId], [OldPartNum], [Priority], [Instrument], [Category], [SubCategory], [Description], [PlPrice], [Grids], [SerialPorts], [USBPorts], [StandarPrice], [ILP], [ASP], [X_Dimension], [Y_Dimension], [Z_Dimension], [Z_DimensionNote], [RemoveDate], [NotMasterPriceList], [ThridParty], [SSPCategory], [ManufacturingCost], [SalesType], [CreateDate], [SAPDescription], [DetailDescription], [ThridPartyPartNum], [NotesFromFile], [Compatibility] FROM [PartsList] WHERE [SAPId] = ?";
+            this._commandCollection[17].CommandText = @"SELECT Lab, SAPId, OldPartNum, Priority, Instrument, Category, SubCategory, Description, PlPrice, Grids, SerialPorts, USBPorts, StandarPrice, ILP, ASP, X_Dimension, Y_Dimension, Z_Dimension, Z_DimensionNote, RemoveDate, NotMasterPriceList, ThridParty, SSPCategory, ManufacturingCost, SalesType, CreateDate, SAPDescription, DetailDescription, ThridPartyPartNum, NotesFromFile, Compatibility, CADInfo FROM PartsList WHERE (SAPId = @Param1)";
             this._commandCollection[17].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[17].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, true, 0, 0, "SAPId", global::System.Data.DataRowVersion.Current, null));
         }
@@ -8598,7 +8646,8 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
                     string p28, 
                     string p29, 
                     string p30, 
-                    string p31) {
+                    string p31, 
+                    string p32) {
             if ((p1.HasValue == true)) {
                 this.Adapter.InsertCommand.Parameters[0].Value = ((int)(p1.Value));
             }
@@ -8784,6 +8833,12 @@ namespace Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters
             }
             else {
                 this.Adapter.InsertCommand.Parameters[30].Value = ((string)(p31));
+            }
+            if ((p32 == null)) {
+                this.Adapter.InsertCommand.Parameters[31].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[31].Value = ((string)(p32));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 

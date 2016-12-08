@@ -45,8 +45,11 @@ namespace Tecan_Quote_Generator
             loadImage(SAPID);
             loadRequiredParts(SAPID);
             loadCompatibility(SAPID);
+            loadCAD(SAPID);
             loadPartsListLookupComboBox();
             sAPIdTextBox.Focus();
+            setPricingHeight();
+
         }
 
         private void setLookupItemsText(String SAPID)
@@ -332,6 +335,43 @@ namespace Tecan_Quote_Generator
             
         }
 
+        private void loadCAD(String SAPID)
+        {
+
+            openDB();
+            SqlCeCommand cmd = TecanDatabase.CreateCommand();
+            SqlCeDataReader reader;
+            cmd.CommandText = "SELECT CADInfo FROM PartsList WHERE SAPId = '" + SAPID + "'";
+            String[] CADInfo = new String[2];
+            try
+            {
+                reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (reader[0].ToString().IndexOf('^') != -1)
+                    {
+                        CADInfo = reader[0].ToString().Split('^');
+                    }
+                    else
+                    {
+                        CADInfo[0] = reader[0].ToString();
+                        CADInfo[1] = "";
+                    }
+                }
+                reader.Dispose();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            TecanDatabase.Close();
+            cadDescriptionTextBox.Text = CADInfo[0];
+            cadFileTextBox.Text = CADInfo[1];
+
+        }
+
         private void loadPartsListLookupComboBox()
         {
             openDB();
@@ -353,6 +393,11 @@ namespace Tecan_Quote_Generator
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void setPricingHeight()
+        {
+            if (MainQuoteForm.isManager) priceBox.Height = 320;
         }
 
         private void PartListLookupComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -501,6 +546,72 @@ namespace Tecan_Quote_Generator
             if (Math.Round(multiplied) == multiplied)
                 return i;
             return GetDecimals(d, i + 1);
+        }
+
+        private void AddToQuoteButton_Click(object sender, EventArgs e)
+        {
+            String itemSAPID;
+            String itemDescription;
+            Decimal itemPrice;
+
+            itemSAPID = sAPIdTextBox.Text;
+            itemDescription = descriptionTextBox.Text;
+            if (plPriceTextBox.Text.IndexOf("$") == -1)
+            {
+                itemPrice = Convert.ToDecimal(iLPTextBox.Text);
+            }
+            else
+            {
+                itemPrice = Convert.ToDecimal(iLPTextBox.Text.Replace("$",""));
+            }
+            mainForm.QuoteDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, 1, String.Format("{0:P2}", 0.00), itemPrice);
+
+            mainForm.SumItems(mainForm.QuoteDataGridView);
+            this.Close();
+        }
+
+        private void AddToOptionsButton_Click(object sender, EventArgs e)
+        {
+            String itemSAPID;
+            String itemDescription;
+            Decimal itemPrice;
+
+            itemSAPID = sAPIdTextBox.Text;
+            itemDescription = descriptionTextBox.Text;
+            if (plPriceTextBox.Text.IndexOf("$") == -1)
+            {
+                itemPrice = Convert.ToDecimal(iLPTextBox.Text);
+            }
+            else
+            {
+                itemPrice = Convert.ToDecimal(iLPTextBox.Text.Replace("$", ""));
+            }
+            mainForm.OptionsDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, 1, String.Format("{0:P2}", 0.00), itemPrice);
+
+            mainForm.SumItems(mainForm.OptionsDataGridView);
+            this.Close();
+
+        }
+
+        private void showPricingButton_Click(object sender, EventArgs e)
+        {
+            managerPasswordPanel.Visible = true;
+            managerPasswordTextBox.Focus();
+        }
+
+        private void managerPasswordButton_Click(object sender, EventArgs e)
+        {
+            if (managerPasswordTextBox.Text == "Roses Are Red")
+            {
+                priceBox.Height = 320;
+                MainQuoteForm.isManager = true;
+            }
+            managerPasswordPanel.Visible = false;
+        }
+
+        private void managerCancelButton_Click(object sender, EventArgs e)
+        {
+            managerPasswordPanel.Visible = false;
         }
 
     }

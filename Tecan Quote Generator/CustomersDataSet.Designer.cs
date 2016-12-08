@@ -958,6 +958,8 @@ namespace Tecan_Quote_Generator {
             
             private global::System.Data.DataColumn columnAccountID;
             
+            private global::System.Data.DataColumn columnFullName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ContactsDataTable() {
@@ -1081,6 +1083,14 @@ namespace Tecan_Quote_Generator {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn FullNameColumn {
+                get {
+                    return this.columnFullName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1116,7 +1126,7 @@ namespace Tecan_Quote_Generator {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ContactsRow AddContactsRow(string First, string Last, string Email, string Address, string City, string State, string Postalcode, string Workphone, string Fax, int ContactID, int AccountID) {
+            public ContactsRow AddContactsRow(string First, string Last, string Email, string Address, string City, string State, string Postalcode, string Workphone, string Fax, int ContactID, int AccountID, string FullName) {
                 ContactsRow rowContactsRow = ((ContactsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         First,
@@ -1129,7 +1139,8 @@ namespace Tecan_Quote_Generator {
                         Workphone,
                         Fax,
                         ContactID,
-                        AccountID};
+                        AccountID,
+                        FullName};
                 rowContactsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowContactsRow);
                 return rowContactsRow;
@@ -1163,6 +1174,7 @@ namespace Tecan_Quote_Generator {
                 this.columnFax = base.Columns["Fax"];
                 this.columnContactID = base.Columns["ContactID"];
                 this.columnAccountID = base.Columns["AccountID"];
+                this.columnFullName = base.Columns["FullName"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1190,6 +1202,8 @@ namespace Tecan_Quote_Generator {
                 base.Columns.Add(this.columnContactID);
                 this.columnAccountID = new global::System.Data.DataColumn("AccountID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAccountID);
+                this.columnFullName = new global::System.Data.DataColumn("FullName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFullName);
                 this.columnFirst.MaxLength = 50;
                 this.columnLast.MaxLength = 50;
                 this.columnEmail.MaxLength = 100;
@@ -1200,6 +1214,7 @@ namespace Tecan_Quote_Generator {
                 this.columnWorkphone.MaxLength = 12;
                 this.columnFax.MaxLength = 12;
                 this.columnContactID.AllowDBNull = false;
+                this.columnFullName.MaxLength = 100;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2015,6 +2030,22 @@ namespace Tecan_Quote_Generator {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string FullName {
+                get {
+                    try {
+                        return ((string)(this[this.tableContacts.FullNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FullName\' in table \'Contacts\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableContacts.FullNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsFirstNull() {
                 return this.IsNull(this.tableContacts.FirstColumn);
             }
@@ -2131,6 +2162,18 @@ namespace Tecan_Quote_Generator {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetAccountIDNull() {
                 this[this.tableContacts.AccountIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsFullNameNull() {
+                return this.IsNull(this.tableContacts.FullNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetFullNameNull() {
+                this[this.tableContacts.FullNameColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -3050,12 +3093,13 @@ namespace Tecan_Quote_Generator.CustomersDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("Fax", "Fax");
             tableMapping.ColumnMappings.Add("ContactID", "ContactID");
             tableMapping.ColumnMappings.Add("AccountID", "AccountID");
+            tableMapping.ColumnMappings.Add("FullName", "FullName");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.InsertCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO [Contacts] ([First], [Last], [Email], [Address], [City], [State], [Po" +
-                "stalcode], [Workphone], [Fax], [ContactID], [AccountID]) VALUES (@p1, @p2, @p3, " +
-                "@p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)";
+                "stalcode], [Workphone], [Fax], [ContactID], [AccountID], [FullName]) VALUES (@p1" +
+                ", @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p1", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "First", global::System.Data.DataRowVersion.Current, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p2", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Last", global::System.Data.DataRowVersion.Current, null));
@@ -3068,6 +3112,7 @@ namespace Tecan_Quote_Generator.CustomersDataSetTableAdapters {
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p9", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Fax", global::System.Data.DataRowVersion.Current, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p10", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "ContactID", global::System.Data.DataRowVersion.Current, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p11", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "AccountID", global::System.Data.DataRowVersion.Current, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p12", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "FullName", global::System.Data.DataRowVersion.Current, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3083,13 +3128,13 @@ namespace Tecan_Quote_Generator.CustomersDataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlServerCe.SqlCeCommand[2];
             this._commandCollection[0] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT [First], [Last], [Email], [Address], [City], [State], [Postalcode], [Workp" +
-                "hone], [Fax], [ContactID], [AccountID] FROM [Contacts]";
+            this._commandCollection[0].CommandText = "SELECT First, Last, Email, Address, City, State, Postalcode, Workphone, Fax, Cont" +
+                "actID, AccountID, FullName FROM Contacts";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT [First], [Last], [Email], [Address], [City], [State], [Postalcode], [Workp" +
-                "hone], [Fax], [ContactID], [AccountID] FROM [Contacts] WHERE [AccountID] = ?";
+            this._commandCollection[1].CommandText = "SELECT First, Last, Email, Address, City, State, Postalcode, Workphone, Fax, Cont" +
+                "actID, AccountID, FullName FROM Contacts WHERE (AccountID = @Param1)";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, true, 0, 0, "AccountID", global::System.Data.DataRowVersion.Current, null));
         }
@@ -3187,7 +3232,7 @@ namespace Tecan_Quote_Generator.CustomersDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string p1, string p2, string p3, string p4, string p5, string p6, string p7, string p8, string p9, int p10, global::System.Nullable<int> p11) {
+        public virtual int Insert(string p1, string p2, string p3, string p4, string p5, string p6, string p7, string p8, string p9, int p10, global::System.Nullable<int> p11, string p12) {
             if ((p1 == null)) {
                 this.Adapter.InsertCommand.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -3248,6 +3293,12 @@ namespace Tecan_Quote_Generator.CustomersDataSetTableAdapters {
             }
             else {
                 this.Adapter.InsertCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            if ((p12 == null)) {
+                this.Adapter.InsertCommand.Parameters[11].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[11].Value = ((string)(p12));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 

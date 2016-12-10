@@ -894,7 +894,7 @@
             this.RequiredListView.TabIndex = 145;
             this.RequiredListView.UseCompatibleStateImageBehavior = false;
             this.RequiredListView.View = System.Windows.Forms.View.Details;
-            this.RequiredListView.Click += new System.EventHandler(this.RequiredListView_Click);
+            // this.RequiredListView.Click += new System.EventHandler(this.RequiredListView_Click);
             // 
             // columnHeader1
             // 

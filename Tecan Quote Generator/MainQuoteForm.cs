@@ -1444,5 +1444,28 @@ namespace Tecan_Quote_Generator
             this.contactsTableAdapter.FillByAccountID(this.customersDataSet.Contacts, currentAccountID);
         }
 
+        private void getNewDatabseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
+            folderBrowserDialog1.Description = "Please select your New Database folder location.";
+            folderBrowserDialog1.SelectedPath = profile.DistributionFolder;
+            folderBrowserDialog1.ShowNewFolderButton = false;
+
+            Boolean dBUpdated = false;
+
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                dBUpdated = copyDatabaseToWorkingFolder(folderBrowserDialog1.SelectedPath);
+            }
+            if (dBUpdated)
+            {
+                MessageBox.Show("Database Updated!");
+            }
+            else
+            {
+                MessageBox.Show("Database Updated Failed!");
+            }
+        }
+
     }
 }

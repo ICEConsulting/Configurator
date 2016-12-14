@@ -514,5 +514,10 @@ namespace Tecan_Quote_Generator
                 }
             }
         }
+
+        private void CancelNewContactButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

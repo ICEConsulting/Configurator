@@ -83,9 +83,9 @@
             this.sendQuoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.myProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.myQuotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearQuoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getNewDatabseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SalesTypeComboBox = new System.Windows.Forms.ComboBox();
             this.InstrumentComboBox = new System.Windows.Forms.ComboBox();
             this.CategoryComboBox = new System.Windows.Forms.ComboBox();
@@ -175,12 +175,12 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.QuoteItemsPriceTextBox = new System.Windows.Forms.TextBox();
-            this.QuoteItemsDsicountPercentageTextBox = new System.Windows.Forms.TextBox();
-            this.QuoteItemsPriceAfterDsicountTextBox = new System.Windows.Forms.TextBox();
+            this.QuoteItemsDiscountPercentageTextBox = new System.Windows.Forms.TextBox();
+            this.QuoteItemsPriceAfterDiscountTextBox = new System.Windows.Forms.TextBox();
             this.ShippingTextBox = new System.Windows.Forms.TextBox();
             this.OptionsItemsPriceTextBox = new System.Windows.Forms.TextBox();
-            this.OptionsItemsDsicountPercentageTextBox = new System.Windows.Forms.TextBox();
-            this.OptionsItemsPriceAfterDsicountTextBox = new System.Windows.Forms.TextBox();
+            this.OptionsItemsDiscountPercentageTextBox = new System.Windows.Forms.TextBox();
+            this.OptionsItemsPriceAfterDiscountTextBox = new System.Windows.Forms.TextBox();
             this.TotalQuotePriceQuoteAndOptionsTextBox = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.partsListTableAdapter = new Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSetTableAdapters.PartsListTableAdapter();
@@ -199,7 +199,13 @@
             this.itemPriceTextBox = new System.Windows.Forms.TextBox();
             this.accountsTableAdapter = new Tecan_Quote_Generator.CustomersDataSetTableAdapters.AccountsTableAdapter();
             this.contactsTableAdapter = new Tecan_Quote_Generator.CustomersDataSetTableAdapters.ContactsTableAdapter();
-            this.getNewDatabseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RequiredPartsPanel = new System.Windows.Forms.Panel();
+            this.RequiredPanelCancelButton = new System.Windows.Forms.Button();
+            this.RequiredPanelAddButton = new System.Windows.Forms.Button();
+            this.RequiredPartCheckedListBox = new System.Windows.Forms.CheckedListBox();
+            this.RequiredPartsPanelSelectAllCheckBox = new System.Windows.Forms.CheckBox();
+            this.RequiredPartsPanelHeadingLabel = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.partsListBindingNavigator)).BeginInit();
             this.partsListBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.partsListBindingSource)).BeginInit();
@@ -226,6 +232,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.InstrumentBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CategoryBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SubCategoryBindingSource)).BeginInit();
+            this.RequiredPartsPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // partsListBindingNavigator
@@ -499,7 +506,6 @@
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myProfileToolStripMenuItem,
-            this.myQuotesToolStripMenuItem,
             this.accountListToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
@@ -511,12 +517,6 @@
             this.myProfileToolStripMenuItem.Size = new System.Drawing.Size(266, 30);
             this.myProfileToolStripMenuItem.Text = "My Profile";
             this.myProfileToolStripMenuItem.Click += new System.EventHandler(this.myProfileToolStripMenuItem_Click);
-            // 
-            // myQuotesToolStripMenuItem
-            // 
-            this.myQuotesToolStripMenuItem.Name = "myQuotesToolStripMenuItem";
-            this.myQuotesToolStripMenuItem.Size = new System.Drawing.Size(266, 30);
-            this.myQuotesToolStripMenuItem.Text = "My Quotes";
             // 
             // accountListToolStripMenuItem
             // 
@@ -532,6 +532,13 @@
             this.clearQuoteToolStripMenuItem.Text = "Clear Quote";
             this.clearQuoteToolStripMenuItem.ToolTipText = "Clear All Quote, Option, and Smart Start Items and All Quote Information";
             this.clearQuoteToolStripMenuItem.Click += new System.EventHandler(this.clearQuoteToolStripMenuItem_Click);
+            // 
+            // getNewDatabseToolStripMenuItem
+            // 
+            this.getNewDatabseToolStripMenuItem.Name = "getNewDatabseToolStripMenuItem";
+            this.getNewDatabseToolStripMenuItem.Size = new System.Drawing.Size(170, 29);
+            this.getNewDatabseToolStripMenuItem.Text = "Get New Database";
+            this.getNewDatabseToolStripMenuItem.Click += new System.EventHandler(this.getNewDatabseToolStripMenuItem_Click);
             // 
             // SalesTypeComboBox
             // 
@@ -766,6 +773,7 @@
             this.Column3.FillWeight = 70F;
             this.Column3.HeaderText = "List Price";
             this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
             this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column3.Width = 70;
             // 
@@ -895,6 +903,7 @@
             this.dataGridViewTextBoxColumn4.FillWeight = 70F;
             this.dataGridViewTextBoxColumn4.HeaderText = "List Price";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
             this.dataGridViewTextBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn4.Width = 70;
             // 
@@ -1538,25 +1547,25 @@
             this.QuoteItemsPriceTextBox.TabIndex = 31;
             this.QuoteItemsPriceTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // QuoteItemsDsicountPercentageTextBox
+            // QuoteItemsDiscountPercentageTextBox
             // 
-            this.QuoteItemsDsicountPercentageTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.QuoteItemsDsicountPercentageTextBox.Location = new System.Drawing.Point(1234, 1240);
-            this.QuoteItemsDsicountPercentageTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.QuoteItemsDsicountPercentageTextBox.Name = "QuoteItemsDsicountPercentageTextBox";
-            this.QuoteItemsDsicountPercentageTextBox.Size = new System.Drawing.Size(136, 26);
-            this.QuoteItemsDsicountPercentageTextBox.TabIndex = 32;
-            this.QuoteItemsDsicountPercentageTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.QuoteItemsDiscountPercentageTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.QuoteItemsDiscountPercentageTextBox.Location = new System.Drawing.Point(1234, 1240);
+            this.QuoteItemsDiscountPercentageTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.QuoteItemsDiscountPercentageTextBox.Name = "QuoteItemsDiscountPercentageTextBox";
+            this.QuoteItemsDiscountPercentageTextBox.Size = new System.Drawing.Size(136, 26);
+            this.QuoteItemsDiscountPercentageTextBox.TabIndex = 32;
+            this.QuoteItemsDiscountPercentageTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // QuoteItemsPriceAfterDsicountTextBox
+            // QuoteItemsPriceAfterDiscountTextBox
             // 
-            this.QuoteItemsPriceAfterDsicountTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.QuoteItemsPriceAfterDsicountTextBox.Location = new System.Drawing.Point(1234, 1279);
-            this.QuoteItemsPriceAfterDsicountTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.QuoteItemsPriceAfterDsicountTextBox.Name = "QuoteItemsPriceAfterDsicountTextBox";
-            this.QuoteItemsPriceAfterDsicountTextBox.Size = new System.Drawing.Size(136, 26);
-            this.QuoteItemsPriceAfterDsicountTextBox.TabIndex = 33;
-            this.QuoteItemsPriceAfterDsicountTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.QuoteItemsPriceAfterDiscountTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.QuoteItemsPriceAfterDiscountTextBox.Location = new System.Drawing.Point(1234, 1279);
+            this.QuoteItemsPriceAfterDiscountTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.QuoteItemsPriceAfterDiscountTextBox.Name = "QuoteItemsPriceAfterDiscountTextBox";
+            this.QuoteItemsPriceAfterDiscountTextBox.Size = new System.Drawing.Size(136, 26);
+            this.QuoteItemsPriceAfterDiscountTextBox.TabIndex = 33;
+            this.QuoteItemsPriceAfterDiscountTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // ShippingTextBox
             // 
@@ -1567,6 +1576,7 @@
             this.ShippingTextBox.Size = new System.Drawing.Size(136, 26);
             this.ShippingTextBox.TabIndex = 34;
             this.ShippingTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ShippingTextBox.LostFocus += new System.EventHandler(this.ShippingTextBox_Lost_Focus);
             // 
             // OptionsItemsPriceTextBox
             // 
@@ -1578,25 +1588,25 @@
             this.OptionsItemsPriceTextBox.TabIndex = 35;
             this.OptionsItemsPriceTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // OptionsItemsDsicountPercentageTextBox
+            // OptionsItemsDiscountPercentageTextBox
             // 
-            this.OptionsItemsDsicountPercentageTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OptionsItemsDsicountPercentageTextBox.Location = new System.Drawing.Point(1592, 1240);
-            this.OptionsItemsDsicountPercentageTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.OptionsItemsDsicountPercentageTextBox.Name = "OptionsItemsDsicountPercentageTextBox";
-            this.OptionsItemsDsicountPercentageTextBox.Size = new System.Drawing.Size(136, 26);
-            this.OptionsItemsDsicountPercentageTextBox.TabIndex = 36;
-            this.OptionsItemsDsicountPercentageTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.OptionsItemsDiscountPercentageTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OptionsItemsDiscountPercentageTextBox.Location = new System.Drawing.Point(1592, 1240);
+            this.OptionsItemsDiscountPercentageTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.OptionsItemsDiscountPercentageTextBox.Name = "OptionsItemsDiscountPercentageTextBox";
+            this.OptionsItemsDiscountPercentageTextBox.Size = new System.Drawing.Size(136, 26);
+            this.OptionsItemsDiscountPercentageTextBox.TabIndex = 36;
+            this.OptionsItemsDiscountPercentageTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // OptionsItemsPriceAfterDsicountTextBox
+            // OptionsItemsPriceAfterDiscountTextBox
             // 
-            this.OptionsItemsPriceAfterDsicountTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OptionsItemsPriceAfterDsicountTextBox.Location = new System.Drawing.Point(1592, 1279);
-            this.OptionsItemsPriceAfterDsicountTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.OptionsItemsPriceAfterDsicountTextBox.Name = "OptionsItemsPriceAfterDsicountTextBox";
-            this.OptionsItemsPriceAfterDsicountTextBox.Size = new System.Drawing.Size(136, 26);
-            this.OptionsItemsPriceAfterDsicountTextBox.TabIndex = 37;
-            this.OptionsItemsPriceAfterDsicountTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.OptionsItemsPriceAfterDiscountTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OptionsItemsPriceAfterDiscountTextBox.Location = new System.Drawing.Point(1592, 1279);
+            this.OptionsItemsPriceAfterDiscountTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.OptionsItemsPriceAfterDiscountTextBox.Name = "OptionsItemsPriceAfterDiscountTextBox";
+            this.OptionsItemsPriceAfterDiscountTextBox.Size = new System.Drawing.Size(136, 26);
+            this.OptionsItemsPriceAfterDiscountTextBox.TabIndex = 37;
+            this.OptionsItemsPriceAfterDiscountTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // TotalQuotePriceQuoteAndOptionsTextBox
             // 
@@ -1606,6 +1616,7 @@
             this.TotalQuotePriceQuoteAndOptionsTextBox.Name = "TotalQuotePriceQuoteAndOptionsTextBox";
             this.TotalQuotePriceQuoteAndOptionsTextBox.Size = new System.Drawing.Size(136, 26);
             this.TotalQuotePriceQuoteAndOptionsTextBox.TabIndex = 38;
+            this.TotalQuotePriceQuoteAndOptionsTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // pictureBox1
             // 
@@ -1719,12 +1730,82 @@
             // 
             this.contactsTableAdapter.ClearBeforeFill = true;
             // 
-            // getNewDatabseToolStripMenuItem
+            // RequiredPartsPanel
             // 
-            this.getNewDatabseToolStripMenuItem.Name = "getNewDatabseToolStripMenuItem";
-            this.getNewDatabseToolStripMenuItem.Size = new System.Drawing.Size(170, 29);
-            this.getNewDatabseToolStripMenuItem.Text = "Get New Database";
-            this.getNewDatabseToolStripMenuItem.Click += new System.EventHandler(this.getNewDatabseToolStripMenuItem_Click);
+            this.RequiredPartsPanel.Controls.Add(this.RequiredPanelCancelButton);
+            this.RequiredPartsPanel.Controls.Add(this.RequiredPanelAddButton);
+            this.RequiredPartsPanel.Controls.Add(this.RequiredPartCheckedListBox);
+            this.RequiredPartsPanel.Controls.Add(this.RequiredPartsPanelSelectAllCheckBox);
+            this.RequiredPartsPanel.Controls.Add(this.RequiredPartsPanelHeadingLabel);
+            this.RequiredPartsPanel.Controls.Add(this.label23);
+            this.RequiredPartsPanel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RequiredPartsPanel.Location = new System.Drawing.Point(519, 375);
+            this.RequiredPartsPanel.Name = "RequiredPartsPanel";
+            this.RequiredPartsPanel.Size = new System.Drawing.Size(870, 499);
+            this.RequiredPartsPanel.TabIndex = 44;
+            this.RequiredPartsPanel.Visible = false;
+            // 
+            // RequiredPanelCancelButton
+            // 
+            this.RequiredPanelCancelButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.RequiredPanelCancelButton.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RequiredPanelCancelButton.Location = new System.Drawing.Point(496, 424);
+            this.RequiredPanelCancelButton.Name = "RequiredPanelCancelButton";
+            this.RequiredPanelCancelButton.Size = new System.Drawing.Size(120, 34);
+            this.RequiredPanelCancelButton.TabIndex = 5;
+            this.RequiredPanelCancelButton.Text = "Cancel";
+            this.RequiredPanelCancelButton.UseVisualStyleBackColor = false;
+            this.RequiredPanelCancelButton.Click += new System.EventHandler(this.RequiredPanelCancelButton_Click);
+            // 
+            // RequiredPanelAddButton
+            // 
+            this.RequiredPanelAddButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.RequiredPanelAddButton.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RequiredPanelAddButton.Location = new System.Drawing.Point(283, 424);
+            this.RequiredPanelAddButton.Name = "RequiredPanelAddButton";
+            this.RequiredPanelAddButton.Size = new System.Drawing.Size(89, 34);
+            this.RequiredPanelAddButton.TabIndex = 4;
+            this.RequiredPanelAddButton.Text = "Add";
+            this.RequiredPanelAddButton.UseVisualStyleBackColor = false;
+            this.RequiredPanelAddButton.Click += new System.EventHandler(this.RequiredPanelAddButton_Click);
+            // 
+            // RequiredPartCheckedListBox
+            // 
+            this.RequiredPartCheckedListBox.FormattingEnabled = true;
+            this.RequiredPartCheckedListBox.Location = new System.Drawing.Point(122, 188);
+            this.RequiredPartCheckedListBox.Name = "RequiredPartCheckedListBox";
+            this.RequiredPartCheckedListBox.Size = new System.Drawing.Size(623, 188);
+            this.RequiredPartCheckedListBox.TabIndex = 3;
+            // 
+            // RequiredPartsPanelSelectAllCheckBox
+            // 
+            this.RequiredPartsPanelSelectAllCheckBox.AutoSize = true;
+            this.RequiredPartsPanelSelectAllCheckBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RequiredPartsPanelSelectAllCheckBox.Location = new System.Drawing.Point(122, 127);
+            this.RequiredPartsPanelSelectAllCheckBox.Name = "RequiredPartsPanelSelectAllCheckBox";
+            this.RequiredPartsPanelSelectAllCheckBox.Size = new System.Drawing.Size(117, 27);
+            this.RequiredPartsPanelSelectAllCheckBox.TabIndex = 2;
+            this.RequiredPartsPanelSelectAllCheckBox.Text = "Select All";
+            this.RequiredPartsPanelSelectAllCheckBox.UseVisualStyleBackColor = true;
+            this.RequiredPartsPanelSelectAllCheckBox.CheckedChanged += new System.EventHandler(this.RequiredPartsPanelSelectAllCheckBox_CheckedChanged);
+            // 
+            // RequiredPartsPanelHeadingLabel
+            // 
+            this.RequiredPartsPanelHeadingLabel.AutoSize = true;
+            this.RequiredPartsPanelHeadingLabel.Location = new System.Drawing.Point(75, 59);
+            this.RequiredPartsPanelHeadingLabel.Name = "RequiredPartsPanelHeadingLabel";
+            this.RequiredPartsPanelHeadingLabel.Size = new System.Drawing.Size(0, 21);
+            this.RequiredPartsPanelHeadingLabel.TabIndex = 1;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(340, 22);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(151, 24);
+            this.label23.TabIndex = 0;
+            this.label23.Text = "Required Parts";
             // 
             // MainQuoteForm
             // 
@@ -1732,18 +1813,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.BlanchedAlmond;
             this.ClientSize = new System.Drawing.Size(1881, 1457);
+            this.Controls.Add(this.RequiredPartsPanel);
             this.Controls.Add(this.itemPriceTextBox);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.NotesTextBox);
             this.Controls.Add(this.SalemansNameLabel);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.TotalQuotePriceQuoteAndOptionsTextBox);
-            this.Controls.Add(this.OptionsItemsPriceAfterDsicountTextBox);
-            this.Controls.Add(this.OptionsItemsDsicountPercentageTextBox);
+            this.Controls.Add(this.OptionsItemsPriceAfterDiscountTextBox);
+            this.Controls.Add(this.OptionsItemsDiscountPercentageTextBox);
             this.Controls.Add(this.OptionsItemsPriceTextBox);
             this.Controls.Add(this.ShippingTextBox);
-            this.Controls.Add(this.QuoteItemsPriceAfterDsicountTextBox);
-            this.Controls.Add(this.QuoteItemsDsicountPercentageTextBox);
+            this.Controls.Add(this.QuoteItemsPriceAfterDiscountTextBox);
+            this.Controls.Add(this.QuoteItemsDiscountPercentageTextBox);
             this.Controls.Add(this.QuoteItemsPriceTextBox);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label13);
@@ -1813,6 +1895,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.InstrumentBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CategoryBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SubCategoryBindingSource)).EndInit();
+            this.RequiredPartsPanel.ResumeLayout(false);
+            this.RequiredPartsPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1882,12 +1966,12 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox QuoteItemsPriceTextBox;
-        private System.Windows.Forms.TextBox QuoteItemsDsicountPercentageTextBox;
-        private System.Windows.Forms.TextBox QuoteItemsPriceAfterDsicountTextBox;
+        private System.Windows.Forms.TextBox QuoteItemsDiscountPercentageTextBox;
+        private System.Windows.Forms.TextBox QuoteItemsPriceAfterDiscountTextBox;
         private System.Windows.Forms.TextBox ShippingTextBox;
         private System.Windows.Forms.TextBox OptionsItemsPriceTextBox;
-        private System.Windows.Forms.TextBox OptionsItemsDsicountPercentageTextBox;
-        private System.Windows.Forms.TextBox OptionsItemsPriceAfterDsicountTextBox;
+        private System.Windows.Forms.TextBox OptionsItemsDiscountPercentageTextBox;
+        private System.Windows.Forms.TextBox OptionsItemsPriceAfterDiscountTextBox;
         private System.Windows.Forms.TextBox TotalQuotePriceQuoteAndOptionsTextBox;
         private System.Windows.Forms.Button QuoteRemoveSelectedButton;
         private System.Windows.Forms.Button OptionsRemoveSelectedButton;
@@ -1907,7 +1991,6 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.ComboBox AccountComboBox;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.ToolStripMenuItem myQuotesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem accountListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadQuoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveQuoteToolStripMenuItem;
@@ -1925,22 +2008,6 @@
         private System.Windows.Forms.Label SalemansNameLabel;
         private System.Windows.Forms.ToolStripMenuItem viewQuoteToolStripMenuItem;
         private System.Windows.Forms.TextBox NotesTextBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column9;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
@@ -1966,6 +2033,29 @@
         private System.Windows.Forms.BindingSource contactsBndingSource;
         private CustomersDataSetTableAdapters.ContactsTableAdapter contactsTableAdapter;
         private System.Windows.Forms.ToolStripMenuItem getNewDatabseToolStripMenuItem;
+        private System.Windows.Forms.Panel RequiredPartsPanel;
+        private System.Windows.Forms.CheckBox RequiredPartsPanelSelectAllCheckBox;
+        private System.Windows.Forms.Label RequiredPartsPanelHeadingLabel;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Button RequiredPanelCancelButton;
+        private System.Windows.Forms.Button RequiredPanelAddButton;
+        private System.Windows.Forms.CheckedListBox RequiredPartCheckedListBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column10;
     }
 }
 

@@ -29,10 +29,12 @@ namespace Tecan_Quote_Generator
         Boolean instrumentChanged = false;
         Boolean categoryChanged = false;
         // Boolean subCategoryChanged = false;
-        Boolean formatOnly = false;
+        // Boolean formatOnly = false;
+        Boolean quoteSaved = true;
 
         PartsListDetailDisplay DetailsForm;
         Profile profile = new Profile();
+        Quote passRequiredItems = new Quote();
 
         public MainQuoteForm()
         {
@@ -321,6 +323,7 @@ namespace Tecan_Quote_Generator
         // The drop into the desired object
         private void QuoteDataGridView_DragDrop(object sender, DragEventArgs e)
         {
+            quoteSaved = false;
             String itemSAPID;
             String itemDescription;
             Decimal itemPrice;
@@ -332,33 +335,164 @@ namespace Tecan_Quote_Generator
                 itemDescription = row.Cells[1].Value.ToString();
                 itemPrice = getPartPrice(itemSAPID);
                 QuoteDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, 1, String.Format("{0:P2}", 0.00), itemPrice);
+
+                // Check requiredParts
+                String[] hasRequiredParts = checkForRequiredParts(itemSAPID);
+                if (hasRequiredParts != null)
+                {
+                    // Check if they are already added
+                    DataGridViewRowCollection itemsRows = QuoteDataGridView.Rows;
+                    DataGridViewRowCollection optionRows = OptionsDataGridView.Rows;
+                    String existsSAPID;
+                    var PartsToAddList = new List<string>();
+                    String[] requiredPart;
+                    Boolean foundSAPID = false;
+                    // Loop throught required parts
+                    foreach (String part in hasRequiredParts)
+                    {
+                        requiredPart = part.Split('^');
+                        foundSAPID = false;
+                        // Already selected items in quote
+                        foreach (DataGridViewRow rowItem in itemsRows)
+                        {
+                            existsSAPID = rowItem.Cells[0].Value.ToString();
+                            if (existsSAPID == requiredPart[0])
+                            {
+                                foundSAPID = true;
+                                break;
+                            }
+                        }
+                        // Already selected items in options
+                        foreach (DataGridViewRow rowOption in optionRows)
+                        {
+                            existsSAPID = rowOption.Cells[0].Value.ToString();
+                            if (existsSAPID == requiredPart[0])
+                            {
+                                foundSAPID = true;
+                                break;
+                            }
+                        }
+                        if (!foundSAPID)
+                        {
+                            PartsToAddList.Add(part);
+                        }
+                    }
+                    String[] toAddPart = PartsToAddList.ToArray();
+                    switch (toAddPart.Length)
+                    {
+                        // Required part already added, do nothing
+                        case 0:
+                            break;
+
+                        // 1 required part, simple message
+                        case 1:
+                            String[] partToAdd = null;
+                            partToAdd = toAddPart[0].Split('^');
+                            Decimal partItemPrice = Convert.ToDecimal(partToAdd[2]);
+                            // Ask to add part
+                            if (MessageBox.Show("The part\r\n\r\n" + itemSAPID + "  " + itemDescription + "\r\n\r\nhas a required part \r\n\r\n" + partToAdd[0] + "  " + partToAdd[1] + ".\r\n\r\nDo you want to add it?", "Required Part", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            {
+                                QuoteDataGridView.Rows.Add(partToAdd[0], partToAdd[1], partItemPrice, 1, String.Format("{0:P2}", 0.00), partItemPrice);
+                            }
+                            break;
+
+                        // Multiple requires parts, do required panel
+                        default:
+                        // Ask to add parts
+                            RequiredPartCheckedListBox.Items.Clear();
+                            RequiredPartsPanelHeadingLabel.Text = "The part " + itemSAPID + "  " + itemDescription + " has multiple parts that are required.\r\nPlease select (Double-Click) the parts you would like to add.";
+                            RequiredPartsPanel.Location = new Point(
+                            this.ClientSize.Width / 2 - RequiredPartsPanel.Size.Width / 2,
+                            this.ClientSize.Height / 2 - RequiredPartsPanel.Size.Height / 2);
+                            RequiredPartsPanel.Anchor = AnchorStyles.None;
+                            RequiredPartsPanel.Visible = true;
+
+                            ArrayList quoteItems = new ArrayList();
+                            foreach (String part in toAddPart)
+                            {
+                                requiredPart = part.Split('^');
+                                RequiredPartCheckedListBox.Items.Add(requiredPart[0] + "  " + requiredPart[1]);
+
+                                QuoteItems newItem = new QuoteItems();
+                                newItem.SAPID = requiredPart[0];
+                                newItem.Description = requiredPart[1];
+                                newItem.Price = Convert.ToDecimal(requiredPart[2]);
+                                quoteItems.Add(newItem);
+                            }
+                            passRequiredItems.QuoteTitle = "QuoteItems";
+                            passRequiredItems.Items = quoteItems;
+                            break;
+                    }
+
+                }
             }
             SumItems(QuoteDataGridView);
         }
 
         public void SumItems(DataGridView myDataGridView)
         {
-            Int32 rowCount = myDataGridView.Rows.GetRowCount(DataGridViewElementStates.Displayed);
+            Int32 rowCount = myDataGridView.Rows.Count;
             Int32 rowIndex;
             Decimal itemPrice = 0;
+            Int32 itemQty = 0;
+            Decimal itemDiscount = 0;
+            Decimal totalItemPrice = 0;
+            Decimal totalDiscount = 0;
+            Decimal discountPercentage = 0;
+            Decimal extendedPrice = 0;
 
             for (int s = 0; s < rowCount; s++)
             {
                 rowIndex = myDataGridView.Rows[s].Index;
                 DataGridViewRow srow = myDataGridView.Rows[rowIndex];
-                itemPrice = itemPrice + (Decimal)srow.Cells[5].Value;
+                itemPrice = (Decimal)srow.Cells[2].Value;
+                itemQty = Convert.ToInt32(srow.Cells[3].Value);
+                totalItemPrice = totalItemPrice + (itemPrice * itemQty);
+                discountPercentage = Convert.ToDecimal(srow.Cells[4].Value.ToString().Replace(" %", ""));
+                itemDiscount = (itemPrice * (discountPercentage/100)) * itemQty;
+                totalDiscount = totalDiscount + itemDiscount;
+                extendedPrice = extendedPrice + (Decimal)srow.Cells[5].Value;
             }
 
             switch (myDataGridView.Name)
             {
                 case "QuoteDataGridView":
-                    QuoteItemsPriceTextBox.Text = String.Format("{0:C2}", itemPrice); // getFormatedDollarValue(itemPrice.ToString());
+                    QuoteItemsPriceTextBox.Text = String.Format("{0:C2}", totalItemPrice); // getFormatedDollarValue(itemPrice.ToString());
+                    QuoteItemsDiscountPercentageTextBox.Text = String.Format("{0:C2}", totalDiscount);
+                    QuoteItemsPriceAfterDiscountTextBox.Text = String.Format("{0:C2}", extendedPrice);
                     break;
 
                 case "OptionsDataGridView":
-                    OptionsItemsPriceTextBox.Text = String.Format("{0:C2}", itemPrice); //getFormatedDollarValue(itemPrice.ToString());
+                    OptionsItemsPriceTextBox.Text = String.Format("{0:C2}", totalItemPrice); // getFormatedDollarValue(itemPrice.ToString());
+                    OptionsItemsDiscountPercentageTextBox.Text = String.Format("{0:C2}", totalDiscount);
+                    OptionsItemsPriceAfterDiscountTextBox.Text = String.Format("{0:C2}", extendedPrice);
                     break;
             }
+            applyTotals();
+        }
+
+        private void ShippingTextBox_Lost_Focus(object sender, EventArgs e)
+        {
+            ShippingTextBox.Text = String.Format("{0:C2}", Convert.ToDecimal(ShippingTextBox.Text));
+            applyTotals();
+        }
+
+        public void applyTotals()
+        {
+            Decimal itemsTotal = 0;
+            Decimal optionsTotal = 0;
+            Decimal shipping = 0;
+            Decimal quoteTotal = 0;
+
+            if (QuoteItemsPriceAfterDiscountTextBox.Text != "")
+                itemsTotal = Convert.ToDecimal(QuoteItemsPriceAfterDiscountTextBox.Text.Replace("$", ""));
+            if (OptionsItemsPriceAfterDiscountTextBox.Text != "")
+                optionsTotal = Convert.ToDecimal(OptionsItemsPriceAfterDiscountTextBox.Text.Replace("$", ""));
+            if (ShippingTextBox.Text != "")
+                shipping = Convert.ToDecimal(ShippingTextBox.Text.Replace("$", ""));
+            // quoteTotal = Convert.ToDecimal(QuoteItemsPriceAfterDiscountTextBox.Text.Replace("$", "")) + Convert.ToDecimal(OptionsItemsPriceAfterDiscountTextBox.Text.Replace("$", "")) + Convert.ToDecimal(ShippingTextBox.Text.Replace("$", ""));
+            quoteTotal = itemsTotal + optionsTotal + shipping;
+            TotalQuotePriceQuoteAndOptionsTextBox.Text = String.Format("{0:C2}", quoteTotal);
         }
 
         // Update Extended Price and Totals when QTY and/or Discount Change
@@ -373,68 +507,76 @@ namespace Tecan_Quote_Generator
 
         private void processCellValueChange(DataGridView myDataGridView, DataGridViewCellEventArgs e)
         {
-            Decimal itemPrice;
-            Int32 itemQty;
-            Decimal itemDiscount;
+            quoteSaved = false;
+            Int32 rowIndex;
+            Decimal itemPrice = 0;
+            Int32 itemQty = 0;
+            Decimal itemDiscount = 0;
             Decimal discountPercentage;
-            Decimal extendedPrice;
-            String itemPriceCheck;
-            String discountCheck;
+            Decimal extendedPrice = 0;
+            //String itemPriceCheck;
+            //String discountCheck;
 
-            itemPriceCheck = myDataGridView.Rows[e.RowIndex].Cells[2].Value.ToString();
-            discountCheck = myDataGridView.Rows[e.RowIndex].Cells[4].Value.ToString();
+            // itemPriceCheck = myDataGridView.Rows[e.RowIndex].Cells[2].Value.ToString();
+            // discountCheck = myDataGridView.Rows[e.RowIndex].Cells[4].Value.ToString();
 
-            if ((itemPriceCheck.IndexOf("$") == -1) || (discountCheck.IndexOf("%") == -1))
-            {
-                formatOnly = false;
-            }
+            //if ((itemPriceCheck.IndexOf("$") == -1) || (discountCheck.IndexOf("%") == -1))
+            //{
+            //    formatOnly = false;
+            //}
 
-            if (formatOnly == false && (e.ColumnIndex == 2 || e.ColumnIndex == 3 || e.ColumnIndex == 4))
-            {
-                if (itemPriceCheck.IndexOf("$") != -1) itemPriceCheck = itemPriceCheck.Substring(1, itemPriceCheck.Length - 1);
-                itemPrice = Convert.ToDecimal(itemPriceCheck);
+            rowIndex = e.RowIndex;
+            DataGridViewRow srow = myDataGridView.Rows[rowIndex];
+            itemPrice = (Decimal)srow.Cells[2].Value;
+            itemQty = Convert.ToInt32(srow.Cells[3].Value);
+            // totalItemPrice = totalItemPrice + (itemPrice * itemQty);
+            discountPercentage = Convert.ToDecimal(srow.Cells[4].Value.ToString().Replace(" %", ""));
+            itemDiscount = (itemPrice * (discountPercentage / 100)) * itemQty;
+            // totalDiscount = totalDiscount + itemDiscount;
+            extendedPrice = (itemPrice * itemQty) - itemDiscount;
 
-                if (discountCheck.IndexOf("%") != -1) discountCheck = discountCheck.Substring(0, discountCheck.Length - 2);
-                discountPercentage = Convert.ToDecimal(discountCheck);
 
-                MessageBox.Show(myDataGridView.Rows[e.RowIndex].Cells[3].Value.ToString());
-                itemQty = Convert.ToInt32(myDataGridView.Rows[e.RowIndex].Cells[3].Value);
-                extendedPrice = itemPrice * itemQty;
-                if (discountPercentage == 0)
-                {
-                    myDataGridView.Rows[e.RowIndex].Cells[5].Value = extendedPrice;
-                }
-                else
-                {
-                    itemDiscount = extendedPrice * (discountPercentage / 100);
-                    myDataGridView.Rows[e.RowIndex].Cells[5].Value = extendedPrice - itemDiscount;
-                }
-                SumItems(myDataGridView);
-            }
 
-            switch (e.ColumnIndex)
-            {
-                // Price
-                case 2:
-                    if (itemPriceCheck.IndexOf("$") == -1)
-                    {
-                        formatOnly = true;
-                        itemPrice = Convert.ToDecimal(itemPriceCheck);
-                        QuoteDataGridView.Rows[e.RowIndex].Cells[2].Value = String.Format("{0:C2}", itemPrice);
-                    }
-                    break;
 
-                // Discount
-                case 4:
-                    if (discountCheck.IndexOf("%") == -1)
-                    {
-                        formatOnly = true;
-                        discountPercentage = Convert.ToDecimal(discountCheck);
-                        QuoteDataGridView.Rows[e.RowIndex].Cells[4].Value = String.Format("{0:P2}", discountPercentage / 100);
-                    }
-                    break;
-            }
+            //if ((e.ColumnIndex == 3 || e.ColumnIndex == 4))
+            //{
+            //    itemPrice = (Decimal)myDataGridView.Rows[e.RowIndex].Cells[2].Value;
+            //    itemQty = Convert.ToInt32(myDataGridView.Rows[e.RowIndex].Cells[3].Value);
+            //    itemDiscount = Convert.ToDecimal(myDataGridView.Rows[e.RowIndex].Cells[4].Value);
+            //    extendedPrice = itemPrice * itemQty;
+            //    if (itemDiscount != 0)
+            //    {
+            //        extendedPrice = extendedPrice * (itemDiscount / 100);
+            //    }
+            //}
 
+            //switch (e.ColumnIndex)
+            //{
+            //    // Price
+            //    case 2:
+            //        if (itemPriceCheck.IndexOf("$") == -1)
+            //        {
+            //            formatOnly = true;
+            //            itemPrice = Convert.ToDecimal(itemPriceCheck);
+            //            QuoteDataGridView.Rows[e.RowIndex].Cells[2].Value = String.Format("{0:C2}", itemPrice);
+            //        }
+            //        break;
+
+            //    // Discount
+            //    case 4:
+            //        if (discountCheck.IndexOf("%") == -1)
+            //        {
+            //            formatOnly = true;
+            //            discountPercentage = Convert.ToDecimal(discountCheck);
+            //            QuoteDataGridView.Rows[e.RowIndex].Cells[4].Value = String.Format("{0:P2}", discountPercentage / 100);
+            //        }
+            //        break;
+            //}
+            //QuoteDataGridView.Rows[e.RowIndex].Cells[2].Value = String.Format("{0:C2}", itemPrice);
+            myDataGridView.Rows[e.RowIndex].Cells[4].Value = String.Format("{0:P2}", discountPercentage / 100);
+            // myDataGridView.Rows[e.RowIndex].Cells[5].Value = String.Format("{0:C2}", extendedPrice);
+            myDataGridView.Rows[e.RowIndex].Cells[5].Value = extendedPrice;
+            SumItems(myDataGridView);
         }
 
         private void OptionsDataGridView_DragEnter(object sender, DragEventArgs e)
@@ -448,6 +590,7 @@ namespace Tecan_Quote_Generator
         // The drop into the desired object
         private void OptionsDataGridView_DragDrop(object sender, DragEventArgs e)
         {
+            quoteSaved = false;
             String itemSAPID;
             String itemDescription;
             Decimal itemPrice;
@@ -459,6 +602,96 @@ namespace Tecan_Quote_Generator
                 itemDescription = row.Cells[1].Value.ToString();
                 itemPrice = getPartPrice(itemSAPID);
                 OptionsDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, 1, String.Format("{0:P2}", 0.00), itemPrice);
+
+                // Check requiredParts
+                String[] hasRequiredParts = checkForRequiredParts(itemSAPID);
+                if (hasRequiredParts != null)
+                {
+                    // Check if they are already added
+                    DataGridViewRowCollection itemsRows = QuoteDataGridView.Rows;
+                    DataGridViewRowCollection optionRows = OptionsDataGridView.Rows;
+                    String existsSAPID;
+                    var PartsToAddList = new List<string>();
+                    String[] requiredPart;
+                    Boolean foundSAPID = false;
+                    // Loop throught required parts
+                    foreach (String part in hasRequiredParts)
+                    {
+                        requiredPart = part.Split('^');
+                        foundSAPID = false;
+                        // Already selected items in quote
+                        foreach (DataGridViewRow rowItem in itemsRows)
+                        {
+                            existsSAPID = rowItem.Cells[0].Value.ToString();
+                            if (existsSAPID == requiredPart[0])
+                            {
+                                foundSAPID = true;
+                                break;
+                            }
+                        }
+                        // Already selected items in options
+                        foreach (DataGridViewRow rowOption in optionRows)
+                        {
+                            existsSAPID = rowOption.Cells[0].Value.ToString();
+                            if (existsSAPID == requiredPart[0])
+                            {
+                                foundSAPID = true;
+                                break;
+                            }
+                        }
+                        if (!foundSAPID)
+                        {
+                            PartsToAddList.Add(part);
+                        }
+                    }
+                    String[] toAddPart = PartsToAddList.ToArray();
+                    switch (toAddPart.Length)
+                    {
+                        // Required part already added, do nothing
+                        case 0:
+                            break;
+
+                        // 1 required part, simple message
+                        case 1:
+                            String[] partToAdd = null;
+                            partToAdd = toAddPart[0].Split('^');
+                            Decimal partItemPrice = Convert.ToDecimal(partToAdd[2]);
+                            // Ask to add part
+                            if (MessageBox.Show("The part\r\n\r\n" + itemSAPID + "  " + itemDescription + "\r\n\r\nhas a required part \r\n\r\n" + partToAdd[0] + "  " + partToAdd[1] + ".\r\n\r\nDo you want to add it?", "Required Part", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            {
+                                OptionsDataGridView.Rows.Add(partToAdd[0], partToAdd[1], partItemPrice, 1, String.Format("{0:P2}", 0.00), partItemPrice);
+                            }
+                            break;
+
+                        // Multiple requires parts, do required panel
+                        default:
+                            // Ask to add parts
+                            RequiredPartCheckedListBox.Items.Clear();
+                            RequiredPartsPanelHeadingLabel.Text = "The part " + itemSAPID + "  " + itemDescription + " has multiple parts that are required.\r\nPlease select (Double-Click) the parts you would like to add.";
+                            RequiredPartsPanel.Location = new Point(
+                            this.ClientSize.Width / 2 - RequiredPartsPanel.Size.Width / 2,
+                            this.ClientSize.Height / 2 - RequiredPartsPanel.Size.Height / 2);
+                            RequiredPartsPanel.Anchor = AnchorStyles.None;
+                            RequiredPartsPanel.Visible = true;
+
+                            ArrayList quoteItems = new ArrayList();
+                            foreach (String part in toAddPart)
+                            {
+                                requiredPart = part.Split('^');
+                                RequiredPartCheckedListBox.Items.Add(requiredPart[0] + "  " + requiredPart[1]);
+
+                                QuoteItems newItem = new QuoteItems();
+                                newItem.SAPID = requiredPart[0];
+                                newItem.Description = requiredPart[1];
+                                newItem.Price = Convert.ToDecimal(requiredPart[2]);
+                                quoteItems.Add(newItem);
+                            }
+                            passRequiredItems.QuoteTitle = "QuoteOptions";
+                            passRequiredItems.Items = quoteItems;
+                            break;
+                    }
+
+                }
             }
             SumItems(OptionsDataGridView);
         }
@@ -471,6 +704,43 @@ namespace Tecan_Quote_Generator
                 processCellValueChange(OptionsDataGridView, e);
             }
 
+        }
+
+        private String[] checkForRequiredParts(String itemSAPID)
+        {
+            var foundRequiredPartsList = new List<string>();
+            openDB();
+            SqlCeCommand cmd = TecanDatabase.CreateCommand();
+
+            cmd.CommandText = "SELECT R.RequiredSAPId, P.Description, P.ILP FROM RequiredParts R" +
+            " INNER JOIN PartsList P " +
+            " ON R.RequiredSAPId = P.SAPId" +
+            " WHERE R.SAPId = '" + itemSAPID + "'" +
+            " ORDER BY RequiredSAPId";
+            try
+            {
+                SqlCeDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    foundRequiredPartsList.Add(reader[0].ToString() + "^" + reader[1].ToString() + "^" + reader[2].ToString());
+                }
+                reader.Dispose();
+                // return foundRequiredParts;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            TecanDatabase.Close();
+            if (foundRequiredPartsList.Count != 0)
+            {
+                String[] foundRequiredParts = foundRequiredPartsList.ToArray();
+                return foundRequiredParts;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void ThirdPartyDataGridView_DragEnter(object sender, DragEventArgs e)
@@ -1144,6 +1414,7 @@ namespace Tecan_Quote_Generator
 
         private void RemoveItems(DataGridView myDataGridView)
         {
+            quoteSaved = false;
             Int32 selectedRowCount = myDataGridView.Rows.GetRowCount(DataGridViewElementStates.Selected);
             Int32 removedRowCount = 0;
             Int32 totalRowCount = myDataGridView.RowCount;
@@ -1207,9 +1478,11 @@ namespace Tecan_Quote_Generator
                 {
                     MessageBox.Show("Please select a new title for this quote.");
                     QuoteTabControl.SelectedTab = QuoteSettingTabPage;
+                    QuoteTitleTextBox.Focus();
                     return;
                 }
             }
+            quoteSaved = true;
             System.IO.StreamWriter file = new System.IO.StreamWriter(@"c:\TecanFiles\" + QuoteFileName);
             writer.Serialize(file, quote);
             file.Close();
@@ -1231,6 +1504,7 @@ namespace Tecan_Quote_Generator
             String discountCheck;
             Int16 rowCount = 0;
 
+            // todo Remove myDataGridView.Rows[rowCount] with row
             foreach (DataGridViewRow row in myDataGridView.Rows)
             {
                 SAPID = myDataGridView.Rows[rowCount].Cells[0].Value.ToString();
@@ -1346,9 +1620,10 @@ namespace Tecan_Quote_Generator
 
                     OptionsDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice, itemNote, itemImage);
                 }
+
                 QuoteTabControl.SelectedTab = QuoteTabPage;
                 SumItems(QuoteDataGridView);
-                SumItems(QuoteDataGridView);
+                SumItems(OptionsDataGridView);
             }
         }
 
@@ -1431,11 +1706,17 @@ namespace Tecan_Quote_Generator
 
         private void clearQuoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!quoteSaved)
+            {
+                if (MessageBox.Show("This quote has not been saved or you have made changes!\r\n\r\nDo you want to clear these items?", "Clear List", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+            }
             QuoteDataGridView.Rows.Clear();
             QuoteItemsPriceTextBox.Text = "";
             OptionsDataGridView.Rows.Clear();
             OptionsItemsPriceTextBox.Text = "";
-
         }
 
         private void AccountComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -1456,14 +1737,49 @@ namespace Tecan_Quote_Generator
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 dBUpdated = copyDatabaseToWorkingFolder(folderBrowserDialog1.SelectedPath);
+                if (dBUpdated)
+                {
+                    MessageBox.Show("Database Updated!");
+                }
+                else
+                {
+                    MessageBox.Show("Database Updated Failed!");
+                }
             }
-            if (dBUpdated)
+        }
+
+        private void RequiredPanelCancelButton_Click(object sender, EventArgs e)
+        {
+            RequiredPartsPanel.Visible = false;
+        }
+
+        private void RequiredPanelAddButton_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            foreach (QuoteItems row in passRequiredItems.Items)
             {
-                MessageBox.Show("Database Updated!");
+                if (RequiredPartCheckedListBox.GetItemChecked(i))
+                {
+                    quoteSaved = false;
+                    if (passRequiredItems.QuoteTitle == "QuoteItems")
+                    {
+                        QuoteDataGridView.Rows.Add(row.SAPID, row.Description, Convert.ToDecimal(row.Price), 1, String.Format("{0:P2}", 0.00), Convert.ToDecimal(row.Price));
+                    }
+                    else
+                    {
+                        OptionsDataGridView.Rows.Add(row.SAPID, row.Description, Convert.ToDecimal(row.Price), 1, String.Format("{0:P2}", 0.00), Convert.ToDecimal(row.Price));
+                    }
+                }
+                i++;
             }
-            else
+            RequiredPartsPanel.Visible = false;
+        }
+
+        private void RequiredPartsPanelSelectAllCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < RequiredPartCheckedListBox.Items.Count; i++)
             {
-                MessageBox.Show("Database Updated Failed!");
+                RequiredPartCheckedListBox.SetItemChecked(i, true);
             }
         }
 

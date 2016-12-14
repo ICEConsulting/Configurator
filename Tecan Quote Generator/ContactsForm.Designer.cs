@@ -72,6 +72,9 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.importContactsPanel = new System.Windows.Forms.Panel();
+            this.importContactsButton = new System.Windows.Forms.Button();
+            this.updateRadioButton = new System.Windows.Forms.RadioButton();
+            this.replaceRadioButton = new System.Windows.Forms.RadioButton();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -80,9 +83,6 @@
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.replaceRadioButton = new System.Windows.Forms.RadioButton();
-            this.updateRadioButton = new System.Windows.Forms.RadioButton();
-            this.importContactsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.AccountsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.customersDataSet)).BeginInit();
             this.AddAccountPanel.SuspendLayout();
@@ -423,6 +423,7 @@
             this.CancelNewContactButton.TabIndex = 28;
             this.CancelNewContactButton.Text = "Cancel";
             this.CancelNewContactButton.UseVisualStyleBackColor = false;
+            this.CancelNewContactButton.Click += new System.EventHandler(this.CancelNewContactButton_Click);
             // 
             // editLabel
             // 
@@ -519,9 +520,45 @@
             this.importContactsPanel.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.importContactsPanel.Location = new System.Drawing.Point(14, 46);
             this.importContactsPanel.Name = "importContactsPanel";
-            this.importContactsPanel.Size = new System.Drawing.Size(780, 480);
+            this.importContactsPanel.Size = new System.Drawing.Size(780, 357);
             this.importContactsPanel.TabIndex = 33;
             this.importContactsPanel.Visible = false;
+            // 
+            // importContactsButton
+            // 
+            this.importContactsButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.importContactsButton.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.importContactsButton.Location = new System.Drawing.Point(310, 399);
+            this.importContactsButton.Name = "importContactsButton";
+            this.importContactsButton.Size = new System.Drawing.Size(152, 34);
+            this.importContactsButton.TabIndex = 15;
+            this.importContactsButton.Text = "Import Contacts";
+            this.importContactsButton.UseVisualStyleBackColor = false;
+            this.importContactsButton.Click += new System.EventHandler(this.importContactsButton_Click);
+            // 
+            // updateRadioButton
+            // 
+            this.updateRadioButton.AutoSize = true;
+            this.updateRadioButton.Checked = true;
+            this.updateRadioButton.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.updateRadioButton.Location = new System.Drawing.Point(414, 334);
+            this.updateRadioButton.Name = "updateRadioButton";
+            this.updateRadioButton.Size = new System.Drawing.Size(162, 23);
+            this.updateRadioButton.TabIndex = 14;
+            this.updateRadioButton.TabStop = true;
+            this.updateRadioButton.Text = "Update Contacts";
+            this.updateRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // replaceRadioButton
+            // 
+            this.replaceRadioButton.AutoSize = true;
+            this.replaceRadioButton.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.replaceRadioButton.Location = new System.Drawing.Point(196, 334);
+            this.replaceRadioButton.Name = "replaceRadioButton";
+            this.replaceRadioButton.Size = new System.Drawing.Size(169, 23);
+            this.replaceRadioButton.TabIndex = 13;
+            this.replaceRadioButton.Text = "Replace Contacts";
+            this.replaceRadioButton.UseVisualStyleBackColor = true;
             // 
             // label22
             // 
@@ -607,42 +644,6 @@
             this.label15.Size = new System.Drawing.Size(248, 19);
             this.label15.TabIndex = 3;
             this.label15.Text = "Instructions to export contacts:";
-            // 
-            // replaceRadioButton
-            // 
-            this.replaceRadioButton.AutoSize = true;
-            this.replaceRadioButton.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.replaceRadioButton.Location = new System.Drawing.Point(196, 334);
-            this.replaceRadioButton.Name = "replaceRadioButton";
-            this.replaceRadioButton.Size = new System.Drawing.Size(169, 23);
-            this.replaceRadioButton.TabIndex = 13;
-            this.replaceRadioButton.Text = "Replace Contacts";
-            this.replaceRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // updateRadioButton
-            // 
-            this.updateRadioButton.AutoSize = true;
-            this.updateRadioButton.Checked = true;
-            this.updateRadioButton.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.updateRadioButton.Location = new System.Drawing.Point(414, 334);
-            this.updateRadioButton.Name = "updateRadioButton";
-            this.updateRadioButton.Size = new System.Drawing.Size(162, 23);
-            this.updateRadioButton.TabIndex = 14;
-            this.updateRadioButton.TabStop = true;
-            this.updateRadioButton.Text = "Update Contacts";
-            this.updateRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // importContactsButton
-            // 
-            this.importContactsButton.BackColor = System.Drawing.Color.PowderBlue;
-            this.importContactsButton.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.importContactsButton.Location = new System.Drawing.Point(310, 399);
-            this.importContactsButton.Name = "importContactsButton";
-            this.importContactsButton.Size = new System.Drawing.Size(152, 34);
-            this.importContactsButton.TabIndex = 15;
-            this.importContactsButton.Text = "Import Contacts";
-            this.importContactsButton.UseVisualStyleBackColor = false;
-            this.importContactsButton.Click += new System.EventHandler(this.importContactsButton_Click);
             // 
             // ContactsForm
             // 

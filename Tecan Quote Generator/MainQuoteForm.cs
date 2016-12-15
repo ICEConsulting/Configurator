@@ -400,6 +400,7 @@ namespace Tecan_Quote_Generator
                         default:
                         // Ask to add parts
                             RequiredPartCheckedListBox.Items.Clear();
+                            RequiredPartsPanelSelectAllCheckBox.Checked = false;
                             RequiredPartsPanelHeadingLabel.Text = "The part " + itemSAPID + "  " + itemDescription + " has multiple parts that are required.\r\nPlease select (Double-Click) the parts you would like to add.";
                             RequiredPartsPanel.Location = new Point(
                             this.ClientSize.Width / 2 - RequiredPartsPanel.Size.Width / 2,
@@ -601,6 +602,7 @@ namespace Tecan_Quote_Generator
                 itemSAPID = row.Cells[0].Value.ToString();
                 itemDescription = row.Cells[1].Value.ToString();
                 itemPrice = getPartPrice(itemSAPID);
+                // todo need format?
                 OptionsDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, 1, String.Format("{0:P2}", 0.00), itemPrice);
 
                 // Check requiredParts
@@ -1422,7 +1424,7 @@ namespace Tecan_Quote_Generator
             {
                 if (selectedRowCount == totalRowCount)
                 {
-                    MessageBox.Show("All cells are selected", "Selected Cells");
+                    // MessageBox.Show("All cells are selected", "Selected Cells");
                     myDataGridView.Rows.Clear();
                 }
                 else
@@ -1764,10 +1766,12 @@ namespace Tecan_Quote_Generator
                     if (passRequiredItems.QuoteTitle == "QuoteItems")
                     {
                         QuoteDataGridView.Rows.Add(row.SAPID, row.Description, Convert.ToDecimal(row.Price), 1, String.Format("{0:P2}", 0.00), Convert.ToDecimal(row.Price));
+                        SumItems(QuoteDataGridView);
                     }
                     else
                     {
                         OptionsDataGridView.Rows.Add(row.SAPID, row.Description, Convert.ToDecimal(row.Price), 1, String.Format("{0:P2}", 0.00), Convert.ToDecimal(row.Price));
+                        SumItems(OptionsDataGridView);
                     }
                 }
                 i++;
@@ -1777,9 +1781,19 @@ namespace Tecan_Quote_Generator
 
         private void RequiredPartsPanelSelectAllCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            for (int i = 0; i < RequiredPartCheckedListBox.Items.Count; i++)
+            if (RequiredPartsPanelSelectAllCheckBox.Checked == true)
             {
-                RequiredPartCheckedListBox.SetItemChecked(i, true);
+                for (int i = 0; i < RequiredPartCheckedListBox.Items.Count; i++)
+                {
+                    RequiredPartCheckedListBox.SetItemChecked(i, true);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < RequiredPartCheckedListBox.Items.Count; i++)
+                {
+                    RequiredPartCheckedListBox.SetItemChecked(i, false);
+                }
             }
         }
 

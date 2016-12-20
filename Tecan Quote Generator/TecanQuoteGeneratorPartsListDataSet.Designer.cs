@@ -4410,7 +4410,8 @@ namespace Tecan_Quote_Generator {
                         return ((decimal)(this[this.tablePartsList.ILPColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ILP\' in table \'PartsList\' is DBNull.", e);
+                        return 0;
+                        // throw new global::System.Data.StrongTypingException("The value for column \'ILP\' in table \'PartsList\' is DBNull.", e);
                     }
                 }
                 set {
@@ -4635,7 +4636,7 @@ namespace Tecan_Quote_Generator {
                     }
                     catch (global::System.InvalidCastException e) {
                         // Unknown Error...
-                        return ((string)(this[this.tablePartsList.DetailDescriptionColumn]));
+                        return "";
                         // throw new global::System.Data.StrongTypingException("The value for column \'DetailDescription\' in table \'PartsList\' is DBNull.", e);
                     }
                 }
@@ -4668,7 +4669,8 @@ namespace Tecan_Quote_Generator {
                         return ((string)(this[this.tablePartsList.NotesFromFileColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'NotesFromFile\' in table \'PartsList\' is DBNull.", e);
+                        return ("");
+                        // throw new global::System.Data.StrongTypingException("The value for column \'NotesFromFile\' in table \'PartsList\' is DBNull.", e);
                     }
                 }
                 set {

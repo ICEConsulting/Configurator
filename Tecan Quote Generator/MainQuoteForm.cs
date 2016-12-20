@@ -77,8 +77,8 @@ namespace Tecan_Quote_Generator
                 setPartDetailTextBox();
                 QuoteDataGridView.AllowDrop = true;
                 OptionsDataGridView.AllowDrop = true;
-                ThirdPartyDataGridView.AllowDrop = true;
-                SmartStartDataGridView.AllowDrop = true;
+                // ThirdPartyDataGridView.AllowDrop = true;
+                // SmartStartDataGridView.AllowDrop = true;
                 QuoteTabControl.SelectedTab = QuoteSettingTabPage;
             }
         }
@@ -745,76 +745,76 @@ namespace Tecan_Quote_Generator
             }
         }
 
-        private void ThirdPartyDataGridView_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(typeof(DataGridViewSelectedRowCollection)))
-            {
-                e.Effect = DragDropEffects.Move;
-            }
-        }
+        //private void ThirdPartyDataGridView_DragEnter(object sender, DragEventArgs e)
+        //{
+        //    if (e.Data.GetDataPresent(typeof(DataGridViewSelectedRowCollection)))
+        //    {
+        //        e.Effect = DragDropEffects.Move;
+        //    }
+        //}
 
         // The drop into the desired object
-        private void ThirdPartyDataGridView_DragDrop(object sender, DragEventArgs e)
-        {
-            String itemSAPID;
-            String itemDescription;
-            Decimal itemPrice;
+        //private void ThirdPartyDataGridView_DragDrop(object sender, DragEventArgs e)
+        //{
+        //    String itemSAPID;
+        //    String itemDescription;
+        //    Decimal itemPrice;
 
-            DataGridViewSelectedRowCollection rows = (DataGridViewSelectedRowCollection)e.Data.GetData(typeof(DataGridViewSelectedRowCollection));
-            foreach (DataGridViewRow row in rows)
-            {
-                itemSAPID = row.Cells[0].Value.ToString();
-                itemDescription = row.Cells[1].Value.ToString();
-                itemPrice = getPartPrice(itemSAPID);
-                ThirdPartyDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, 1, String.Format("{0:P2}", 0.00), itemPrice);
-            }
-            SumItems(OptionsDataGridView);
-        }
+        //    DataGridViewSelectedRowCollection rows = (DataGridViewSelectedRowCollection)e.Data.GetData(typeof(DataGridViewSelectedRowCollection));
+        //    foreach (DataGridViewRow row in rows)
+        //    {
+        //        itemSAPID = row.Cells[0].Value.ToString();
+        //        itemDescription = row.Cells[1].Value.ToString();
+        //        itemPrice = getPartPrice(itemSAPID);
+        //        ThirdPartyDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, 1, String.Format("{0:P2}", 0.00), itemPrice);
+        //    }
+        //    SumItems(OptionsDataGridView);
+        //}
 
         // Update Extended Price and Totals when QTY and/or Discount Change
-        private void ThirdPartyDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                processCellValueChange(ThirdPartyDataGridView, e);
-            }
+        //private void ThirdPartyDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    if (e.RowIndex >= 0)
+        //    {
+        //        processCellValueChange(ThirdPartyDataGridView, e);
+        //    }
 
-        }
+        //}
 
-        private void SmartStartDataGridView_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(typeof(DataGridViewSelectedRowCollection)))
-            {
-                e.Effect = DragDropEffects.Move;
-            }
-        }
+        //private void SmartStartDataGridView_DragEnter(object sender, DragEventArgs e)
+        //{
+        //    if (e.Data.GetDataPresent(typeof(DataGridViewSelectedRowCollection)))
+        //    {
+        //        e.Effect = DragDropEffects.Move;
+        //    }
+        //}
 
         // The drop into the desired object
-        private void SmartStartDataGridView_DragDrop(object sender, DragEventArgs e)
-        {
-            String itemSAPID;
-            String itemDescription;
-            Decimal itemPrice;
+        //private void SmartStartDataGridView_DragDrop(object sender, DragEventArgs e)
+        //{
+        //    String itemSAPID;
+        //    String itemDescription;
+        //    Decimal itemPrice;
 
-            DataGridViewSelectedRowCollection rows = (DataGridViewSelectedRowCollection)e.Data.GetData(typeof(DataGridViewSelectedRowCollection));
-            foreach (DataGridViewRow row in rows)
-            {
-                itemSAPID = row.Cells[0].Value.ToString();
-                itemDescription = row.Cells[1].Value.ToString();
-                itemPrice = getPartPrice(itemSAPID);
-                SmartStartDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, 1, String.Format("{0:P2}", 0.00), itemPrice);
-            }
-        }
+        //    DataGridViewSelectedRowCollection rows = (DataGridViewSelectedRowCollection)e.Data.GetData(typeof(DataGridViewSelectedRowCollection));
+        //    foreach (DataGridViewRow row in rows)
+        //    {
+        //        itemSAPID = row.Cells[0].Value.ToString();
+        //        itemDescription = row.Cells[1].Value.ToString();
+        //        itemPrice = getPartPrice(itemSAPID);
+        //        SmartStartDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, 1, String.Format("{0:P2}", 0.00), itemPrice);
+        //    }
+        //}
 
         // Update Extended Price and Totals when QTY and/or Discount Change
-        private void SmartStartDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                processCellValueChange(SmartStartDataGridView, e);
-            }
+        //private void SmartStartDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    if (e.RowIndex >= 0)
+        //    {
+        //        processCellValueChange(SmartStartDataGridView, e);
+        //    }
 
-        }
+        //}
 
         public Decimal getPartPrice(String SAPID)
         {
@@ -1402,17 +1402,17 @@ namespace Tecan_Quote_Generator
             SumItems(OptionsDataGridView);
         }
 
-        private void ThirdPartyRemoveSelectedButton_Click(object sender, EventArgs e)
-        {
-            RemoveItems(ThirdPartyDataGridView);
-            // SumItems(ThirdPartyDataGridView);
-        }
+        //private void ThirdPartyRemoveSelectedButton_Click(object sender, EventArgs e)
+        //{
+        //    RemoveItems(ThirdPartyDataGridView);
+        //    // SumItems(ThirdPartyDataGridView);
+        //}
 
-        private void SmartStartRemoveSelectButton_Click(object sender, EventArgs e)
-        {
-            RemoveItems(SmartStartDataGridView);
-            // SumItems(SmartStartDataGridView);
-        }
+        //private void SmartStartRemoveSelectButton_Click(object sender, EventArgs e)
+        //{
+        //    RemoveItems(SmartStartDataGridView);
+        //    // SumItems(SmartStartDataGridView);
+        //}
 
         private void RemoveItems(DataGridView myDataGridView)
         {
@@ -1465,8 +1465,8 @@ namespace Tecan_Quote_Generator
             quote.QuoteTemplate = (short)Convert.ToInt16(QuoteTemplateComboBox.SelectedValue);
             quote.Items = AddQuoteItems(QuoteDataGridView);
             quote.Options = AddQuoteItems(OptionsDataGridView);
-            quote.ThirdParty = AddQuoteItems(ThirdPartyDataGridView);
-            quote.SmartStart = AddQuoteItems(SmartStartDataGridView);
+            // quote.ThirdParty = AddQuoteItems(ThirdPartyDataGridView);
+            // quote.SmartStart = AddQuoteItems(SmartStartDataGridView);
             System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(Quote));
 
             // Save theQuote file
@@ -1557,8 +1557,8 @@ namespace Tecan_Quote_Generator
             QuoteItemsPriceTextBox.Text = "";
             OptionsDataGridView.Rows.Clear();
             OptionsItemsPriceTextBox.Text = "";
-            ThirdPartyDataGridView.Rows.Clear();
-            SmartStartDataGridView.Rows.Clear();
+            //ThirdPartyDataGridView.Rows.Clear();
+            //SmartStartDataGridView.Rows.Clear();
 
             // Get Quote Filename and Path
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -1796,6 +1796,5 @@ namespace Tecan_Quote_Generator
                 }
             }
         }
-
     }
 }

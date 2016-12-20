@@ -43,17 +43,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.partsListBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.partsListBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tecanQuoteGeneratorPartsListDataSet = new Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSet();
@@ -121,28 +110,6 @@
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.ThirdPartyRemoveSelectedButton = new System.Windows.Forms.Button();
-            this.ThirdPartyDataGridView = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.SmartStartTabPage = new System.Windows.Forms.TabPage();
-            this.SmartStartRemoveSelectButton = new System.Windows.Forms.Button();
-            this.SmartStartDataGridView = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column14 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.QuoteSettingTabPage = new System.Windows.Forms.TabPage();
             this.IsSSPCheckBox = new System.Windows.Forms.CheckBox();
             this.QuoteDescriptionTextBox = new System.Windows.Forms.TextBox();
@@ -218,10 +185,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.QuoteDataGridView)).BeginInit();
             this.OptionTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OptionsDataGridView)).BeginInit();
-            this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ThirdPartyDataGridView)).BeginInit();
-            this.SmartStartTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SmartStartDataGridView)).BeginInit();
             this.QuoteSettingTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.contactsBndingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.customersDataSetBindingSource)).BeginInit();
@@ -672,8 +635,6 @@
             // 
             this.QuoteTabControl.Controls.Add(this.QuoteTabPage);
             this.QuoteTabControl.Controls.Add(this.OptionTabPage);
-            this.QuoteTabControl.Controls.Add(this.tabPage1);
-            this.QuoteTabControl.Controls.Add(this.SmartStartTabPage);
             this.QuoteTabControl.Controls.Add(this.QuoteSettingTabPage);
             this.QuoteTabControl.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.QuoteTabControl.Location = new System.Drawing.Point(726, 249);
@@ -951,272 +912,6 @@
             this.Column10.HeaderText = "Image";
             this.Column10.Name = "Column10";
             this.Column10.Width = 50;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.ThirdPartyRemoveSelectedButton);
-            this.tabPage1.Controls.Add(this.ThirdPartyDataGridView);
-            this.tabPage1.Location = new System.Drawing.Point(4, 33);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage1.Size = new System.Drawing.Size(1129, 889);
-            this.tabPage1.TabIndex = 4;
-            this.tabPage1.Text = "3rd Party Items";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // ThirdPartyRemoveSelectedButton
-            // 
-            this.ThirdPartyRemoveSelectedButton.Location = new System.Drawing.Point(0, 846);
-            this.ThirdPartyRemoveSelectedButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ThirdPartyRemoveSelectedButton.Name = "ThirdPartyRemoveSelectedButton";
-            this.ThirdPartyRemoveSelectedButton.Size = new System.Drawing.Size(194, 45);
-            this.ThirdPartyRemoveSelectedButton.TabIndex = 4;
-            this.ThirdPartyRemoveSelectedButton.Text = "Remove Selected";
-            this.ThirdPartyRemoveSelectedButton.UseVisualStyleBackColor = true;
-            this.ThirdPartyRemoveSelectedButton.Click += new System.EventHandler(this.ThirdPartyRemoveSelectedButton_Click);
-            // 
-            // ThirdPartyDataGridView
-            // 
-            this.ThirdPartyDataGridView.AllowUserToAddRows = false;
-            this.ThirdPartyDataGridView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ThirdPartyDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
-            this.ThirdPartyDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ThirdPartyDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn15,
-            this.dataGridViewTextBoxColumn16,
-            this.dataGridViewTextBoxColumn17,
-            this.dataGridViewTextBoxColumn18,
-            this.dataGridViewTextBoxColumn19,
-            this.dataGridViewTextBoxColumn20,
-            this.Column11,
-            this.Column12});
-            this.ThirdPartyDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.ThirdPartyDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ThirdPartyDataGridView.Name = "ThirdPartyDataGridView";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ThirdPartyDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle19;
-            this.ThirdPartyDataGridView.RowHeadersVisible = false;
-            this.ThirdPartyDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ThirdPartyDataGridView.Size = new System.Drawing.Size(1124, 846);
-            this.ThirdPartyDataGridView.TabIndex = 2;
-            this.ThirdPartyDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ThirdPartyDataGridView_CellValueChanged);
-            this.ThirdPartyDataGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.ThirdPartyDataGridView_DragDrop);
-            this.ThirdPartyDataGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.ThirdPartyDataGridView_DragEnter);
-            // 
-            // dataGridViewTextBoxColumn15
-            // 
-            this.dataGridViewTextBoxColumn15.FillWeight = 70F;
-            this.dataGridViewTextBoxColumn15.HeaderText = "SAP ID";
-            this.dataGridViewTextBoxColumn15.Name = "dataGridViewTextBoxColumn15";
-            this.dataGridViewTextBoxColumn15.ReadOnly = true;
-            this.dataGridViewTextBoxColumn15.Width = 70;
-            // 
-            // dataGridViewTextBoxColumn16
-            // 
-            this.dataGridViewTextBoxColumn16.FillWeight = 350F;
-            this.dataGridViewTextBoxColumn16.HeaderText = "Description";
-            this.dataGridViewTextBoxColumn16.Name = "dataGridViewTextBoxColumn16";
-            this.dataGridViewTextBoxColumn16.ReadOnly = true;
-            this.dataGridViewTextBoxColumn16.Width = 350;
-            // 
-            // dataGridViewTextBoxColumn17
-            // 
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle15.Format = "C2";
-            dataGridViewCellStyle15.NullValue = null;
-            this.dataGridViewTextBoxColumn17.DefaultCellStyle = dataGridViewCellStyle15;
-            this.dataGridViewTextBoxColumn17.FillWeight = 70F;
-            this.dataGridViewTextBoxColumn17.HeaderText = "List Price";
-            this.dataGridViewTextBoxColumn17.Name = "dataGridViewTextBoxColumn17";
-            this.dataGridViewTextBoxColumn17.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn17.Width = 70;
-            // 
-            // dataGridViewTextBoxColumn18
-            // 
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle16.Format = "N0";
-            this.dataGridViewTextBoxColumn18.DefaultCellStyle = dataGridViewCellStyle16;
-            this.dataGridViewTextBoxColumn18.FillWeight = 30F;
-            this.dataGridViewTextBoxColumn18.HeaderText = "Qty";
-            this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
-            this.dataGridViewTextBoxColumn18.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn18.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn18.Width = 30;
-            // 
-            // dataGridViewTextBoxColumn19
-            // 
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.Format = "N2";
-            dataGridViewCellStyle17.NullValue = "0";
-            this.dataGridViewTextBoxColumn19.DefaultCellStyle = dataGridViewCellStyle17;
-            this.dataGridViewTextBoxColumn19.FillWeight = 60F;
-            this.dataGridViewTextBoxColumn19.HeaderText = "Discount";
-            this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
-            this.dataGridViewTextBoxColumn19.Width = 60;
-            // 
-            // dataGridViewTextBoxColumn20
-            // 
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.Format = "C2";
-            dataGridViewCellStyle18.NullValue = null;
-            this.dataGridViewTextBoxColumn20.DefaultCellStyle = dataGridViewCellStyle18;
-            this.dataGridViewTextBoxColumn20.FillWeight = 80F;
-            this.dataGridViewTextBoxColumn20.HeaderText = "Extended Price";
-            this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
-            this.dataGridViewTextBoxColumn20.ReadOnly = true;
-            this.dataGridViewTextBoxColumn20.Width = 80;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "Note";
-            this.Column11.Name = "Column11";
-            this.Column11.Width = 35;
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "Image";
-            this.Column12.Name = "Column12";
-            this.Column12.Width = 50;
-            // 
-            // SmartStartTabPage
-            // 
-            this.SmartStartTabPage.Controls.Add(this.SmartStartRemoveSelectButton);
-            this.SmartStartTabPage.Controls.Add(this.SmartStartDataGridView);
-            this.SmartStartTabPage.Location = new System.Drawing.Point(4, 33);
-            this.SmartStartTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.SmartStartTabPage.Name = "SmartStartTabPage";
-            this.SmartStartTabPage.Size = new System.Drawing.Size(1129, 889);
-            this.SmartStartTabPage.TabIndex = 2;
-            this.SmartStartTabPage.Text = "Smart Start Items";
-            this.SmartStartTabPage.UseVisualStyleBackColor = true;
-            // 
-            // SmartStartRemoveSelectButton
-            // 
-            this.SmartStartRemoveSelectButton.Location = new System.Drawing.Point(0, 846);
-            this.SmartStartRemoveSelectButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.SmartStartRemoveSelectButton.Name = "SmartStartRemoveSelectButton";
-            this.SmartStartRemoveSelectButton.Size = new System.Drawing.Size(194, 45);
-            this.SmartStartRemoveSelectButton.TabIndex = 3;
-            this.SmartStartRemoveSelectButton.Text = "Remove Selected";
-            this.SmartStartRemoveSelectButton.UseVisualStyleBackColor = true;
-            this.SmartStartRemoveSelectButton.Click += new System.EventHandler(this.SmartStartRemoveSelectButton_Click);
-            // 
-            // SmartStartDataGridView
-            // 
-            this.SmartStartDataGridView.AllowUserToAddRows = false;
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.SmartStartDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle20;
-            this.SmartStartDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.SmartStartDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn9,
-            this.dataGridViewTextBoxColumn10,
-            this.dataGridViewTextBoxColumn11,
-            this.dataGridViewTextBoxColumn12,
-            this.dataGridViewTextBoxColumn13,
-            this.dataGridViewTextBoxColumn14,
-            this.Column13,
-            this.Column14});
-            this.SmartStartDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.SmartStartDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.SmartStartDataGridView.Name = "SmartStartDataGridView";
-            this.SmartStartDataGridView.RowHeadersVisible = false;
-            this.SmartStartDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.SmartStartDataGridView.Size = new System.Drawing.Size(1124, 846);
-            this.SmartStartDataGridView.TabIndex = 2;
-            this.SmartStartDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.SmartStartDataGridView_CellValueChanged);
-            this.SmartStartDataGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.SmartStartDataGridView_DragDrop);
-            this.SmartStartDataGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.SmartStartDataGridView_DragEnter);
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.FillWeight = 70F;
-            this.dataGridViewTextBoxColumn9.HeaderText = "SAP ID";
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            this.dataGridViewTextBoxColumn9.Width = 70;
-            // 
-            // dataGridViewTextBoxColumn10
-            // 
-            this.dataGridViewTextBoxColumn10.FillWeight = 350F;
-            this.dataGridViewTextBoxColumn10.HeaderText = "Description";
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            this.dataGridViewTextBoxColumn10.Width = 350;
-            // 
-            // dataGridViewTextBoxColumn11
-            // 
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle21.Format = "C2";
-            dataGridViewCellStyle21.NullValue = null;
-            this.dataGridViewTextBoxColumn11.DefaultCellStyle = dataGridViewCellStyle21;
-            this.dataGridViewTextBoxColumn11.FillWeight = 70F;
-            this.dataGridViewTextBoxColumn11.HeaderText = "List Price";
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            this.dataGridViewTextBoxColumn11.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn11.Width = 70;
-            // 
-            // dataGridViewTextBoxColumn12
-            // 
-            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle22.Format = "N0";
-            this.dataGridViewTextBoxColumn12.DefaultCellStyle = dataGridViewCellStyle22;
-            this.dataGridViewTextBoxColumn12.FillWeight = 30F;
-            this.dataGridViewTextBoxColumn12.HeaderText = "Qty";
-            this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
-            this.dataGridViewTextBoxColumn12.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn12.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.dataGridViewTextBoxColumn12.Width = 30;
-            // 
-            // dataGridViewTextBoxColumn13
-            // 
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle23.NullValue = "0";
-            this.dataGridViewTextBoxColumn13.DefaultCellStyle = dataGridViewCellStyle23;
-            this.dataGridViewTextBoxColumn13.FillWeight = 60F;
-            this.dataGridViewTextBoxColumn13.HeaderText = "Discount";
-            this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
-            this.dataGridViewTextBoxColumn13.Width = 60;
-            // 
-            // dataGridViewTextBoxColumn14
-            // 
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle24.Format = "C2";
-            dataGridViewCellStyle24.NullValue = null;
-            this.dataGridViewTextBoxColumn14.DefaultCellStyle = dataGridViewCellStyle24;
-            this.dataGridViewTextBoxColumn14.FillWeight = 80F;
-            this.dataGridViewTextBoxColumn14.HeaderText = "Extended Price";
-            this.dataGridViewTextBoxColumn14.Name = "dataGridViewTextBoxColumn14";
-            this.dataGridViewTextBoxColumn14.Width = 80;
-            // 
-            // Column13
-            // 
-            this.Column13.HeaderText = "Note";
-            this.Column13.Name = "Column13";
-            this.Column13.Width = 35;
-            // 
-            // Column14
-            // 
-            this.Column14.HeaderText = "Image";
-            this.Column14.Name = "Column14";
-            this.Column14.Width = 50;
             // 
             // QuoteSettingTabPage
             // 
@@ -1880,10 +1575,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.QuoteDataGridView)).EndInit();
             this.OptionTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.OptionsDataGridView)).EndInit();
-            this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ThirdPartyDataGridView)).EndInit();
-            this.SmartStartTabPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.SmartStartDataGridView)).EndInit();
             this.QuoteSettingTabPage.ResumeLayout(false);
             this.QuoteSettingTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.contactsBndingSource)).EndInit();
@@ -1949,13 +1640,11 @@
         private System.Windows.Forms.TabControl QuoteTabControl;
         private System.Windows.Forms.TabPage QuoteTabPage;
         private System.Windows.Forms.TabPage OptionTabPage;
-        private System.Windows.Forms.TabPage SmartStartTabPage;
         public System.Windows.Forms.DataGridView QuoteDataGridView;
         private System.Windows.Forms.TabPage QuoteSettingTabPage;
         private System.Windows.Forms.Label instLabel2;
         private System.Windows.Forms.Label instLabel1;
         public System.Windows.Forms.DataGridView OptionsDataGridView;
-        private System.Windows.Forms.DataGridView SmartStartDataGridView;
         private System.Windows.Forms.Button ClearFiltersButton;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
@@ -1975,7 +1664,6 @@
         private System.Windows.Forms.TextBox TotalQuotePriceQuoteAndOptionsTextBox;
         private System.Windows.Forms.Button QuoteRemoveSelectedButton;
         private System.Windows.Forms.Button OptionsRemoveSelectedButton;
-        private System.Windows.Forms.Button SmartStartRemoveSelectButton;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
@@ -2002,28 +1690,9 @@
         private System.Windows.Forms.ToolStripMenuItem clearQuoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newQuoteToolStripMenuItem;
         private System.Windows.Forms.CheckBox IsSSPCheckBox;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Button ThirdPartyRemoveSelectedButton;
-        private System.Windows.Forms.DataGridView ThirdPartyDataGridView;
         private System.Windows.Forms.Label SalemansNameLabel;
         private System.Windows.Forms.ToolStripMenuItem viewQuoteToolStripMenuItem;
         private System.Windows.Forms.TextBox NotesTextBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn15;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn19;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn20;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column11;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column13;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column14;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TextBox itemPriceTextBox;
         private System.Windows.Forms.BindingSource customersDataSetBindingSource;

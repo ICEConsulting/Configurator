@@ -565,6 +565,11 @@ namespace Tecan_Quote_Generator
                 itemPrice = Convert.ToDecimal(iLPTextBox.Text.Replace("$",""));
             }
             mainForm.QuoteDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, 1, String.Format("{0:P2}", 0.00), itemPrice);
+            String[] hasRequiredParts = mainForm.checkForRequiredParts(itemSAPID);
+            if (hasRequiredParts != null)
+            {
+                mainForm.doAddRequiredParts(hasRequiredParts, itemSAPID, itemDescription, "QuoteItems");
+            }
 
             mainForm.SumItems(mainForm.QuoteDataGridView);
             this.Close();
@@ -587,6 +592,11 @@ namespace Tecan_Quote_Generator
                 itemPrice = Convert.ToDecimal(iLPTextBox.Text.Replace("$", ""));
             }
             mainForm.OptionsDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, 1, String.Format("{0:P2}", 0.00), itemPrice);
+            String[] hasRequiredParts = mainForm.checkForRequiredParts(itemSAPID);
+            if (hasRequiredParts != null)
+            {
+                mainForm.doAddRequiredParts(hasRequiredParts, itemSAPID, itemDescription, "OptionItems");
+            }
 
             mainForm.SumItems(mainForm.OptionsDataGridView);
             this.Close();

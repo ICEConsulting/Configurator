@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainQuoteForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle72 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle70 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle71 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle73 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle74 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle75 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle76 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle77 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             this.partsListBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.partsListBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tecanQuoteGeneratorPartsListDataSet = new Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSet();
@@ -311,7 +311,7 @@
             this.dataGridViewTextBoxColumn8});
             this.partsListDataGridView.DataSource = this.partsListBindingSource;
             this.partsListDataGridView.Location = new System.Drawing.Point(14, 226);
-            this.partsListDataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.partsListDataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.partsListDataGridView.Name = "partsListDataGridView";
             this.partsListDataGridView.ReadOnly = true;
             this.partsListDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -490,7 +490,7 @@
             // 
             this.SalesTypeComboBox.FormattingEnabled = true;
             this.SalesTypeComboBox.Location = new System.Drawing.Point(149, 76);
-            this.SalesTypeComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SalesTypeComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.SalesTypeComboBox.Name = "SalesTypeComboBox";
             this.SalesTypeComboBox.Size = new System.Drawing.Size(162, 26);
             this.SalesTypeComboBox.TabIndex = 7;
@@ -501,7 +501,7 @@
             // 
             this.InstrumentComboBox.FormattingEnabled = true;
             this.InstrumentComboBox.Location = new System.Drawing.Point(149, 112);
-            this.InstrumentComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.InstrumentComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.InstrumentComboBox.Name = "InstrumentComboBox";
             this.InstrumentComboBox.Size = new System.Drawing.Size(244, 26);
             this.InstrumentComboBox.TabIndex = 8;
@@ -512,7 +512,7 @@
             // 
             this.CategoryComboBox.FormattingEnabled = true;
             this.CategoryComboBox.Location = new System.Drawing.Point(149, 148);
-            this.CategoryComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CategoryComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.CategoryComboBox.Name = "CategoryComboBox";
             this.CategoryComboBox.Size = new System.Drawing.Size(244, 26);
             this.CategoryComboBox.TabIndex = 9;
@@ -523,7 +523,7 @@
             // 
             this.SubCategoryComboBox.FormattingEnabled = true;
             this.SubCategoryComboBox.Location = new System.Drawing.Point(149, 184);
-            this.SubCategoryComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SubCategoryComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.SubCategoryComboBox.Name = "SubCategoryComboBox";
             this.SubCategoryComboBox.Size = new System.Drawing.Size(244, 26);
             this.SubCategoryComboBox.TabIndex = 10;
@@ -544,7 +544,7 @@
             // PartNumberSearchTextBox
             // 
             this.PartNumberSearchTextBox.Location = new System.Drawing.Point(540, 78);
-            this.PartNumberSearchTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PartNumberSearchTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.PartNumberSearchTextBox.Name = "PartNumberSearchTextBox";
             this.PartNumberSearchTextBox.Size = new System.Drawing.Size(163, 26);
             this.PartNumberSearchTextBox.TabIndex = 12;
@@ -564,7 +564,7 @@
             // DescriptionSearchTextBox
             // 
             this.DescriptionSearchTextBox.Location = new System.Drawing.Point(540, 114);
-            this.DescriptionSearchTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DescriptionSearchTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.DescriptionSearchTextBox.Name = "DescriptionSearchTextBox";
             this.DescriptionSearchTextBox.Size = new System.Drawing.Size(298, 26);
             this.DescriptionSearchTextBox.TabIndex = 14;
@@ -575,7 +575,7 @@
             this.PartNumberClearButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.PartNumberClearButton.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PartNumberClearButton.Location = new System.Drawing.Point(708, 77);
-            this.PartNumberClearButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PartNumberClearButton.Margin = new System.Windows.Forms.Padding(4);
             this.PartNumberClearButton.Name = "PartNumberClearButton";
             this.PartNumberClearButton.Size = new System.Drawing.Size(32, 28);
             this.PartNumberClearButton.TabIndex = 15;
@@ -588,7 +588,7 @@
             this.DescriptionClearButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.DescriptionClearButton.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DescriptionClearButton.Location = new System.Drawing.Point(843, 113);
-            this.DescriptionClearButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DescriptionClearButton.Margin = new System.Windows.Forms.Padding(4);
             this.DescriptionClearButton.Name = "DescriptionClearButton";
             this.DescriptionClearButton.Size = new System.Drawing.Size(32, 28);
             this.DescriptionClearButton.TabIndex = 16;
@@ -599,7 +599,7 @@
             // PartDetailTextBox
             // 
             this.PartDetailTextBox.Location = new System.Drawing.Point(16, 796);
-            this.PartDetailTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PartDetailTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.PartDetailTextBox.Multiline = true;
             this.PartDetailTextBox.Name = "PartDetailTextBox";
             this.PartDetailTextBox.Size = new System.Drawing.Size(337, 169);
@@ -608,7 +608,7 @@
             // partImagePictureBox
             // 
             this.partImagePictureBox.Location = new System.Drawing.Point(734, 799);
-            this.partImagePictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.partImagePictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.partImagePictureBox.Name = "partImagePictureBox";
             this.partImagePictureBox.Size = new System.Drawing.Size(184, 165);
             this.partImagePictureBox.TabIndex = 18;
@@ -621,7 +621,7 @@
             this.QuoteTabControl.Controls.Add(this.QuoteSettingTabPage);
             this.QuoteTabControl.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.QuoteTabControl.Location = new System.Drawing.Point(726, 224);
-            this.QuoteTabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteTabControl.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteTabControl.Name = "QuoteTabControl";
             this.QuoteTabControl.SelectedIndex = 0;
             this.QuoteTabControl.Size = new System.Drawing.Size(1137, 535);
@@ -633,9 +633,9 @@
             this.QuoteTabPage.Controls.Add(this.QuoteRemoveSelectedButton);
             this.QuoteTabPage.Controls.Add(this.QuoteDataGridView);
             this.QuoteTabPage.Location = new System.Drawing.Point(4, 30);
-            this.QuoteTabPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteTabPage.Name = "QuoteTabPage";
-            this.QuoteTabPage.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteTabPage.Padding = new System.Windows.Forms.Padding(4);
             this.QuoteTabPage.Size = new System.Drawing.Size(1129, 501);
             this.QuoteTabPage.TabIndex = 0;
             this.QuoteTabPage.Text = "Quote Items";
@@ -644,7 +644,7 @@
             // 
             this.QuoteRemoveSelectedButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.QuoteRemoveSelectedButton.Location = new System.Drawing.Point(3, 456);
-            this.QuoteRemoveSelectedButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteRemoveSelectedButton.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteRemoveSelectedButton.Name = "QuoteRemoveSelectedButton";
             this.QuoteRemoveSelectedButton.Size = new System.Drawing.Size(194, 40);
             this.QuoteRemoveSelectedButton.TabIndex = 2;
@@ -656,14 +656,14 @@
             // 
             this.QuoteDataGridView.AllowUserToAddRows = false;
             this.QuoteDataGridView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle67.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle67.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle67.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle67.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle67.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle67.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle67.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.QuoteDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle67;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.QuoteDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.QuoteDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.QuoteDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -675,16 +675,16 @@
             this.Column7,
             this.Column8});
             this.QuoteDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.QuoteDataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteDataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteDataGridView.Name = "QuoteDataGridView";
-            dataGridViewCellStyle72.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle72.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle72.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle72.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle72.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle72.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle72.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.QuoteDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle72;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.QuoteDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.QuoteDataGridView.RowHeadersVisible = false;
             this.QuoteDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.QuoteDataGridView.Size = new System.Drawing.Size(1124, 450);
@@ -711,10 +711,10 @@
             // 
             // Column3
             // 
-            dataGridViewCellStyle68.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle68.Format = "C2";
-            dataGridViewCellStyle68.NullValue = null;
-            this.Column3.DefaultCellStyle = dataGridViewCellStyle68;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "C2";
+            dataGridViewCellStyle2.NullValue = null;
+            this.Column3.DefaultCellStyle = dataGridViewCellStyle2;
             this.Column3.FillWeight = 70F;
             this.Column3.HeaderText = "List Price";
             this.Column3.Name = "Column3";
@@ -724,9 +724,9 @@
             // 
             // Column4
             // 
-            dataGridViewCellStyle69.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle69.Format = "N0";
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle69;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.Format = "N0";
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle3;
             this.Column4.FillWeight = 30F;
             this.Column4.HeaderText = "Qty";
             this.Column4.Name = "Column4";
@@ -736,10 +736,10 @@
             // 
             // Column5
             // 
-            dataGridViewCellStyle70.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle70.Format = "N2";
-            dataGridViewCellStyle70.NullValue = "0";
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle70;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "N2";
+            dataGridViewCellStyle4.NullValue = "0";
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle4;
             this.Column5.FillWeight = 60F;
             this.Column5.HeaderText = "Discount";
             this.Column5.Name = "Column5";
@@ -747,10 +747,10 @@
             // 
             // Column6
             // 
-            dataGridViewCellStyle71.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle71.Format = "C2";
-            dataGridViewCellStyle71.NullValue = null;
-            this.Column6.DefaultCellStyle = dataGridViewCellStyle71;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "C2";
+            dataGridViewCellStyle5.NullValue = null;
+            this.Column6.DefaultCellStyle = dataGridViewCellStyle5;
             this.Column6.FillWeight = 80F;
             this.Column6.HeaderText = "Extended Price";
             this.Column6.Name = "Column6";
@@ -775,9 +775,9 @@
             this.OptionTabPage.Controls.Add(this.OptionsRemoveSelectedButton);
             this.OptionTabPage.Controls.Add(this.OptionsDataGridView);
             this.OptionTabPage.Location = new System.Drawing.Point(4, 30);
-            this.OptionTabPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.OptionTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.OptionTabPage.Name = "OptionTabPage";
-            this.OptionTabPage.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.OptionTabPage.Padding = new System.Windows.Forms.Padding(4);
             this.OptionTabPage.Size = new System.Drawing.Size(1129, 501);
             this.OptionTabPage.TabIndex = 1;
             this.OptionTabPage.Text = "Option Items";
@@ -786,7 +786,7 @@
             // 
             this.OptionsRemoveSelectedButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.OptionsRemoveSelectedButton.Location = new System.Drawing.Point(3, 456);
-            this.OptionsRemoveSelectedButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.OptionsRemoveSelectedButton.Margin = new System.Windows.Forms.Padding(4);
             this.OptionsRemoveSelectedButton.Name = "OptionsRemoveSelectedButton";
             this.OptionsRemoveSelectedButton.Size = new System.Drawing.Size(194, 40);
             this.OptionsRemoveSelectedButton.TabIndex = 3;
@@ -797,14 +797,14 @@
             // OptionsDataGridView
             // 
             this.OptionsDataGridView.AllowUserToAddRows = false;
-            dataGridViewCellStyle73.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle73.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle73.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle73.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle73.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle73.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle73.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.OptionsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle73;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.OptionsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.OptionsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.OptionsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -816,7 +816,7 @@
             this.Column9,
             this.Column10});
             this.OptionsDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.OptionsDataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.OptionsDataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.OptionsDataGridView.Name = "OptionsDataGridView";
             this.OptionsDataGridView.RowHeadersVisible = false;
             this.OptionsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -842,10 +842,10 @@
             // 
             // dataGridViewTextBoxColumn4
             // 
-            dataGridViewCellStyle74.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle74.Format = "C2";
-            dataGridViewCellStyle74.NullValue = null;
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle74;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Format = "C2";
+            dataGridViewCellStyle8.NullValue = null;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridViewTextBoxColumn4.FillWeight = 70F;
             this.dataGridViewTextBoxColumn4.HeaderText = "List Price";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
@@ -855,9 +855,9 @@
             // 
             // dataGridViewTextBoxColumn5
             // 
-            dataGridViewCellStyle75.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle75.Format = "N0";
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle75;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.Format = "N0";
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridViewTextBoxColumn5.FillWeight = 30F;
             this.dataGridViewTextBoxColumn5.HeaderText = "Qty";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
@@ -867,9 +867,9 @@
             // 
             // dataGridViewTextBoxColumn6
             // 
-            dataGridViewCellStyle76.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle76.NullValue = "0";
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle76;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle10.NullValue = "0";
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridViewTextBoxColumn6.FillWeight = 60F;
             this.dataGridViewTextBoxColumn6.HeaderText = "Discount";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
@@ -877,10 +877,10 @@
             // 
             // dataGridViewTextBoxColumn7
             // 
-            dataGridViewCellStyle77.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle77.Format = "C2";
-            dataGridViewCellStyle77.NullValue = null;
-            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle77;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle11.Format = "C2";
+            dataGridViewCellStyle11.NullValue = null;
+            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle11;
             this.dataGridViewTextBoxColumn7.FillWeight = 80F;
             this.dataGridViewTextBoxColumn7.HeaderText = "Extended Price";
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
@@ -916,9 +916,9 @@
             this.QuoteSettingTabPage.Controls.Add(this.QuoteTitleTextBox);
             this.QuoteSettingTabPage.Controls.Add(this.label15);
             this.QuoteSettingTabPage.Location = new System.Drawing.Point(4, 30);
-            this.QuoteSettingTabPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteSettingTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteSettingTabPage.Name = "QuoteSettingTabPage";
-            this.QuoteSettingTabPage.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteSettingTabPage.Padding = new System.Windows.Forms.Padding(4);
             this.QuoteSettingTabPage.Size = new System.Drawing.Size(1129, 501);
             this.QuoteSettingTabPage.TabIndex = 3;
             this.QuoteSettingTabPage.Text = "Quote Information";
@@ -930,7 +930,7 @@
             this.IsSSPCheckBox.Checked = true;
             this.IsSSPCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.IsSSPCheckBox.Location = new System.Drawing.Point(650, 221);
-            this.IsSSPCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.IsSSPCheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.IsSSPCheckBox.Name = "IsSSPCheckBox";
             this.IsSSPCheckBox.Size = new System.Drawing.Size(126, 25);
             this.IsSSPCheckBox.TabIndex = 14;
@@ -940,7 +940,7 @@
             // QuoteDescriptionTextBox
             // 
             this.QuoteDescriptionTextBox.Location = new System.Drawing.Point(158, 141);
-            this.QuoteDescriptionTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteDescriptionTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteDescriptionTextBox.Name = "QuoteDescriptionTextBox";
             this.QuoteDescriptionTextBox.Size = new System.Drawing.Size(562, 28);
             this.QuoteDescriptionTextBox.TabIndex = 5;
@@ -959,7 +959,7 @@
             // 
             this.QuoteTemplateComboBox.FormattingEnabled = true;
             this.QuoteTemplateComboBox.Location = new System.Drawing.Point(268, 286);
-            this.QuoteTemplateComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteTemplateComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteTemplateComboBox.Name = "QuoteTemplateComboBox";
             this.QuoteTemplateComboBox.Size = new System.Drawing.Size(697, 29);
             this.QuoteTemplateComboBox.TabIndex = 7;
@@ -978,7 +978,7 @@
             // 
             this.QuoteTypeComboBox.FormattingEnabled = true;
             this.QuoteTypeComboBox.Location = new System.Drawing.Point(225, 219);
-            this.QuoteTypeComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteTypeComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteTypeComboBox.Name = "QuoteTypeComboBox";
             this.QuoteTypeComboBox.Size = new System.Drawing.Size(382, 29);
             this.QuoteTypeComboBox.TabIndex = 6;
@@ -999,7 +999,7 @@
             this.ContactComboBox.DisplayMember = "FullName";
             this.ContactComboBox.FormattingEnabled = true;
             this.ContactComboBox.Location = new System.Drawing.Point(664, 26);
-            this.ContactComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ContactComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.ContactComboBox.Name = "ContactComboBox";
             this.ContactComboBox.Size = new System.Drawing.Size(302, 29);
             this.ContactComboBox.TabIndex = 2;
@@ -1036,7 +1036,7 @@
             this.AccountComboBox.DisplayMember = "AccountName";
             this.AccountComboBox.FormattingEnabled = true;
             this.AccountComboBox.Location = new System.Drawing.Point(194, 26);
-            this.AccountComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AccountComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.AccountComboBox.Name = "AccountComboBox";
             this.AccountComboBox.Size = new System.Drawing.Size(290, 29);
             this.AccountComboBox.TabIndex = 1;
@@ -1063,7 +1063,7 @@
             this.QuoteDateTimePicker.CalendarFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.QuoteDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.QuoteDateTimePicker.Location = new System.Drawing.Point(818, 85);
-            this.QuoteDateTimePicker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteDateTimePicker.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteDateTimePicker.Name = "QuoteDateTimePicker";
             this.QuoteDateTimePicker.Size = new System.Drawing.Size(148, 28);
             this.QuoteDateTimePicker.TabIndex = 4;
@@ -1081,7 +1081,7 @@
             // QuoteTitleTextBox
             // 
             this.QuoteTitleTextBox.Location = new System.Drawing.Point(80, 85);
-            this.QuoteTitleTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteTitleTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteTitleTextBox.Name = "QuoteTitleTextBox";
             this.QuoteTitleTextBox.Size = new System.Drawing.Size(640, 28);
             this.QuoteTitleTextBox.TabIndex = 3;
@@ -1121,7 +1121,7 @@
             this.ClearFiltersButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClearFiltersButton.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClearFiltersButton.Location = new System.Drawing.Point(327, 75);
-            this.ClearFiltersButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ClearFiltersButton.Margin = new System.Windows.Forms.Padding(4);
             this.ClearFiltersButton.Name = "ClearFiltersButton";
             this.ClearFiltersButton.Size = new System.Drawing.Size(69, 35);
             this.ClearFiltersButton.TabIndex = 22;
@@ -1221,7 +1221,7 @@
             // 
             this.QuoteItemsPriceTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.QuoteItemsPriceTextBox.Location = new System.Drawing.Point(1353, 775);
-            this.QuoteItemsPriceTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteItemsPriceTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteItemsPriceTextBox.Name = "QuoteItemsPriceTextBox";
             this.QuoteItemsPriceTextBox.Size = new System.Drawing.Size(136, 26);
             this.QuoteItemsPriceTextBox.TabIndex = 31;
@@ -1231,7 +1231,7 @@
             // 
             this.QuoteItemsDiscountPercentageTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.QuoteItemsDiscountPercentageTextBox.Location = new System.Drawing.Point(1353, 809);
-            this.QuoteItemsDiscountPercentageTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteItemsDiscountPercentageTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteItemsDiscountPercentageTextBox.Name = "QuoteItemsDiscountPercentageTextBox";
             this.QuoteItemsDiscountPercentageTextBox.Size = new System.Drawing.Size(136, 26);
             this.QuoteItemsDiscountPercentageTextBox.TabIndex = 32;
@@ -1241,7 +1241,7 @@
             // 
             this.QuoteItemsPriceAfterDiscountTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.QuoteItemsPriceAfterDiscountTextBox.Location = new System.Drawing.Point(1353, 844);
-            this.QuoteItemsPriceAfterDiscountTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QuoteItemsPriceAfterDiscountTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteItemsPriceAfterDiscountTextBox.Name = "QuoteItemsPriceAfterDiscountTextBox";
             this.QuoteItemsPriceAfterDiscountTextBox.Size = new System.Drawing.Size(136, 26);
             this.QuoteItemsPriceAfterDiscountTextBox.TabIndex = 33;
@@ -1251,7 +1251,7 @@
             // 
             this.ShippingTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ShippingTextBox.Location = new System.Drawing.Point(1353, 878);
-            this.ShippingTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ShippingTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.ShippingTextBox.Name = "ShippingTextBox";
             this.ShippingTextBox.Size = new System.Drawing.Size(136, 26);
             this.ShippingTextBox.TabIndex = 34;
@@ -1262,7 +1262,7 @@
             // 
             this.OptionsItemsPriceTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OptionsItemsPriceTextBox.Location = new System.Drawing.Point(1711, 775);
-            this.OptionsItemsPriceTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.OptionsItemsPriceTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.OptionsItemsPriceTextBox.Name = "OptionsItemsPriceTextBox";
             this.OptionsItemsPriceTextBox.Size = new System.Drawing.Size(136, 26);
             this.OptionsItemsPriceTextBox.TabIndex = 35;
@@ -1272,7 +1272,7 @@
             // 
             this.OptionsItemsDiscountPercentageTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OptionsItemsDiscountPercentageTextBox.Location = new System.Drawing.Point(1711, 809);
-            this.OptionsItemsDiscountPercentageTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.OptionsItemsDiscountPercentageTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.OptionsItemsDiscountPercentageTextBox.Name = "OptionsItemsDiscountPercentageTextBox";
             this.OptionsItemsDiscountPercentageTextBox.Size = new System.Drawing.Size(136, 26);
             this.OptionsItemsDiscountPercentageTextBox.TabIndex = 36;
@@ -1282,7 +1282,7 @@
             // 
             this.OptionsItemsPriceAfterDiscountTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OptionsItemsPriceAfterDiscountTextBox.Location = new System.Drawing.Point(1711, 844);
-            this.OptionsItemsPriceAfterDiscountTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.OptionsItemsPriceAfterDiscountTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.OptionsItemsPriceAfterDiscountTextBox.Name = "OptionsItemsPriceAfterDiscountTextBox";
             this.OptionsItemsPriceAfterDiscountTextBox.Size = new System.Drawing.Size(136, 26);
             this.OptionsItemsPriceAfterDiscountTextBox.TabIndex = 37;
@@ -1292,7 +1292,7 @@
             // 
             this.TotalQuotePriceQuoteAndOptionsTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TotalQuotePriceQuoteAndOptionsTextBox.Location = new System.Drawing.Point(1517, 924);
-            this.TotalQuotePriceQuoteAndOptionsTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TotalQuotePriceQuoteAndOptionsTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.TotalQuotePriceQuoteAndOptionsTextBox.Name = "TotalQuotePriceQuoteAndOptionsTextBox";
             this.TotalQuotePriceQuoteAndOptionsTextBox.Size = new System.Drawing.Size(136, 26);
             this.TotalQuotePriceQuoteAndOptionsTextBox.TabIndex = 38;
@@ -1302,7 +1302,7 @@
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(1095, 64);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(768, 137);
             this.pictureBox1.TabIndex = 39;
@@ -1378,7 +1378,7 @@
             // NotesTextBox
             // 
             this.NotesTextBox.Location = new System.Drawing.Point(370, 796);
-            this.NotesTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.NotesTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.NotesTextBox.Multiline = true;
             this.NotesTextBox.Name = "NotesTextBox";
             this.NotesTextBox.Size = new System.Drawing.Size(337, 169);
@@ -1540,9 +1540,8 @@
             this.Controls.Add(this.partsListBindingNavigator);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainQuoteForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tecan Quote Generator";

@@ -214,6 +214,9 @@
     <Content Include="Customers.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="System.Data.SqlServerCe.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="tecan.ico" />
     <Content Include="x86\sqlceca35.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

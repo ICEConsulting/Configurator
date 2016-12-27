@@ -41,13 +41,17 @@
             this.BrowseDistributionFolderButton = new System.Windows.Forms.Button();
             this.ProfileSaveButton = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.ProfileTecanEmailTextBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(170, 33);
+            this.label1.Location = new System.Drawing.Point(136, 66);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 21);
@@ -58,7 +62,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(94, 119);
+            this.label2.Location = new System.Drawing.Point(60, 152);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(135, 21);
@@ -69,7 +73,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(100, 162);
+            this.label3.Location = new System.Drawing.Point(66, 195);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(128, 21);
@@ -80,7 +84,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(166, 76);
+            this.label4.Location = new System.Drawing.Point(132, 109);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 21);
@@ -91,7 +95,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(94, 231);
+            this.label5.Location = new System.Drawing.Point(65, 353);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(297, 21);
@@ -100,24 +104,24 @@
             // 
             // ProfileNameTextBox
             // 
-            this.ProfileNameTextBox.Location = new System.Drawing.Point(244, 31);
-            this.ProfileNameTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ProfileNameTextBox.Location = new System.Drawing.Point(210, 64);
+            this.ProfileNameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.ProfileNameTextBox.Name = "ProfileNameTextBox";
             this.ProfileNameTextBox.Size = new System.Drawing.Size(412, 26);
             this.ProfileNameTextBox.TabIndex = 5;
             // 
             // ProfileInitialsTextBox
             // 
-            this.ProfileInitialsTextBox.Location = new System.Drawing.Point(244, 74);
-            this.ProfileInitialsTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ProfileInitialsTextBox.Location = new System.Drawing.Point(210, 107);
+            this.ProfileInitialsTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.ProfileInitialsTextBox.Name = "ProfileInitialsTextBox";
             this.ProfileInitialsTextBox.Size = new System.Drawing.Size(50, 26);
             this.ProfileInitialsTextBox.TabIndex = 6;
             // 
             // ProfilePhoneTextBox
             // 
-            this.ProfilePhoneTextBox.Location = new System.Drawing.Point(244, 116);
-            this.ProfilePhoneTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ProfilePhoneTextBox.Location = new System.Drawing.Point(210, 149);
+            this.ProfilePhoneTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.ProfilePhoneTextBox.Name = "ProfilePhoneTextBox";
             this.ProfilePhoneTextBox.Size = new System.Drawing.Size(176, 26);
             this.ProfilePhoneTextBox.TabIndex = 7;
@@ -125,16 +129,17 @@
             // 
             // ProfileEmailTextBox
             // 
-            this.ProfileEmailTextBox.Location = new System.Drawing.Point(244, 159);
-            this.ProfileEmailTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ProfileEmailTextBox.Location = new System.Drawing.Point(210, 192);
+            this.ProfileEmailTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.ProfileEmailTextBox.Name = "ProfileEmailTextBox";
             this.ProfileEmailTextBox.Size = new System.Drawing.Size(412, 26);
             this.ProfileEmailTextBox.TabIndex = 8;
             // 
             // ProfileDistributionFolderTextBox
             // 
-            this.ProfileDistributionFolderTextBox.Location = new System.Drawing.Point(99, 265);
-            this.ProfileDistributionFolderTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ProfileDistributionFolderTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.ProfileDistributionFolderTextBox.Location = new System.Drawing.Point(65, 387);
+            this.ProfileDistributionFolderTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.ProfileDistributionFolderTextBox.Name = "ProfileDistributionFolderTextBox";
             this.ProfileDistributionFolderTextBox.ReadOnly = true;
             this.ProfileDistributionFolderTextBox.Size = new System.Drawing.Size(568, 26);
@@ -145,8 +150,8 @@
             // 
             this.BrowseDistributionFolderButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.BrowseDistributionFolderButton.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BrowseDistributionFolderButton.Location = new System.Drawing.Point(410, 229);
-            this.BrowseDistributionFolderButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BrowseDistributionFolderButton.Location = new System.Drawing.Point(376, 351);
+            this.BrowseDistributionFolderButton.Margin = new System.Windows.Forms.Padding(4);
             this.BrowseDistributionFolderButton.Name = "BrowseDistributionFolderButton";
             this.BrowseDistributionFolderButton.Size = new System.Drawing.Size(98, 29);
             this.BrowseDistributionFolderButton.TabIndex = 10;
@@ -158,8 +163,8 @@
             // 
             this.ProfileSaveButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ProfileSaveButton.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProfileSaveButton.Location = new System.Drawing.Point(328, 316);
-            this.ProfileSaveButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ProfileSaveButton.Location = new System.Drawing.Point(294, 438);
+            this.ProfileSaveButton.Margin = new System.Windows.Forms.Padding(4);
             this.ProfileSaveButton.Name = "ProfileSaveButton";
             this.ProfileSaveButton.Size = new System.Drawing.Size(98, 29);
             this.ProfileSaveButton.TabIndex = 11;
@@ -171,20 +176,63 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(432, 119);
+            this.label6.Location = new System.Drawing.Point(398, 152);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(153, 19);
             this.label6.TabIndex = 12;
             this.label6.Text = "Numbers Only (0-9)";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(304, 25);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(149, 21);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "Your Infomation";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(263, 251);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(160, 21);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Tecan Infomation";
+            // 
+            // ProfileTecanEmailTextBox
+            // 
+            this.ProfileTecanEmailTextBox.Location = new System.Drawing.Point(65, 305);
+            this.ProfileTecanEmailTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.ProfileTecanEmailTextBox.Name = "ProfileTecanEmailTextBox";
+            this.ProfileTecanEmailTextBox.Size = new System.Drawing.Size(568, 26);
+            this.ProfileTecanEmailTextBox.TabIndex = 16;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(65, 280);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(342, 21);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "Part Error and Bug Report Email Address:";
+            // 
             // ProfileForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.BlanchedAlmond;
-            this.ClientSize = new System.Drawing.Size(753, 362);
+            this.ClientSize = new System.Drawing.Size(692, 523);
             this.ControlBox = false;
+            this.Controls.Add(this.ProfileTecanEmailTextBox);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.ProfileSaveButton);
             this.Controls.Add(this.BrowseDistributionFolderButton);
@@ -199,7 +247,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProfileForm";
@@ -225,5 +273,9 @@
         private System.Windows.Forms.Button BrowseDistributionFolderButton;
         private System.Windows.Forms.Button ProfileSaveButton;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox ProfileTecanEmailTextBox;
+        private System.Windows.Forms.Label label9;
     }
 }

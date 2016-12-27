@@ -26,6 +26,9 @@ namespace Tecan_Quote_Generator
         [XmlElementAttribute("Initials")]
         public string Initials;
 
+        [XmlElementAttribute("TecanEmail")]
+        public string TecanEmail;
+
         [XmlElementAttribute("DistributionFolder")]
         public string DistributionFolder;
 

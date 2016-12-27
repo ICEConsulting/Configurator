@@ -16,6 +16,9 @@ using iTextSharp;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.xml;
+using System.Threading;
+using System.Diagnostics;
+using System.Net.Mail;
 
 namespace Tecan_Quote_Generator
 {
@@ -33,7 +36,7 @@ namespace Tecan_Quote_Generator
         Boolean quoteSaved = true;
 
         PartsListDetailDisplay DetailsForm;
-        Profile profile = new Profile();
+        public Profile profile = new Profile();
         Quote passRequiredItems = new Quote();
 
         public MainQuoteForm()
@@ -54,6 +57,22 @@ namespace Tecan_Quote_Generator
             ToolTip1.SetToolTip(this.PartNumberClearButton, "Clear Part Number Search");
             ToolTip1.SetToolTip(this.DescriptionClearButton, "Clear Description Search");
             ToolTip1.SetToolTip(this.ClearFiltersButton, "Reset All Category Filters");
+
+            // Center all panels
+            RequiredPartsPanel.Location = new Point(
+            this.ClientSize.Width / 2 - RequiredPartsPanel.Size.Width / 2,
+            this.ClientSize.Height / 2 - RequiredPartsPanel.Size.Height / 2);
+            RequiredPartsPanel.Anchor = AnchorStyles.None;
+
+            PleaseWaitPanel.Location = new Point(
+            this.ClientSize.Width / 2 - PleaseWaitPanel.Size.Width / 2,
+            this.ClientSize.Height / 2 - PleaseWaitPanel.Size.Height / 2);
+            PleaseWaitPanel.Anchor = AnchorStyles.None;
+
+            BugReportPanel.Location = new Point(
+            this.ClientSize.Width / 2 - BugReportPanel.Size.Width / 2,
+            this.ClientSize.Height / 2 - BugReportPanel.Size.Height / 2);
+            BugReportPanel.Anchor = AnchorStyles.None;
 
             // TODO: This line of code loads data into the 'tecanQuoteGeneratorPartsListDataSet.SubCategory' table. You can move, or remove it, as needed.
             this.subCategoryTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.SubCategory);
@@ -83,6 +102,25 @@ namespace Tecan_Quote_Generator
             }
         }
 
+        public void doFormInitialization()
+        {
+
+            this.subCategoryTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.SubCategory);
+            this.categoryTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.Category);
+            this.instrumentTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.Instrument);
+            this.salesTypeTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.SalesType);
+            this.partsListTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.PartsList);
+
+            // Check for salesman profile, if no file get salesman information
+            // Check if Quote Database is empty
+            if (partsListBindingSource.Count != 0)
+            {
+                loadFilterComboBoxes();
+                setPartDetailTextBox();
+                QuoteTabControl.SelectedTab = QuoteSettingTabPage;
+            }
+        }
+
         // Called from Form Shown event, Only processed if there is no current database
         // Reads or Creates this users profile xml file.
         private void getProfileAndDatabase(object sender, EventArgs e)
@@ -92,17 +130,19 @@ namespace Tecan_Quote_Generator
             if (File.Exists(profileFile) && partsListBindingSource.Count > 1)
             {
                 getUsersProfile();
+                checkForNewDatabase();
             }
             // Checks DB and copies / loads if required
-            else if (partsListBindingSource.Count == 1)
+            else if (partsListBindingSource.Count <= 1)
             {
                 showUserProfileForm(true);
             }
+            // Just get new users profile
             else if (!File.Exists(profileFile))
             {
                 showUserProfileForm(false);
             }
-
+            
             // If = 1 then no DB, requires intilization
             //if (partsListBindingSource.Count == 1)
             //{
@@ -168,6 +208,33 @@ namespace Tecan_Quote_Generator
             //}
         }
 
+        public void checkForNewDatabase()
+        {
+            String distributionPath = profile.DistributionFolder;
+            String quoteDistributionFile;
+            DateTime distributionFileDate;
+
+            String quoteCurrentFile;
+            DateTime currentFileDate;
+
+            quoteDistributionFile = System.IO.Path.Combine(distributionPath, "TecanQuoteGeneratorPartsList.sdf");
+            quoteCurrentFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanQuoteGeneratorPartsList.sdf");
+
+            if (File.Exists(quoteDistributionFile))
+            {
+                FileInfo fi = new FileInfo(quoteDistributionFile);
+                distributionFileDate = fi.LastWriteTime;
+                currentFileDate = profile.DatabaseCreationDate;
+                if (distributionFileDate > currentFileDate)
+                {
+                    if (MessageBox.Show("There is a new parts list database file available. Do you want me to update the database now?", "Update Database", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        copyDatabaseToWorkingFolder();
+                    }
+                }
+            } 
+        }
+
         public void showUserProfileForm(Boolean NeedsDB)
         {
             ProfileForm profileForm = new ProfileForm(NeedsDB);
@@ -177,48 +244,239 @@ namespace Tecan_Quote_Generator
         }
 
         // If blank database or new database available copy new database to working folder
-        public Boolean copyDatabaseToWorkingFolder(String sourcePath)
+        public void copyDatabaseToWorkingFolder()
         {
-            String profileFile = @"c:\TecanFiles\" + "TecanQuoteConfig.cfg";
-            if (File.Exists(profileFile))
-            {
-                String quoteSourceFile = "";
-                String supplementSourceFile;
+            PleaseWaitMessageTextBox.Text = "Copying the database may take a couple minutes!";
+            PleaseWaitPanel.Visible = true;
 
+            Thread copyThread;
+            copyThread = new Thread(new ThreadStart(doTheCopy));
+            copyThread.Start();
+            while(copyThread.IsAlive)
+            {
+                Application.DoEvents();
+            }
+            if (!PleaseWaitMessageTextBox.Text.Contains("failed"))
+            {
+                doFormInitialization();
+                PleaseWaitPanel.Visible = false;
+            }
+            else
+            {
+                PleaseWaitHeadingLabel.ForeColor = System.Drawing.Color.Red;
+                PleaseWaitHeadingLabel.Text = "Copy Failed!";
+                PLeaseWaitPanelOKButton.Visible = true;
+            }
+                //Thread.Sleep(5000);
+            //if(!PleaseWaitMessage.Text.Contains("failed"))
+            //{
+            //    MainQuoteForm_Load(sender, e);
+            //}
+
+                //{
+                //    String quoteSourceFile = "";
+                //    String supplementSourceFile = "";
+                //    String sourcePath = profile.DistributionFolder;
+
+                //    // Db source file locations
+                //    quoteSourceFile = System.IO.Path.Combine(sourcePath, "TecanQuoteGeneratorPartsList.sdf");
+                //    supplementSourceFile = System.IO.Path.Combine(sourcePath, "TecanSuppDocs.sdf");
+
+                //    String errorMessage = "";
+                //    Boolean foundError = false;
+
+                //    // Test file exists
+                //    if (!File.Exists(quoteSourceFile))
+                //    {
+                //        errorMessage = "Your distribution folder does not contain a Partslist Database file (TecanQuoteGeneratorPartsList.sdf) \r\n\r\n";
+                //        foundError = true;
+                //    }
+                //    else if (!File.Exists(supplementSourceFile))
+                //    {
+                //        errorMessage += "Your distribution folder does not contain a Suppumental Documents file (TecanSuppDocs.sdf) \r\n";
+                //        foundError = true;
+                //    }
+
+                //    if (!foundError)
+                //    {
+                //        // Where new files will go
+                //        String quoteTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanQuoteGeneratorPartsList.sdf");
+                //        String supplementTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanSuppDocs.sdf");
+
+                //        // Copy the files
+                //        System.IO.File.Copy(quoteSourceFile, quoteTargetFile, true);
+                //        System.IO.File.Copy(supplementSourceFile, supplementTargetFile, true);
+
+                //        // Save the new Db Timestamp
+                //        getUsersProfile();
+                //        FileInfo fi = new FileInfo(quoteSourceFile);
+                //        profile.DatabaseCreationDate = fi.CreationTime;
+                //        saveUsersProfile();
+
+                //        if (this.PleaseWaitMessage.InvokeRequired)
+                //        {
+                //            // It's on a different thread, so use Invoke.
+                //            SetTextCallback d = new SetTextCallback(SetText);
+                //            this.Invoke
+                //                (d, new object[] { "Copy Complete!" });
+                //        }
+                //        else
+                //        {
+                //            // It's on the same thread, no need for Invoke 
+                //            this.PleaseWaitMessage.Text = "Copy Complete!";
+                //        }
+
+
+                //        PleaseWaitMessage.Text = "Copy Complete!";
+                //        Thread.Sleep(100);
+                //        PleaseWaitPanel.Visible = false;
+                //    }
+                //    else
+                //    {
+                //        // Tell user to get the files
+                //        PleaseWaitMessage.Text = "Copying the database failed!\r\n\r\n" + errorMessage;
+
+                //    }
+                //}).Start();
+
+            //FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
+            //folderBrowserDialog1.Description = "Please select your New Database folder location.";
+            //folderBrowserDialog1.SelectedPath = profile.DistributionFolder;
+            //folderBrowserDialog1.ShowNewFolderButton = false;
+
+            //if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            //{
+
+
+            //    String profileFile = @"c:\TecanFiles\" + "TecanQuoteConfig.cfg";
+            //    if (File.Exists(profileFile))
+            //    {
+            //        //PleaseWaitMessage.Text = ("Copying the database may take a couple minutes!");
+            //        //PleaseWaitPanel.Visible = true;
+
+            //        String quoteSourceFile = "";
+            //        String supplementSourceFile;
+            //        Boolean copyWorked = false;
+
+            //        // Where new files will go
+            //        String quoteTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanQuoteGeneratorPartsList.sdf");
+            //        String supplementTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanSuppDocs.sdf");
+            //        quoteSourceFile = System.IO.Path.Combine(sourcePath, "TecanQuoteGeneratorPartsList.sdf");
+            //        supplementSourceFile = System.IO.Path.Combine(sourcePath, "TecanSuppDocs.sdf");
+
+            //        System.IO.File.Copy(quoteSourceFile, quoteTargetFile, true);
+            //        System.IO.File.Copy(supplementSourceFile, supplementTargetFile, true);
+            //        FileInfo fi = new FileInfo(quoteSourceFile);
+            //        return fi.CreationTime.ToShortDateString();
+
+            //        getUsersProfile();
+            //        profile.DatabaseCreationDate = Convert.ToDateTime(done);
+            //        saveUsersProfile();
+            //        PleaseWaitPanel.Visible = false;
+
+            //        PleaseWaitMessage.Text = ("Copying the database may take a couple minutes!");
+            //        PleaseWaitPanel.Visible = true;
+
+            //        Thread.Sleep(5000);
+
+            //        var theFiles = new List<string>() { quoteSourceFile, quoteTargetFile, supplementSourceFile, supplementTargetFile };
+
+            //        ThreadedExecuter<string> executer = new ThreadedExecuter<string>(copyTheFiles(theFiles), copyComplete);
+            //        executer.Start();
+
+            //        return true;
+            //    }
+            //    else
+            //    {
+            //        getUsersProfile();
+            //        return false;
+            //    }
+            //}
+        }
+
+        private void doTheCopy()
+        {
+            String quoteSourceFile = "";
+            String supplementSourceFile = "";
+            String sourcePath = profile.DistributionFolder;
+
+            // Db source file locations
+            quoteSourceFile = System.IO.Path.Combine(sourcePath, "TecanQuoteGeneratorPartsList.sdf");
+            supplementSourceFile = System.IO.Path.Combine(sourcePath, "TecanSuppDocs.sdf");
+
+            String errorMessage = "";
+            Boolean foundError = false;
+
+            // Test file exists
+            if (!File.Exists(quoteSourceFile))
+            {
+                errorMessage = "Your distribution folder does not contain a Partslist Database file (TecanQuoteGeneratorPartsList.sdf) \r\n\r\n";
+                foundError = true;
+            }
+            else if (!File.Exists(supplementSourceFile))
+            {
+                errorMessage += "Your distribution folder does not contain a Suppumental Documents file (TecanSuppDocs.sdf) \r\n";
+                foundError = true;
+            }
+
+            if (!foundError)
+            {
                 // Where new files will go
                 String quoteTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanQuoteGeneratorPartsList.sdf");
                 String supplementTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanSuppDocs.sdf");
 
-                // Where the new files will come from
-                try
-                {
-                    quoteSourceFile = System.IO.Path.Combine(sourcePath, "TecanQuoteGeneratorPartsList.sdf");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message.ToString());
-                }
-                supplementSourceFile = System.IO.Path.Combine(sourcePath, "TecanSuppDocs.sdf");
-
-                // Verify the files exisit before copy
-                if (!File.Exists(quoteSourceFile))
-                {
-                    return false;
-                }
-
-                getUsersProfile();
-                FileInfo fi = new FileInfo(quoteSourceFile);
-                profile.DatabaseCreationDate = fi.CreationTime;
-                saveUsersProfile();
+                // Copy the files
                 System.IO.File.Copy(quoteSourceFile, quoteTargetFile, true);
                 System.IO.File.Copy(supplementSourceFile, supplementTargetFile, true);
-                return true;
+
+                // Save the new Db Timestamp
+                getUsersProfile();
+                FileInfo fi = new FileInfo(quoteSourceFile);
+                profile.DatabaseCreationDate = fi.LastWriteTime;
+                saveUsersProfile();
+
+                if (PleaseWaitMessageTextBox.InvokeRequired)
+                {
+                    // It's on a different thread, so use Invoke.
+                    SetTextCallback d = new SetTextCallback(SetText);
+                    Invoke(d, new object[] { "Copy Complete!" });
+                }
+                else
+                {
+                    // It's on the same thread, no need for Invoke 
+                    PleaseWaitMessageTextBox.Text = "Copy Complete!";
+                }
             }
             else
             {
-                getUsersProfile();
-                return false;
+                // Tell user to get the files
+                if (PleaseWaitMessageTextBox.InvokeRequired)
+                {
+                    // It's on a different thread, so use Invoke.
+                    SetTextCallback d = new SetTextCallback(SetText);
+                    Invoke(d, new object[] { "Copying the database failed!\r\n\r\n" + errorMessage + 
+                        "\r\nPlease copy the required file(s) to your distribution folder, or use the Edit - " +
+                        "My Profile menu item to select a different distribution folder!"});
+                }
+                else
+                {
+                    // It's on the same thread, no need for Invoke 
+                    PleaseWaitMessageTextBox.Text = "Copying the database failed!\r\n\r\n" + errorMessage + 
+                        "\r\nPlease copy the required file(s) to your distribution folder, or use the Edit - " +
+                        "My Profile menu item to select a different distribution folder!";
+                }
             }
+        }
+
+        // This delegate enables asynchronous calls for setting
+        // the text property on a TextBox control.
+        delegate void SetTextCallback(string text);
+
+        // This method is passed in to the SetTextCallBack delegate 
+        // to set the Text property of textBox1. 
+        private void SetText(string text)
+        {
+            this.PleaseWaitMessageTextBox.Text = text;
         }
 
         // Initial Lookup Table lists, used for filtering displayed Parts
@@ -818,10 +1076,10 @@ namespace Tecan_Quote_Generator
                     RequiredPartCheckedListBox.Items.Clear();
                     RequiredPartsPanelSelectAllCheckBox.Checked = false;
                     RequiredPartsPanelHeadingLabel.Text = "The part " + itemSAPID + "  " + itemDescription + " has multiple parts that are required.\r\nPlease select (Double-Click) the parts you would like to add.";
-                    RequiredPartsPanel.Location = new Point(
-                    this.ClientSize.Width / 2 - RequiredPartsPanel.Size.Width / 2,
-                    this.ClientSize.Height / 2 - RequiredPartsPanel.Size.Height / 2);
-                    RequiredPartsPanel.Anchor = AnchorStyles.None;
+                    //RequiredPartsPanel.Location = new Point(
+                    //this.ClientSize.Width / 2 - RequiredPartsPanel.Size.Width / 2,
+                    //this.ClientSize.Height / 2 - RequiredPartsPanel.Size.Height / 2);
+                    //RequiredPartsPanel.Anchor = AnchorStyles.None;
                     RequiredPartsPanel.Visible = true;
 
                     ArrayList quoteItems = new ArrayList();
@@ -1492,7 +1750,7 @@ namespace Tecan_Quote_Generator
 
         private void reloadMe(object sender, EventArgs e)
         {
-            MainQuoteForm_Load(sender, e);
+            doFormInitialization();
         }
 
         private void QuoteRemoveSelectedButton_Click(object sender, EventArgs e)
@@ -1548,6 +1806,13 @@ namespace Tecan_Quote_Generator
             if (QuoteTitleTextBox.Text == "")
             {
                 QuoteTabControl.SelectedTab = QuoteSettingTabPage;
+                //PleaseWaitHeadingLabel.Text = "Incomplete Quote.";
+                //PleaseWaitMessageTextBox.Text = "Please enter a Quote Title before saving.";
+                //PLeaseWaitPanelOKButton.Visible = true;
+                //PleaseWaitPanel.Visible = true;
+
+
+                // QuoteTitleTextBox.Focus();
                 QuoteTitleTextBox.Focus();
                 MessageBox.Show("Please enter a Quote Title before saving.");
                 return;
@@ -1834,25 +2099,50 @@ namespace Tecan_Quote_Generator
 
         private void getNewDatabseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
-            folderBrowserDialog1.Description = "Please select your New Database folder location.";
-            folderBrowserDialog1.SelectedPath = profile.DistributionFolder;
-            folderBrowserDialog1.ShowNewFolderButton = false;
-
-            Boolean dBUpdated = false;
-
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (profile.DistributionFolder != "")
             {
-                dBUpdated = copyDatabaseToWorkingFolder(folderBrowserDialog1.SelectedPath);
-                if (dBUpdated)
-                {
-                    MessageBox.Show("Database Updated!");
-                }
-                else
-                {
-                    MessageBox.Show("Database Updated Failed!");
-                }
+                copyDatabaseToWorkingFolder();
             }
+            else
+            {
+                // Show please wait panel with error, open profile form
+                MessageBox.Show("error");
+            }
+                // var folderSpec = "";
+            //FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
+            //folderBrowserDialog1.Description = "Please select your New Database folder location.";
+            //folderBrowserDialog1.SelectedPath = profile.DistributionFolder;
+            //folderBrowserDialog1.ShowNewFolderButton = false;
+
+            //if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            //{
+            //    var folderSpec = new List<string>() { folderBrowserDialog1.SelectedPath };
+            //    Thread.Sleep(5000);
+            //    ThreadedExecuter<string> executer = new ThreadedExecuter<string>(copyDatabaseToWorkingFolder, copyComplete);
+            //    executer.Start();
+            //}
+
+
+
+            //FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
+            //folderBrowserDialog1.Description = "Please select your New Database folder location.";
+            //folderBrowserDialog1.SelectedPath = profile.DistributionFolder;
+            //folderBrowserDialog1.ShowNewFolderButton = false;
+
+            //Boolean dBUpdated = false;
+
+            //if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            //{
+            //    dBUpdated = copyDatabaseToWorkingFolder(folderBrowserDialog1.SelectedPath);
+            //    if (dBUpdated)
+            //    {
+            //        MessageBox.Show("Database Updated!");
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Database Updated Failed!");
+            //    }
+            //}
         }
 
         private void RequiredPanelCancelButton_Click(object sender, EventArgs e)
@@ -1901,5 +2191,81 @@ namespace Tecan_Quote_Generator
                 }
             }
         }
+
+        private void PLeaseWaitPanelOKButton_Click(object sender, EventArgs e)
+        {
+            PLeaseWaitPanelOKButton.Visible = false;
+            PleaseWaitHeadingLabel.ForeColor = System.Drawing.Color.Red;
+            PleaseWaitHeadingLabel.Text = "Please Wait";
+            PleaseWaitMessageTextBox.Text = "";
+            PleaseWaitPanel.Visible = false;
+            var control = FindFocusedControl(this);
+            MessageBox.Show(control.Name);
+        }
+
+        public static Control FindFocusedControl(Control control)
+        {
+            var container = control as IContainerControl;
+            while (container != null)
+            {
+                control = container.ActiveControl;
+                container = control as IContainerControl;
+            }
+            return control;
+        }
+
+        private void sendBugReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BugReportPanel.Visible = true;
+        }
+
+        private void BugReportSendButton_Click(object sender, EventArgs e)
+        {
+            String bugReportMessageString = "Operation System: " + Environment.OSVersion + "\n\n";
+            bugReportMessageString += BugReportTextBox.Text;
+
+            // Setup mail message
+            MailAddress to = new MailAddress(profile.TecanEmail);
+            MailAddress from = new MailAddress(profile.Email);
+            var mailMessage = new MailMessage(from, to);
+            mailMessage.Subject = "Configurator Bug Report";
+            mailMessage.Body = bugReportMessageString;
+            // mailMessage.Attachments.Add(new Attachment(fullAttachmentPathName));
+
+            // var filename = attachmentPath + "\\mymessage.eml";
+            String tempFilePath = createTempFile();
+            var filename = tempFilePath + "\\mymessage.eml";
+
+            //save the MailMessage to the filesystem
+            mailMessage.Save(filename);
+
+            //Open the file with the default associated application registered on the local machine
+            Process.Start(filename);
+            BugReportTextBox.Text = "";
+            BugReportPanel.Visible = false;
+        }
+
+        private string createTempFile()
+        {
+            // Create the new file in temp directory
+            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "temp";
+            System.IO.Directory.CreateDirectory(tempFilePath);
+
+            // If temp directory current contains any files, delete them
+            System.IO.DirectoryInfo tempFiles = new DirectoryInfo(tempFilePath);
+
+            foreach (FileInfo file in tempFiles.GetFiles())
+            {
+                file.Delete();
+            }
+            return tempFilePath;
+        }
+
+        private void BugReportCancelButton_Click(object sender, EventArgs e)
+        {
+            BugReportTextBox.Text = "";
+            BugReportPanel.Visible = false;
+        }
+
     }
 }

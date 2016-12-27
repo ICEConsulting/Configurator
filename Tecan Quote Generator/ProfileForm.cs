@@ -36,6 +36,7 @@ namespace Tecan_Quote_Generator
                 ProfileInitialsTextBox.Text = profile.Initials;
                 ProfilePhoneTextBox.Text = profile.Phone;
                 ProfileEmailTextBox.Text = profile.Email;
+                ProfileTecanEmailTextBox.Text = profile.TecanEmail;
                 ProfileDistributionFolderTextBox.Text = profile.DistributionFolder;
             }
         }
@@ -79,6 +80,11 @@ namespace Tecan_Quote_Generator
                 profileError = true;
                 errorMessage = errorMessage + "Your Email Address.\n\n";
             }
+            if (ProfileTecanEmailTextBox.Text == "" || !util.IsValidEmail(ProfileTecanEmailTextBox.Text))
+            {
+                profileError = true;
+                errorMessage = errorMessage + "Your Tecan Email Address.\n\n";
+            }
             if (ProfileDistributionFolderTextBox.Text == "")
             {
                 profileError = true;
@@ -97,6 +103,7 @@ namespace Tecan_Quote_Generator
                 profile.Initials = ProfileInitialsTextBox.Text;
                 profile.Phone = ProfilePhoneTextBox.Text;
                 profile.Email = ProfileEmailTextBox.Text;
+                profile.TecanEmail = ProfileTecanEmailTextBox.Text;
                 profile.DistributionFolder = ProfileDistributionFolderTextBox.Text;
 
                 // Save to Profile config file
@@ -109,26 +116,16 @@ namespace Tecan_Quote_Generator
                 writer.Serialize(file, profile);
                 file.Close();
                 this.Close();
+                mainForm.getUsersProfile();
 
                 if (doInitialization)
                 {
                     // Copy database from distribution folder 
-                    Boolean fileFound;
-                    fileFound = mainForm.copyDatabaseToWorkingFolder(profile.DistributionFolder);
-                    if (!fileFound)
-                    {
-                        MessageBox.Show("The Distribution Folder you selected does not contain the Quote Database!\n\nPlease select a new folder");
-                        mainForm.showUserProfileForm(true);
-                    }
-                    else
-                    {
-                        mainForm.getUsersProfile();
-                        mainForm.MainQuoteForm_Load(sender, e);
-                    }
+                    mainForm.copyDatabaseToWorkingFolder();
                 }
                 else
                 {
-                    mainForm.getUsersProfile();
+                    mainForm.checkForNewDatabase();
                 }
             }
 

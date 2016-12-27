@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Data.SqlServerCe;
 using System.Diagnostics;
+using System.Net.Mail;
 
 namespace Tecan_Quote_Generator
 {
@@ -624,5 +625,131 @@ namespace Tecan_Quote_Generator
             managerPasswordPanel.Visible = false;
         }
 
+        private void reportThisPartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            String emailMessageString = "Part with Error Information\r\nPlease enter corrections below the appropriate field.\r\n";
+
+            emailMessageString += "SAP ID: " + sAPIdTextBox.Text;
+            emailMessageString += "\r\nOld SAP ID: ";
+            emailMessageString += (oldPartNumTextBox.Text != "") ? oldPartNumTextBox.Text : "\r\n";
+            emailMessageString += "\r\n3rd Party #: ";
+            emailMessageString += (thirdPartyPartNumTextBox.Text != "") ? thirdPartyPartNumTextBox.Text : "\r\n";
+            emailMessageString += "\r\nPriority: ";
+            emailMessageString += (priorityTextBox.Text != "") ? priorityTextBox.Text : "\r\n";
+            emailMessageString += "\r\nSales Type: ";
+            emailMessageString += (SalesTypeTextBox.Text != "") ? SalesTypeTextBox.Text : "\r\n";
+            emailMessageString += "\r\nLab: ";
+            emailMessageString += (labTextBox.Text != "") ? labTextBox.Text : "\r\n";
+            emailMessageString += "\r\nInstrument: ";
+            emailMessageString += (InstrumentTextBox.Text != "") ? InstrumentTextBox.Text : "\r\n";
+            emailMessageString += "\r\nCategory: ";
+            emailMessageString += (CategoryTextBox.Text != "") ? CategoryTextBox.Text : "\r\n";
+            emailMessageString += "\r\nSubCategory: ";
+            emailMessageString += (SubCategoryTextBox.Text != "") ? SubCategoryTextBox.Text : "\r\n";
+            emailMessageString += "\r\nSSPCategory: ";
+            emailMessageString += (SSPCategoryTextBox.Text != "") ? SSPCategoryTextBox.Text : "\r\n";
+            emailMessageString += "\r\nCAD File: ";
+            emailMessageString += (cadFileTextBox.Text != "") ? cadFileTextBox.Text : "\r\n";
+            emailMessageString += "\r\nCAD Description: ";
+            emailMessageString += (cadDescriptionTextBox.Text != "") ? cadDescriptionTextBox.Text : "\r\n";
+            emailMessageString += "\r\nDescription:\r\n";
+            emailMessageString += (descriptionTextBox.Text != "") ? descriptionTextBox.Text : "\r\n";
+            emailMessageString += "\r\nDetail Description:\r\n";
+            emailMessageString += (detailDescriptionTextBox.Text != "") ? detailDescriptionTextBox.Text : "\r\n";
+            emailMessageString += "\r\nNotes Loaded from Import:\r\n";
+            emailMessageString += (notesFromFileTextBox.Text != "") ? notesFromFileTextBox.Text : "\r\n";
+            emailMessageString += "\r\nSupplemental Documents:";
+            if (suppumentalDocsListBox.Items.Count > 0)
+            {
+                emailMessageString += "\r\n";
+                foreach (DataRowView row in suppumentalDocsListBox.Items)
+                {
+                    emailMessageString += row.Row.ItemArray[1].ToString() + "\r\n";
+                }
+            }
+            else
+            {
+                emailMessageString += "";
+                emailMessageString += "None\r\n";
+
+            }
+            emailMessageString += "\r\nSerial Ports: ";
+            emailMessageString += (serialPortsTextBox.Text != "") ? serialPortsTextBox.Text : "\r\n";
+            emailMessageString += "\r\nUSB Ports: ";
+            emailMessageString += (uSBPortsTextBox.Text != "") ? uSBPortsTextBox.Text : "\r\n";
+            emailMessageString += "\r\n\r\nPricing:";
+            emailMessageString += "\r\nStandard Price: ";
+            emailMessageString += (standarPriceTextBox.Text != "") ? standarPriceTextBox.Text : "\r\n";
+            emailMessageString += "\r\nILP: ";
+            emailMessageString += (iLPTextBox.Text != "") ? iLPTextBox.Text : "\r\n";
+            emailMessageString += "\r\nManufacturing Cost: ";
+            emailMessageString += (manufacturingCostTextBox.Text != "") ? manufacturingCostTextBox.Text : "\r\n";
+            emailMessageString += "\r\nASP: ";
+            emailMessageString += (aSPTextBox.Text != "") ? aSPTextBox.Text : "\r\n";
+            emailMessageString += "\r\nPl Price: ";
+            emailMessageString += (plPriceTextBox.Text != "") ? plPriceTextBox.Text : "\r\n";
+            emailMessageString += "\r\nNot in Master Price List: " + Convert.ToBoolean(notMasterPriceListCheckBox.Checked);
+            emailMessageString += "\r\nDimensions:";
+            emailMessageString += "\r\nX Dimension: ";
+            emailMessageString += (x_DimensionTextBox.Text != "") ? x_DimensionTextBox.Text : "\r\n";
+            emailMessageString += "\r\nY Dimension: ";
+            emailMessageString += (y_DimensionTextBox.Text != "") ? y_DimensionTextBox.Text : "\r\n";
+            emailMessageString += "\r\nZ Dimension: ";
+            emailMessageString += (z_DimensionTextBox.Text != "") ? z_DimensionTextBox.Text : "\r\n";
+            emailMessageString += "\r\nDimensions Note:";
+            emailMessageString += (z_DimensionNoteTextBox.Text != "") ? z_DimensionNoteTextBox.Text : "\r\n";
+            emailMessageString += "\r\nGrids: ";
+            emailMessageString += (gridsTextBox.Text != "") ? gridsTextBox.Text : "\r\n";
+            emailMessageString += "\r\nCompatibility:";
+            if (compatibilityListBox.Items.Count > 0)
+            {
+                emailMessageString += "\r\n";
+                foreach (String item in compatibilityListBox.Items)
+                {
+                    emailMessageString += item.ToString() + "\r\n";
+                }
+            }
+            else
+            {
+                emailMessageString += "";
+                emailMessageString += "None\r\n";
+            }
+            emailMessageString += "\r\n\r\nThank you for your assistance!";
+
+            // Setup mail message
+            MailAddress to = new MailAddress(mainForm.profile.TecanEmail);
+            MailAddress from = new MailAddress(mainForm.profile.Email);
+            var mailMessage = new MailMessage(from, to);
+            mailMessage.Subject = "Part Error Report";
+            mailMessage.Body = emailMessageString;
+            // mailMessage.Attachments.Add(new Attachment(fullAttachmentPathName));
+
+            // var filename = attachmentPath + "\\mymessage.eml";
+            String tempFilePath = createTempFile();
+            var filename = tempFilePath + "\\mymessage.eml";
+
+            //save the MailMessage to the filesystem
+            mailMessage.Save(filename);
+
+            //Open the file with the default associated application registered on the local machine
+            Process.Start(filename);
+
+        }
+
+        private string createTempFile()
+        {
+            // Create the new file in temp directory
+            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "temp";
+            System.IO.Directory.CreateDirectory(tempFilePath);
+
+            // If temp directory current contains any files, delete them
+            System.IO.DirectoryInfo tempFiles = new DirectoryInfo(tempFilePath);
+
+            foreach (FileInfo file in tempFiles.GetFiles())
+            {
+                file.Delete();
+            }
+            return tempFilePath;
+        }
     }
 }

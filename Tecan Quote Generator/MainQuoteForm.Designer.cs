@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainQuoteForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle551 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle556 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle552 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle553 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle554 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle555 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle557 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle558 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle559 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle560 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle561 = new System.Windows.Forms.DataGridViewCellStyle();
             this.partsListBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.partsListBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tecanQuoteGeneratorPartsListDataSet = new Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSet();
@@ -73,6 +73,9 @@
             this.accountListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearQuoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getNewDatabseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configuratorHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendBugReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SalesTypeComboBox = new System.Windows.Forms.ComboBox();
             this.InstrumentComboBox = new System.Windows.Forms.ComboBox();
             this.CategoryComboBox = new System.Windows.Forms.ComboBox();
@@ -171,6 +174,17 @@
             this.RequiredPartsPanelSelectAllCheckBox = new System.Windows.Forms.CheckBox();
             this.RequiredPartsPanelHeadingLabel = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
+            this.PleaseWaitPanel = new System.Windows.Forms.Panel();
+            this.PLeaseWaitPanelOKButton = new System.Windows.Forms.Button();
+            this.PleaseWaitMessageTextBox = new System.Windows.Forms.TextBox();
+            this.PleaseWaitHeadingLabel = new System.Windows.Forms.Label();
+            this.BugReportPanel = new System.Windows.Forms.Panel();
+            this.BugReportCancelButton = new System.Windows.Forms.Button();
+            this.BugReportSendButton = new System.Windows.Forms.Button();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.BugReportTextBox = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.partsListBindingNavigator)).BeginInit();
             this.partsListBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.partsListBindingSource)).BeginInit();
@@ -194,6 +208,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.CategoryBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SubCategoryBindingSource)).BeginInit();
             this.RequiredPartsPanel.SuspendLayout();
+            this.PleaseWaitPanel.SuspendLayout();
+            this.BugReportPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // partsListBindingNavigator
@@ -387,7 +403,8 @@
             this.fileToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.clearQuoteToolStripMenuItem,
-            this.getNewDatabseToolStripMenuItem});
+            this.getNewDatabseToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
@@ -485,6 +502,28 @@
             this.getNewDatabseToolStripMenuItem.Size = new System.Drawing.Size(174, 25);
             this.getNewDatabseToolStripMenuItem.Text = "Get New Database";
             this.getNewDatabseToolStripMenuItem.Click += new System.EventHandler(this.getNewDatabseToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.configuratorHelpToolStripMenuItem,
+            this.sendBugReportToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(59, 25);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // configuratorHelpToolStripMenuItem
+            // 
+            this.configuratorHelpToolStripMenuItem.Name = "configuratorHelpToolStripMenuItem";
+            this.configuratorHelpToolStripMenuItem.Size = new System.Drawing.Size(221, 26);
+            this.configuratorHelpToolStripMenuItem.Text = "Configurator Help";
+            // 
+            // sendBugReportToolStripMenuItem
+            // 
+            this.sendBugReportToolStripMenuItem.Name = "sendBugReportToolStripMenuItem";
+            this.sendBugReportToolStripMenuItem.Size = new System.Drawing.Size(221, 26);
+            this.sendBugReportToolStripMenuItem.Text = "Send Bug Report";
+            this.sendBugReportToolStripMenuItem.Click += new System.EventHandler(this.sendBugReportToolStripMenuItem_Click);
             // 
             // SalesTypeComboBox
             // 
@@ -656,14 +695,14 @@
             // 
             this.QuoteDataGridView.AllowUserToAddRows = false;
             this.QuoteDataGridView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.QuoteDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle551.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle551.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle551.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle551.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle551.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle551.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle551.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.QuoteDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle551;
             this.QuoteDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.QuoteDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -677,14 +716,14 @@
             this.QuoteDataGridView.Location = new System.Drawing.Point(0, 0);
             this.QuoteDataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteDataGridView.Name = "QuoteDataGridView";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.QuoteDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle556.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle556.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle556.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle556.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle556.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle556.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle556.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.QuoteDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle556;
             this.QuoteDataGridView.RowHeadersVisible = false;
             this.QuoteDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.QuoteDataGridView.Size = new System.Drawing.Size(1124, 450);
@@ -711,10 +750,10 @@
             // 
             // Column3
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "C2";
-            dataGridViewCellStyle2.NullValue = null;
-            this.Column3.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle552.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle552.Format = "C2";
+            dataGridViewCellStyle552.NullValue = null;
+            this.Column3.DefaultCellStyle = dataGridViewCellStyle552;
             this.Column3.FillWeight = 70F;
             this.Column3.HeaderText = "List Price";
             this.Column3.Name = "Column3";
@@ -724,9 +763,9 @@
             // 
             // Column4
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.Format = "N0";
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle553.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle553.Format = "N0";
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle553;
             this.Column4.FillWeight = 30F;
             this.Column4.HeaderText = "Qty";
             this.Column4.Name = "Column4";
@@ -736,10 +775,10 @@
             // 
             // Column5
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N2";
-            dataGridViewCellStyle4.NullValue = "0";
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle554.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle554.Format = "N2";
+            dataGridViewCellStyle554.NullValue = "0";
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle554;
             this.Column5.FillWeight = 60F;
             this.Column5.HeaderText = "Discount";
             this.Column5.Name = "Column5";
@@ -747,10 +786,10 @@
             // 
             // Column6
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "C2";
-            dataGridViewCellStyle5.NullValue = null;
-            this.Column6.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle555.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle555.Format = "C2";
+            dataGridViewCellStyle555.NullValue = null;
+            this.Column6.DefaultCellStyle = dataGridViewCellStyle555;
             this.Column6.FillWeight = 80F;
             this.Column6.HeaderText = "Extended Price";
             this.Column6.Name = "Column6";
@@ -797,14 +836,14 @@
             // OptionsDataGridView
             // 
             this.OptionsDataGridView.AllowUserToAddRows = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.OptionsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle557.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle557.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle557.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle557.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle557.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle557.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle557.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.OptionsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle557;
             this.OptionsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.OptionsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -842,10 +881,10 @@
             // 
             // dataGridViewTextBoxColumn4
             // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Format = "C2";
-            dataGridViewCellStyle8.NullValue = null;
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle558.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle558.Format = "C2";
+            dataGridViewCellStyle558.NullValue = null;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle558;
             this.dataGridViewTextBoxColumn4.FillWeight = 70F;
             this.dataGridViewTextBoxColumn4.HeaderText = "List Price";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
@@ -855,9 +894,9 @@
             // 
             // dataGridViewTextBoxColumn5
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.Format = "N0";
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle559.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle559.Format = "N0";
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle559;
             this.dataGridViewTextBoxColumn5.FillWeight = 30F;
             this.dataGridViewTextBoxColumn5.HeaderText = "Qty";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
@@ -867,9 +906,9 @@
             // 
             // dataGridViewTextBoxColumn6
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle10.NullValue = "0";
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle560.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle560.NullValue = "0";
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle560;
             this.dataGridViewTextBoxColumn6.FillWeight = 60F;
             this.dataGridViewTextBoxColumn6.HeaderText = "Discount";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
@@ -877,10 +916,10 @@
             // 
             // dataGridViewTextBoxColumn7
             // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.Format = "C2";
-            dataGridViewCellStyle11.NullValue = null;
-            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle561.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle561.Format = "C2";
+            dataGridViewCellStyle561.NullValue = null;
+            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle561;
             this.dataGridViewTextBoxColumn7.FillWeight = 80F;
             this.dataGridViewTextBoxColumn7.HeaderText = "Extended Price";
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
@@ -1488,12 +1527,137 @@
             this.label23.TabIndex = 0;
             this.label23.Text = "Required Parts";
             // 
+            // PleaseWaitPanel
+            // 
+            this.PleaseWaitPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PleaseWaitPanel.Controls.Add(this.PLeaseWaitPanelOKButton);
+            this.PleaseWaitPanel.Controls.Add(this.PleaseWaitMessageTextBox);
+            this.PleaseWaitPanel.Controls.Add(this.PleaseWaitHeadingLabel);
+            this.PleaseWaitPanel.Location = new System.Drawing.Point(149, 366);
+            this.PleaseWaitPanel.Name = "PleaseWaitPanel";
+            this.PleaseWaitPanel.Size = new System.Drawing.Size(464, 325);
+            this.PleaseWaitPanel.TabIndex = 45;
+            this.PleaseWaitPanel.Visible = false;
+            // 
+            // PLeaseWaitPanelOKButton
+            // 
+            this.PLeaseWaitPanelOKButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.PLeaseWaitPanelOKButton.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PLeaseWaitPanelOKButton.Location = new System.Drawing.Point(195, 263);
+            this.PLeaseWaitPanelOKButton.Name = "PLeaseWaitPanelOKButton";
+            this.PLeaseWaitPanelOKButton.Size = new System.Drawing.Size(89, 37);
+            this.PLeaseWaitPanelOKButton.TabIndex = 5;
+            this.PLeaseWaitPanelOKButton.Text = "OK";
+            this.PLeaseWaitPanelOKButton.UseVisualStyleBackColor = false;
+            this.PLeaseWaitPanelOKButton.Visible = false;
+            this.PLeaseWaitPanelOKButton.Click += new System.EventHandler(this.PLeaseWaitPanelOKButton_Click);
+            // 
+            // PleaseWaitMessageTextBox
+            // 
+            this.PleaseWaitMessageTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.PleaseWaitMessageTextBox.Location = new System.Drawing.Point(33, 69);
+            this.PleaseWaitMessageTextBox.MinimumSize = new System.Drawing.Size(4, 200);
+            this.PleaseWaitMessageTextBox.Multiline = true;
+            this.PleaseWaitMessageTextBox.Name = "PleaseWaitMessageTextBox";
+            this.PleaseWaitMessageTextBox.ReadOnly = true;
+            this.PleaseWaitMessageTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.PleaseWaitMessageTextBox.Size = new System.Drawing.Size(396, 200);
+            this.PleaseWaitMessageTextBox.TabIndex = 2;
+            this.PleaseWaitMessageTextBox.TabStop = false;
+            // 
+            // PleaseWaitHeadingLabel
+            // 
+            this.PleaseWaitHeadingLabel.AutoSize = true;
+            this.PleaseWaitHeadingLabel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PleaseWaitHeadingLabel.Location = new System.Drawing.Point(173, 22);
+            this.PleaseWaitHeadingLabel.Name = "PleaseWaitHeadingLabel";
+            this.PleaseWaitHeadingLabel.Size = new System.Drawing.Size(111, 21);
+            this.PleaseWaitHeadingLabel.TabIndex = 0;
+            this.PleaseWaitHeadingLabel.Text = "Please Wait";
+            // 
+            // BugReportPanel
+            // 
+            this.BugReportPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.BugReportPanel.Controls.Add(this.label26);
+            this.BugReportPanel.Controls.Add(this.BugReportTextBox);
+            this.BugReportPanel.Controls.Add(this.BugReportCancelButton);
+            this.BugReportPanel.Controls.Add(this.BugReportSendButton);
+            this.BugReportPanel.Controls.Add(this.label24);
+            this.BugReportPanel.Controls.Add(this.label25);
+            this.BugReportPanel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BugReportPanel.Location = new System.Drawing.Point(232, 141);
+            this.BugReportPanel.Name = "BugReportPanel";
+            this.BugReportPanel.Size = new System.Drawing.Size(870, 716);
+            this.BugReportPanel.TabIndex = 46;
+            this.BugReportPanel.Visible = false;
+            // 
+            // BugReportCancelButton
+            // 
+            this.BugReportCancelButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.BugReportCancelButton.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BugReportCancelButton.Location = new System.Drawing.Point(497, 636);
+            this.BugReportCancelButton.Name = "BugReportCancelButton";
+            this.BugReportCancelButton.Size = new System.Drawing.Size(120, 31);
+            this.BugReportCancelButton.TabIndex = 5;
+            this.BugReportCancelButton.Text = "Cancel";
+            this.BugReportCancelButton.UseVisualStyleBackColor = false;
+            this.BugReportCancelButton.Click += new System.EventHandler(this.BugReportCancelButton_Click);
+            // 
+            // BugReportSendButton
+            // 
+            this.BugReportSendButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.BugReportSendButton.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BugReportSendButton.Location = new System.Drawing.Point(266, 636);
+            this.BugReportSendButton.Name = "BugReportSendButton";
+            this.BugReportSendButton.Size = new System.Drawing.Size(89, 31);
+            this.BugReportSendButton.TabIndex = 4;
+            this.BugReportSendButton.Text = "Send";
+            this.BugReportSendButton.UseVisualStyleBackColor = false;
+            this.BugReportSendButton.Click += new System.EventHandler(this.BugReportSendButton_Click);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(57, 53);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(0, 21);
+            this.label24.TabIndex = 1;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(337, 17);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(118, 24);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "Bug Report";
+            // 
+            // BugReportTextBox
+            // 
+            this.BugReportTextBox.Location = new System.Drawing.Point(61, 194);
+            this.BugReportTextBox.Multiline = true;
+            this.BugReportTextBox.Name = "BugReportTextBox";
+            this.BugReportTextBox.Size = new System.Drawing.Size(750, 399);
+            this.BugReportTextBox.TabIndex = 6;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(72, 57);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(642, 126);
+            this.label26.TabIndex = 7;
+            this.label26.Text = resources.GetString("label26.Text");
+            // 
             // MainQuoteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.BlanchedAlmond;
             this.ClientSize = new System.Drawing.Size(1881, 997);
+            this.Controls.Add(this.BugReportPanel);
+            this.Controls.Add(this.PleaseWaitPanel);
             this.Controls.Add(this.RequiredPartsPanel);
             this.Controls.Add(this.itemPriceTextBox);
             this.Controls.Add(this.label22);
@@ -1574,6 +1738,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.SubCategoryBindingSource)).EndInit();
             this.RequiredPartsPanel.ResumeLayout(false);
             this.RequiredPartsPanel.PerformLayout();
+            this.PleaseWaitPanel.ResumeLayout(false);
+            this.PleaseWaitPanel.PerformLayout();
+            this.BugReportPanel.ResumeLayout(false);
+            this.BugReportPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1711,6 +1879,20 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column9;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column10;
+        private System.Windows.Forms.Panel PleaseWaitPanel;
+        private System.Windows.Forms.Label PleaseWaitHeadingLabel;
+        private System.Windows.Forms.TextBox PleaseWaitMessageTextBox;
+        private System.Windows.Forms.Button PLeaseWaitPanelOKButton;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configuratorHelpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sendBugReportToolStripMenuItem;
+        private System.Windows.Forms.Panel BugReportPanel;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox BugReportTextBox;
+        private System.Windows.Forms.Button BugReportCancelButton;
+        private System.Windows.Forms.Button BugReportSendButton;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
     }
 }
 

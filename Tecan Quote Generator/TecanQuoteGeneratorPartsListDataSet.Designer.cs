@@ -4218,7 +4218,8 @@ namespace Tecan_Quote_Generator {
                         return ((string)(this[this.tablePartsList.SAPIdColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SAPId\' in table \'PartsList\' is DBNull.", e);
+                        // throw new global::System.Data.StrongTypingException("The value for column \'SAPId\' in table \'PartsList\' is DBNull.", e);
+                        return ("");
                     }
                 }
                 set {

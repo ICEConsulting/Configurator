@@ -31,7 +31,16 @@
               <Mapping SourceColumn="AccountName" DataSetColumn="AccountName" />
               <Mapping SourceColumn="AccountID" DataSetColumn="AccountID" />
             </Mappings>
-            <Sources />
+            <Sources>
+              <DbSource ConnectionRef="CustomersConnectionString (Settings)" DbObjectName="Accounts" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillBy" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetDataBy" GeneratorSourceName="FillBy" GetMethodModifier="Public" GetMethodName="GetDataBy" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillBy">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT [AccountName], [AccountID] FROM [Accounts] ORDER BY AccountID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
           </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="CommunicationsTableAdapter" GeneratorDataComponentClassName="CommunicationsTableAdapter" Name="Communications" UserDataComponentName="CommunicationsTableAdapter">
             <MainSource>
@@ -160,7 +169,7 @@
   <xs:element name="CustomersDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="CustomersDataSet" msprop:Generator_UserDSName="CustomersDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Accounts" msprop:Generator_TableClassName="AccountsDataTable" msprop:Generator_TableVarName="tableAccounts" msprop:Generator_TablePropName="Accounts" msprop:Generator_RowDeletingName="AccountsRowDeleting" msprop:Generator_RowChangingName="AccountsRowChanging" msprop:Generator_RowEvHandlerName="AccountsRowChangeEventHandler" msprop:Generator_RowDeletedName="AccountsRowDeleted" msprop:Generator_UserTableName="Accounts" msprop:Generator_RowChangedName="AccountsRowChanged" msprop:Generator_RowEvArgName="AccountsRowChangeEvent" msprop:Generator_RowClassName="AccountsRow">
+        <xs:element name="Accounts" msprop:Generator_TableClassName="AccountsDataTable" msprop:Generator_TableVarName="tableAccounts" msprop:Generator_RowChangedName="AccountsRowChanged" msprop:Generator_TablePropName="Accounts" msprop:Generator_RowDeletingName="AccountsRowDeleting" msprop:Generator_RowChangingName="AccountsRowChanging" msprop:Generator_RowEvHandlerName="AccountsRowChangeEventHandler" msprop:Generator_RowDeletedName="AccountsRowDeleted" msprop:Generator_RowClassName="AccountsRow" msprop:Generator_UserTableName="Accounts" msprop:Generator_RowEvArgName="AccountsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="AccountName" msprop:Generator_ColumnVarNameInTable="columnAccountName" msprop:Generator_ColumnPropNameInRow="AccountName" msprop:Generator_ColumnPropNameInTable="AccountNameColumn" msprop:Generator_UserColumnName="AccountName" minOccurs="0">
@@ -174,7 +183,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Communications" msprop:Generator_TableClassName="CommunicationsDataTable" msprop:Generator_TableVarName="tableCommunications" msprop:Generator_TablePropName="Communications" msprop:Generator_RowDeletingName="CommunicationsRowDeleting" msprop:Generator_RowChangingName="CommunicationsRowChanging" msprop:Generator_RowEvHandlerName="CommunicationsRowChangeEventHandler" msprop:Generator_RowDeletedName="CommunicationsRowDeleted" msprop:Generator_UserTableName="Communications" msprop:Generator_RowChangedName="CommunicationsRowChanged" msprop:Generator_RowEvArgName="CommunicationsRowChangeEvent" msprop:Generator_RowClassName="CommunicationsRow">
+        <xs:element name="Communications" msprop:Generator_TableClassName="CommunicationsDataTable" msprop:Generator_TableVarName="tableCommunications" msprop:Generator_RowChangedName="CommunicationsRowChanged" msprop:Generator_TablePropName="Communications" msprop:Generator_RowDeletingName="CommunicationsRowDeleting" msprop:Generator_RowChangingName="CommunicationsRowChanging" msprop:Generator_RowEvHandlerName="CommunicationsRowChangeEventHandler" msprop:Generator_RowDeletedName="CommunicationsRowDeleted" msprop:Generator_RowClassName="CommunicationsRow" msprop:Generator_UserTableName="Communications" msprop:Generator_RowEvArgName="CommunicationsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnPropNameInTable="DateColumn" msprop:Generator_UserColumnName="Date" type="xs:dateTime" minOccurs="0" />
@@ -190,7 +199,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Contacts" msprop:Generator_TableClassName="ContactsDataTable" msprop:Generator_TableVarName="tableContacts" msprop:Generator_TablePropName="Contacts" msprop:Generator_RowDeletingName="ContactsRowDeleting" msprop:Generator_RowChangingName="ContactsRowChanging" msprop:Generator_RowEvHandlerName="ContactsRowChangeEventHandler" msprop:Generator_RowDeletedName="ContactsRowDeleted" msprop:Generator_UserTableName="Contacts" msprop:Generator_RowChangedName="ContactsRowChanged" msprop:Generator_RowEvArgName="ContactsRowChangeEvent" msprop:Generator_RowClassName="ContactsRow">
+        <xs:element name="Contacts" msprop:Generator_TableClassName="ContactsDataTable" msprop:Generator_TableVarName="tableContacts" msprop:Generator_RowChangedName="ContactsRowChanged" msprop:Generator_TablePropName="Contacts" msprop:Generator_RowDeletingName="ContactsRowDeleting" msprop:Generator_RowChangingName="ContactsRowChanging" msprop:Generator_RowEvHandlerName="ContactsRowChangeEventHandler" msprop:Generator_RowDeletedName="ContactsRowDeleted" msprop:Generator_RowClassName="ContactsRow" msprop:Generator_UserTableName="Contacts" msprop:Generator_RowEvArgName="ContactsRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="First" msprop:Generator_ColumnVarNameInTable="columnFirst" msprop:Generator_ColumnPropNameInRow="First" msprop:Generator_ColumnPropNameInTable="FirstColumn" msprop:Generator_UserColumnName="First" minOccurs="0">
@@ -268,7 +277,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Quotes" msprop:Generator_TableClassName="QuotesDataTable" msprop:Generator_TableVarName="tableQuotes" msprop:Generator_TablePropName="Quotes" msprop:Generator_RowDeletingName="QuotesRowDeleting" msprop:Generator_RowChangingName="QuotesRowChanging" msprop:Generator_RowEvHandlerName="QuotesRowChangeEventHandler" msprop:Generator_RowDeletedName="QuotesRowDeleted" msprop:Generator_UserTableName="Quotes" msprop:Generator_RowChangedName="QuotesRowChanged" msprop:Generator_RowEvArgName="QuotesRowChangeEvent" msprop:Generator_RowClassName="QuotesRow">
+        <xs:element name="Quotes" msprop:Generator_TableClassName="QuotesDataTable" msprop:Generator_TableVarName="tableQuotes" msprop:Generator_RowChangedName="QuotesRowChanged" msprop:Generator_TablePropName="Quotes" msprop:Generator_RowDeletingName="QuotesRowDeleting" msprop:Generator_RowChangingName="QuotesRowChanging" msprop:Generator_RowEvHandlerName="QuotesRowChangeEventHandler" msprop:Generator_RowDeletedName="QuotesRowDeleted" msprop:Generator_RowClassName="QuotesRow" msprop:Generator_UserTableName="Quotes" msprop:Generator_RowEvArgName="QuotesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="AccountID" msprop:Generator_ColumnVarNameInTable="columnAccountID" msprop:Generator_ColumnPropNameInRow="AccountID" msprop:Generator_ColumnPropNameInTable="AccountIDColumn" msprop:Generator_UserColumnName="AccountID" type="xs:int" minOccurs="0" />

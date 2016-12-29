@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainQuoteForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1112 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1117 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1113 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1114 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1115 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1116 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1118 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1119 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1120 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1121 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1122 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             this.partsListBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.partsListBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tecanQuoteGeneratorPartsListDataSet = new Tecan_Quote_Generator.TecanQuoteGeneratorPartsListDataSet();
@@ -62,11 +62,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newQuoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadQuoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveQuoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewQuoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printQuoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sendQuoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.myProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -179,12 +177,12 @@
             this.PleaseWaitMessageTextBox = new System.Windows.Forms.TextBox();
             this.PleaseWaitHeadingLabel = new System.Windows.Forms.Label();
             this.BugReportPanel = new System.Windows.Forms.Panel();
+            this.label26 = new System.Windows.Forms.Label();
+            this.BugReportTextBox = new System.Windows.Forms.TextBox();
             this.BugReportCancelButton = new System.Windows.Forms.Button();
             this.BugReportSendButton = new System.Windows.Forms.Button();
             this.label24 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
-            this.BugReportTextBox = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.partsListBindingNavigator)).BeginInit();
             this.partsListBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.partsListBindingSource)).BeginInit();
@@ -229,15 +227,14 @@
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2});
-            this.partsListBindingNavigator.Location = new System.Drawing.Point(0, 31);
+            this.partsListBindingNavigator.Location = new System.Drawing.Point(0, 24);
             this.partsListBindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.partsListBindingNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
             this.partsListBindingNavigator.MoveNextItem = this.bindingNavigatorMoveNextItem;
             this.partsListBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.partsListBindingNavigator.Name = "partsListBindingNavigator";
-            this.partsListBindingNavigator.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.partsListBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.partsListBindingNavigator.Size = new System.Drawing.Size(1881, 31);
+            this.partsListBindingNavigator.Size = new System.Drawing.Size(1254, 25);
             this.partsListBindingNavigator.TabIndex = 0;
             this.partsListBindingNavigator.Text = "bindingNavigator1";
             // 
@@ -254,7 +251,7 @@
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(54, 28);
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
             this.bindingNavigatorCountItem.Text = "of {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
             // 
@@ -264,7 +261,7 @@
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 28);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 22);
             this.bindingNavigatorMoveFirstItem.Text = "Move first";
             // 
             // bindingNavigatorMovePreviousItem
@@ -273,27 +270,27 @@
             this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
             this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
             this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 28);
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 22);
             this.bindingNavigatorMovePreviousItem.Text = "Move previous";
             // 
             // bindingNavigatorSeparator
             // 
             this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 31);
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 25);
             // 
             // bindingNavigatorPositionItem
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Position";
             this.bindingNavigatorPositionItem.AutoSize = false;
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
-            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(73, 31);
+            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 23);
             this.bindingNavigatorPositionItem.Text = "0";
             this.bindingNavigatorPositionItem.ToolTipText = "Current position";
             // 
             // bindingNavigatorSeparator1
             // 
             this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 31);
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // bindingNavigatorMoveNextItem
             // 
@@ -301,7 +298,7 @@
             this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
             this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
             this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 28);
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 22);
             this.bindingNavigatorMoveNextItem.Text = "Move next";
             // 
             // bindingNavigatorMoveLastItem
@@ -310,13 +307,13 @@
             this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
             this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
             this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 28);
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 22);
             this.bindingNavigatorMoveLastItem.Text = "Move last";
             // 
             // bindingNavigatorSeparator2
             // 
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 31);
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // partsListDataGridView
             // 
@@ -326,12 +323,11 @@
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn8});
             this.partsListDataGridView.DataSource = this.partsListBindingSource;
-            this.partsListDataGridView.Location = new System.Drawing.Point(14, 226);
-            this.partsListDataGridView.Margin = new System.Windows.Forms.Padding(4);
+            this.partsListDataGridView.Location = new System.Drawing.Point(9, 151);
             this.partsListDataGridView.Name = "partsListDataGridView";
             this.partsListDataGridView.ReadOnly = true;
             this.partsListDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.partsListDataGridView.Size = new System.Drawing.Size(692, 531);
+            this.partsListDataGridView.Size = new System.Drawing.Size(461, 354);
             this.partsListDataGridView.TabIndex = 1;
             this.partsListDataGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.partsListDataGridView_MouseDown);
             this.partsListDataGridView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.partsListDataGridView_MouseMove);
@@ -355,10 +351,9 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(26, 112);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(17, 75);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 21);
+            this.label1.Size = new System.Drawing.Size(69, 15);
             this.label1.TabIndex = 2;
             this.label1.Text = "Instrument";
             // 
@@ -366,10 +361,9 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(41, 149);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(27, 99);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 21);
+            this.label2.Size = new System.Drawing.Size(58, 15);
             this.label2.TabIndex = 3;
             this.label2.Text = "Category";
             // 
@@ -377,10 +371,9 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(10, 185);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(7, 123);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(121, 21);
+            this.label3.Size = new System.Drawing.Size(79, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "Subcategory";
             // 
@@ -388,10 +381,9 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(25, 79);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(17, 53);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(106, 21);
+            this.label4.Size = new System.Drawing.Size(68, 15);
             this.label4.TabIndex = 5;
             this.label4.Text = "Sales Type";
             // 
@@ -407,63 +399,49 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
             this.menuStrip1.ShowItemToolTips = true;
-            this.menuStrip1.Size = new System.Drawing.Size(1881, 31);
+            this.menuStrip1.Size = new System.Drawing.Size(1254, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newQuoteToolStripMenuItem,
             this.loadQuoteToolStripMenuItem,
             this.saveQuoteToolStripMenuItem,
             this.viewQuoteToolStripMenuItem,
-            this.printQuoteToolStripMenuItem,
             this.sendQuoteToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(51, 25);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.fileToolStripMenuItem.Text = "File";
-            // 
-            // newQuoteToolStripMenuItem
-            // 
-            this.newQuoteToolStripMenuItem.Name = "newQuoteToolStripMenuItem";
-            this.newQuoteToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
-            this.newQuoteToolStripMenuItem.Text = "New Quote";
             // 
             // loadQuoteToolStripMenuItem
             // 
             this.loadQuoteToolStripMenuItem.Name = "loadQuoteToolStripMenuItem";
-            this.loadQuoteToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.loadQuoteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadQuoteToolStripMenuItem.Text = "Load Quote";
             this.loadQuoteToolStripMenuItem.Click += new System.EventHandler(this.loadQuoteToolStripMenuItem_Click);
             // 
             // saveQuoteToolStripMenuItem
             // 
             this.saveQuoteToolStripMenuItem.Name = "saveQuoteToolStripMenuItem";
-            this.saveQuoteToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.saveQuoteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveQuoteToolStripMenuItem.Text = "Save Quote";
             this.saveQuoteToolStripMenuItem.Click += new System.EventHandler(this.saveQuoteToolStripMenuItem_Click);
             // 
             // viewQuoteToolStripMenuItem
             // 
             this.viewQuoteToolStripMenuItem.Name = "viewQuoteToolStripMenuItem";
-            this.viewQuoteToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
-            this.viewQuoteToolStripMenuItem.Text = "View Quote";
+            this.viewQuoteToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.viewQuoteToolStripMenuItem.Text = "View / Print Quote";
             this.viewQuoteToolStripMenuItem.Click += new System.EventHandler(this.viewQuoteToolStripMenuItem_Click);
-            // 
-            // printQuoteToolStripMenuItem
-            // 
-            this.printQuoteToolStripMenuItem.Name = "printQuoteToolStripMenuItem";
-            this.printQuoteToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
-            this.printQuoteToolStripMenuItem.Text = "Print Quote";
             // 
             // sendQuoteToolStripMenuItem
             // 
             this.sendQuoteToolStripMenuItem.Name = "sendQuoteToolStripMenuItem";
-            this.sendQuoteToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.sendQuoteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.sendQuoteToolStripMenuItem.Text = "Send Quote";
+            this.sendQuoteToolStripMenuItem.Click += new System.EventHandler(this.sendQuoteToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -471,27 +449,27 @@
             this.myProfileToolStripMenuItem,
             this.accountListToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(53, 25);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.viewToolStripMenuItem.Text = "Edit";
             // 
             // myProfileToolStripMenuItem
             // 
             this.myProfileToolStripMenuItem.Name = "myProfileToolStripMenuItem";
-            this.myProfileToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
+            this.myProfileToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.myProfileToolStripMenuItem.Text = "My Profile";
             this.myProfileToolStripMenuItem.Click += new System.EventHandler(this.myProfileToolStripMenuItem_Click);
             // 
             // accountListToolStripMenuItem
             // 
             this.accountListToolStripMenuItem.Name = "accountListToolStripMenuItem";
-            this.accountListToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
+            this.accountListToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.accountListToolStripMenuItem.Text = "Accounts and Contacts";
             this.accountListToolStripMenuItem.Click += new System.EventHandler(this.accountListToolStripMenuItem_Click);
             // 
             // clearQuoteToolStripMenuItem
             // 
             this.clearQuoteToolStripMenuItem.Name = "clearQuoteToolStripMenuItem";
-            this.clearQuoteToolStripMenuItem.Size = new System.Drawing.Size(119, 25);
+            this.clearQuoteToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
             this.clearQuoteToolStripMenuItem.Text = "Clear Quote";
             this.clearQuoteToolStripMenuItem.ToolTipText = "Clear All Quote, Option, and Smart Start Items and All Quote Information";
             this.clearQuoteToolStripMenuItem.Click += new System.EventHandler(this.clearQuoteToolStripMenuItem_Click);
@@ -499,7 +477,7 @@
             // getNewDatabseToolStripMenuItem
             // 
             this.getNewDatabseToolStripMenuItem.Name = "getNewDatabseToolStripMenuItem";
-            this.getNewDatabseToolStripMenuItem.Size = new System.Drawing.Size(174, 25);
+            this.getNewDatabseToolStripMenuItem.Size = new System.Drawing.Size(123, 20);
             this.getNewDatabseToolStripMenuItem.Text = "Get New Database";
             this.getNewDatabseToolStripMenuItem.Click += new System.EventHandler(this.getNewDatabseToolStripMenuItem_Click);
             // 
@@ -509,29 +487,28 @@
             this.configuratorHelpToolStripMenuItem,
             this.sendBugReportToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(59, 25);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // configuratorHelpToolStripMenuItem
             // 
             this.configuratorHelpToolStripMenuItem.Name = "configuratorHelpToolStripMenuItem";
-            this.configuratorHelpToolStripMenuItem.Size = new System.Drawing.Size(221, 26);
+            this.configuratorHelpToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.configuratorHelpToolStripMenuItem.Text = "Configurator Help";
             // 
             // sendBugReportToolStripMenuItem
             // 
             this.sendBugReportToolStripMenuItem.Name = "sendBugReportToolStripMenuItem";
-            this.sendBugReportToolStripMenuItem.Size = new System.Drawing.Size(221, 26);
+            this.sendBugReportToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.sendBugReportToolStripMenuItem.Text = "Send Bug Report";
             this.sendBugReportToolStripMenuItem.Click += new System.EventHandler(this.sendBugReportToolStripMenuItem_Click);
             // 
             // SalesTypeComboBox
             // 
             this.SalesTypeComboBox.FormattingEnabled = true;
-            this.SalesTypeComboBox.Location = new System.Drawing.Point(149, 76);
-            this.SalesTypeComboBox.Margin = new System.Windows.Forms.Padding(4);
+            this.SalesTypeComboBox.Location = new System.Drawing.Point(99, 51);
             this.SalesTypeComboBox.Name = "SalesTypeComboBox";
-            this.SalesTypeComboBox.Size = new System.Drawing.Size(162, 26);
+            this.SalesTypeComboBox.Size = new System.Drawing.Size(109, 22);
             this.SalesTypeComboBox.TabIndex = 7;
             this.SalesTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.SalesTypeComboBox_SelectedIndexChanged);
             this.SalesTypeComboBox.Click += new System.EventHandler(this.SalesTypeComboBox_Click);
@@ -539,10 +516,9 @@
             // InstrumentComboBox
             // 
             this.InstrumentComboBox.FormattingEnabled = true;
-            this.InstrumentComboBox.Location = new System.Drawing.Point(149, 112);
-            this.InstrumentComboBox.Margin = new System.Windows.Forms.Padding(4);
+            this.InstrumentComboBox.Location = new System.Drawing.Point(99, 75);
             this.InstrumentComboBox.Name = "InstrumentComboBox";
-            this.InstrumentComboBox.Size = new System.Drawing.Size(244, 26);
+            this.InstrumentComboBox.Size = new System.Drawing.Size(164, 22);
             this.InstrumentComboBox.TabIndex = 8;
             this.InstrumentComboBox.SelectedIndexChanged += new System.EventHandler(this.InstrumentComboBox_SelectedIndexChanged);
             this.InstrumentComboBox.Click += new System.EventHandler(this.InstrumentComboBox_Click);
@@ -550,10 +526,9 @@
             // CategoryComboBox
             // 
             this.CategoryComboBox.FormattingEnabled = true;
-            this.CategoryComboBox.Location = new System.Drawing.Point(149, 148);
-            this.CategoryComboBox.Margin = new System.Windows.Forms.Padding(4);
+            this.CategoryComboBox.Location = new System.Drawing.Point(99, 99);
             this.CategoryComboBox.Name = "CategoryComboBox";
-            this.CategoryComboBox.Size = new System.Drawing.Size(244, 26);
+            this.CategoryComboBox.Size = new System.Drawing.Size(164, 22);
             this.CategoryComboBox.TabIndex = 9;
             this.CategoryComboBox.SelectedIndexChanged += new System.EventHandler(this.CategoryComboBox_SelectedIndexChanged);
             this.CategoryComboBox.Click += new System.EventHandler(this.CategoryComboBox_Click);
@@ -561,10 +536,9 @@
             // SubCategoryComboBox
             // 
             this.SubCategoryComboBox.FormattingEnabled = true;
-            this.SubCategoryComboBox.Location = new System.Drawing.Point(149, 184);
-            this.SubCategoryComboBox.Margin = new System.Windows.Forms.Padding(4);
+            this.SubCategoryComboBox.Location = new System.Drawing.Point(99, 123);
             this.SubCategoryComboBox.Name = "SubCategoryComboBox";
-            this.SubCategoryComboBox.Size = new System.Drawing.Size(244, 26);
+            this.SubCategoryComboBox.Size = new System.Drawing.Size(164, 22);
             this.SubCategoryComboBox.TabIndex = 10;
             this.SubCategoryComboBox.SelectedIndexChanged += new System.EventHandler(this.SubCategoryComboBox_SelectedIndexChanged);
             this.SubCategoryComboBox.Click += new System.EventHandler(this.SubCategoryComboBox_Click);
@@ -573,19 +547,17 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(478, 81);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(319, 54);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(62, 21);
+            this.label5.Size = new System.Drawing.Size(41, 15);
             this.label5.TabIndex = 11;
             this.label5.Text = "Part#:";
             // 
             // PartNumberSearchTextBox
             // 
-            this.PartNumberSearchTextBox.Location = new System.Drawing.Point(540, 78);
-            this.PartNumberSearchTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.PartNumberSearchTextBox.Location = new System.Drawing.Point(360, 52);
             this.PartNumberSearchTextBox.Name = "PartNumberSearchTextBox";
-            this.PartNumberSearchTextBox.Size = new System.Drawing.Size(163, 26);
+            this.PartNumberSearchTextBox.Size = new System.Drawing.Size(110, 20);
             this.PartNumberSearchTextBox.TabIndex = 12;
             this.PartNumberSearchTextBox.TextChanged += new System.EventHandler(this.PartNumberSearchTextBox_TextChanged);
             // 
@@ -593,19 +565,17 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(423, 117);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(282, 78);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(117, 21);
+            this.label6.Size = new System.Drawing.Size(75, 15);
             this.label6.TabIndex = 13;
             this.label6.Text = "Description:";
             // 
             // DescriptionSearchTextBox
             // 
-            this.DescriptionSearchTextBox.Location = new System.Drawing.Point(540, 114);
-            this.DescriptionSearchTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.DescriptionSearchTextBox.Location = new System.Drawing.Point(360, 76);
             this.DescriptionSearchTextBox.Name = "DescriptionSearchTextBox";
-            this.DescriptionSearchTextBox.Size = new System.Drawing.Size(298, 26);
+            this.DescriptionSearchTextBox.Size = new System.Drawing.Size(200, 20);
             this.DescriptionSearchTextBox.TabIndex = 14;
             this.DescriptionSearchTextBox.TextChanged += new System.EventHandler(this.DescriptionSearchTextBox_TextChanged);
             // 
@@ -613,10 +583,9 @@
             // 
             this.PartNumberClearButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.PartNumberClearButton.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PartNumberClearButton.Location = new System.Drawing.Point(708, 77);
-            this.PartNumberClearButton.Margin = new System.Windows.Forms.Padding(4);
+            this.PartNumberClearButton.Location = new System.Drawing.Point(472, 51);
             this.PartNumberClearButton.Name = "PartNumberClearButton";
-            this.PartNumberClearButton.Size = new System.Drawing.Size(32, 28);
+            this.PartNumberClearButton.Size = new System.Drawing.Size(21, 19);
             this.PartNumberClearButton.TabIndex = 15;
             this.PartNumberClearButton.Text = "C";
             this.PartNumberClearButton.UseVisualStyleBackColor = false;
@@ -626,10 +595,9 @@
             // 
             this.DescriptionClearButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.DescriptionClearButton.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DescriptionClearButton.Location = new System.Drawing.Point(843, 113);
-            this.DescriptionClearButton.Margin = new System.Windows.Forms.Padding(4);
+            this.DescriptionClearButton.Location = new System.Drawing.Point(562, 75);
             this.DescriptionClearButton.Name = "DescriptionClearButton";
-            this.DescriptionClearButton.Size = new System.Drawing.Size(32, 28);
+            this.DescriptionClearButton.Size = new System.Drawing.Size(21, 19);
             this.DescriptionClearButton.TabIndex = 16;
             this.DescriptionClearButton.Text = "C";
             this.DescriptionClearButton.UseVisualStyleBackColor = false;
@@ -637,19 +605,17 @@
             // 
             // PartDetailTextBox
             // 
-            this.PartDetailTextBox.Location = new System.Drawing.Point(16, 796);
-            this.PartDetailTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.PartDetailTextBox.Location = new System.Drawing.Point(11, 531);
             this.PartDetailTextBox.Multiline = true;
             this.PartDetailTextBox.Name = "PartDetailTextBox";
-            this.PartDetailTextBox.Size = new System.Drawing.Size(337, 169);
+            this.PartDetailTextBox.Size = new System.Drawing.Size(226, 114);
             this.PartDetailTextBox.TabIndex = 17;
             // 
             // partImagePictureBox
             // 
-            this.partImagePictureBox.Location = new System.Drawing.Point(734, 799);
-            this.partImagePictureBox.Margin = new System.Windows.Forms.Padding(4);
+            this.partImagePictureBox.Location = new System.Drawing.Point(489, 533);
             this.partImagePictureBox.Name = "partImagePictureBox";
-            this.partImagePictureBox.Size = new System.Drawing.Size(184, 165);
+            this.partImagePictureBox.Size = new System.Drawing.Size(123, 110);
             this.partImagePictureBox.TabIndex = 18;
             this.partImagePictureBox.TabStop = false;
             // 
@@ -659,11 +625,10 @@
             this.QuoteTabControl.Controls.Add(this.OptionTabPage);
             this.QuoteTabControl.Controls.Add(this.QuoteSettingTabPage);
             this.QuoteTabControl.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.QuoteTabControl.Location = new System.Drawing.Point(726, 224);
-            this.QuoteTabControl.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteTabControl.Location = new System.Drawing.Point(484, 149);
             this.QuoteTabControl.Name = "QuoteTabControl";
             this.QuoteTabControl.SelectedIndex = 0;
-            this.QuoteTabControl.Size = new System.Drawing.Size(1137, 535);
+            this.QuoteTabControl.Size = new System.Drawing.Size(758, 357);
             this.QuoteTabControl.TabIndex = 19;
             // 
             // QuoteTabPage
@@ -671,21 +636,19 @@
             this.QuoteTabPage.BackColor = System.Drawing.Color.White;
             this.QuoteTabPage.Controls.Add(this.QuoteRemoveSelectedButton);
             this.QuoteTabPage.Controls.Add(this.QuoteDataGridView);
-            this.QuoteTabPage.Location = new System.Drawing.Point(4, 30);
-            this.QuoteTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteTabPage.Location = new System.Drawing.Point(4, 24);
             this.QuoteTabPage.Name = "QuoteTabPage";
-            this.QuoteTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.QuoteTabPage.Size = new System.Drawing.Size(1129, 501);
+            this.QuoteTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.QuoteTabPage.Size = new System.Drawing.Size(750, 329);
             this.QuoteTabPage.TabIndex = 0;
             this.QuoteTabPage.Text = "Quote Items";
             // 
             // QuoteRemoveSelectedButton
             // 
             this.QuoteRemoveSelectedButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.QuoteRemoveSelectedButton.Location = new System.Drawing.Point(3, 456);
-            this.QuoteRemoveSelectedButton.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteRemoveSelectedButton.Location = new System.Drawing.Point(2, 304);
             this.QuoteRemoveSelectedButton.Name = "QuoteRemoveSelectedButton";
-            this.QuoteRemoveSelectedButton.Size = new System.Drawing.Size(194, 40);
+            this.QuoteRemoveSelectedButton.Size = new System.Drawing.Size(129, 27);
             this.QuoteRemoveSelectedButton.TabIndex = 2;
             this.QuoteRemoveSelectedButton.Text = "Remove Selected";
             this.QuoteRemoveSelectedButton.UseVisualStyleBackColor = false;
@@ -695,14 +658,14 @@
             // 
             this.QuoteDataGridView.AllowUserToAddRows = false;
             this.QuoteDataGridView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1112.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1112.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1112.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1112.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1112.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1112.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1112.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.QuoteDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1112;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.QuoteDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.QuoteDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.QuoteDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -714,19 +677,18 @@
             this.Column7,
             this.Column8});
             this.QuoteDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.QuoteDataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.QuoteDataGridView.Name = "QuoteDataGridView";
-            dataGridViewCellStyle1117.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1117.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1117.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1117.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1117.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1117.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1117.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.QuoteDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle1117;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.QuoteDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle17;
             this.QuoteDataGridView.RowHeadersVisible = false;
             this.QuoteDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.QuoteDataGridView.Size = new System.Drawing.Size(1124, 450);
+            this.QuoteDataGridView.Size = new System.Drawing.Size(749, 300);
             this.QuoteDataGridView.TabIndex = 1;
             this.QuoteDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.QuoteDataGridView_CellValueChanged);
             this.QuoteDataGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.QuoteDataGridView_DragDrop);
@@ -750,10 +712,10 @@
             // 
             // Column3
             // 
-            dataGridViewCellStyle1113.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1113.Format = "C2";
-            dataGridViewCellStyle1113.NullValue = null;
-            this.Column3.DefaultCellStyle = dataGridViewCellStyle1113;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle13.Format = "C2";
+            dataGridViewCellStyle13.NullValue = null;
+            this.Column3.DefaultCellStyle = dataGridViewCellStyle13;
             this.Column3.FillWeight = 70F;
             this.Column3.HeaderText = "List Price";
             this.Column3.Name = "Column3";
@@ -763,9 +725,9 @@
             // 
             // Column4
             // 
-            dataGridViewCellStyle1114.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1114.Format = "N0";
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle1114;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.Format = "N0";
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle14;
             this.Column4.FillWeight = 30F;
             this.Column4.HeaderText = "Qty";
             this.Column4.Name = "Column4";
@@ -775,10 +737,10 @@
             // 
             // Column5
             // 
-            dataGridViewCellStyle1115.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1115.Format = "N2";
-            dataGridViewCellStyle1115.NullValue = "0";
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle1115;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle15.Format = "N2";
+            dataGridViewCellStyle15.NullValue = "0";
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle15;
             this.Column5.FillWeight = 60F;
             this.Column5.HeaderText = "Discount";
             this.Column5.Name = "Column5";
@@ -786,10 +748,10 @@
             // 
             // Column6
             // 
-            dataGridViewCellStyle1116.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1116.Format = "C2";
-            dataGridViewCellStyle1116.NullValue = null;
-            this.Column6.DefaultCellStyle = dataGridViewCellStyle1116;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle16.Format = "C2";
+            dataGridViewCellStyle16.NullValue = null;
+            this.Column6.DefaultCellStyle = dataGridViewCellStyle16;
             this.Column6.FillWeight = 80F;
             this.Column6.HeaderText = "Extended Price";
             this.Column6.Name = "Column6";
@@ -813,21 +775,19 @@
             this.OptionTabPage.BackColor = System.Drawing.Color.White;
             this.OptionTabPage.Controls.Add(this.OptionsRemoveSelectedButton);
             this.OptionTabPage.Controls.Add(this.OptionsDataGridView);
-            this.OptionTabPage.Location = new System.Drawing.Point(4, 30);
-            this.OptionTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.OptionTabPage.Location = new System.Drawing.Point(4, 24);
             this.OptionTabPage.Name = "OptionTabPage";
-            this.OptionTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.OptionTabPage.Size = new System.Drawing.Size(1129, 501);
+            this.OptionTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.OptionTabPage.Size = new System.Drawing.Size(750, 329);
             this.OptionTabPage.TabIndex = 1;
             this.OptionTabPage.Text = "Option Items";
             // 
             // OptionsRemoveSelectedButton
             // 
             this.OptionsRemoveSelectedButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.OptionsRemoveSelectedButton.Location = new System.Drawing.Point(3, 456);
-            this.OptionsRemoveSelectedButton.Margin = new System.Windows.Forms.Padding(4);
+            this.OptionsRemoveSelectedButton.Location = new System.Drawing.Point(2, 304);
             this.OptionsRemoveSelectedButton.Name = "OptionsRemoveSelectedButton";
-            this.OptionsRemoveSelectedButton.Size = new System.Drawing.Size(194, 40);
+            this.OptionsRemoveSelectedButton.Size = new System.Drawing.Size(129, 27);
             this.OptionsRemoveSelectedButton.TabIndex = 3;
             this.OptionsRemoveSelectedButton.Text = "Remove Selected";
             this.OptionsRemoveSelectedButton.UseVisualStyleBackColor = false;
@@ -836,14 +796,14 @@
             // OptionsDataGridView
             // 
             this.OptionsDataGridView.AllowUserToAddRows = false;
-            dataGridViewCellStyle1118.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1118.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1118.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1118.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1118.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1118.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1118.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.OptionsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1118;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.OptionsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.OptionsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.OptionsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -855,11 +815,10 @@
             this.Column9,
             this.Column10});
             this.OptionsDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.OptionsDataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.OptionsDataGridView.Name = "OptionsDataGridView";
             this.OptionsDataGridView.RowHeadersVisible = false;
             this.OptionsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.OptionsDataGridView.Size = new System.Drawing.Size(1125, 450);
+            this.OptionsDataGridView.Size = new System.Drawing.Size(750, 300);
             this.OptionsDataGridView.TabIndex = 2;
             this.OptionsDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.OptionsDataGridView_CellValueChanged);
             this.OptionsDataGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.OptionsDataGridView_DragDrop);
@@ -881,10 +840,10 @@
             // 
             // dataGridViewTextBoxColumn4
             // 
-            dataGridViewCellStyle1119.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1119.Format = "C2";
-            dataGridViewCellStyle1119.NullValue = null;
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle1119;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle19.Format = "C2";
+            dataGridViewCellStyle19.NullValue = null;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle19;
             this.dataGridViewTextBoxColumn4.FillWeight = 70F;
             this.dataGridViewTextBoxColumn4.HeaderText = "List Price";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
@@ -894,9 +853,9 @@
             // 
             // dataGridViewTextBoxColumn5
             // 
-            dataGridViewCellStyle1120.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1120.Format = "N0";
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle1120;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.Format = "N0";
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle20;
             this.dataGridViewTextBoxColumn5.FillWeight = 30F;
             this.dataGridViewTextBoxColumn5.HeaderText = "Qty";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
@@ -906,9 +865,9 @@
             // 
             // dataGridViewTextBoxColumn6
             // 
-            dataGridViewCellStyle1121.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1121.NullValue = "0";
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle1121;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle21.NullValue = "0";
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle21;
             this.dataGridViewTextBoxColumn6.FillWeight = 60F;
             this.dataGridViewTextBoxColumn6.HeaderText = "Discount";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
@@ -916,10 +875,10 @@
             // 
             // dataGridViewTextBoxColumn7
             // 
-            dataGridViewCellStyle1122.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1122.Format = "C2";
-            dataGridViewCellStyle1122.NullValue = null;
-            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle1122;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle22.Format = "C2";
+            dataGridViewCellStyle22.NullValue = null;
+            this.dataGridViewTextBoxColumn7.DefaultCellStyle = dataGridViewCellStyle22;
             this.dataGridViewTextBoxColumn7.FillWeight = 80F;
             this.dataGridViewTextBoxColumn7.HeaderText = "Extended Price";
             this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
@@ -954,11 +913,10 @@
             this.QuoteSettingTabPage.Controls.Add(this.label16);
             this.QuoteSettingTabPage.Controls.Add(this.QuoteTitleTextBox);
             this.QuoteSettingTabPage.Controls.Add(this.label15);
-            this.QuoteSettingTabPage.Location = new System.Drawing.Point(4, 30);
-            this.QuoteSettingTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteSettingTabPage.Location = new System.Drawing.Point(4, 24);
             this.QuoteSettingTabPage.Name = "QuoteSettingTabPage";
-            this.QuoteSettingTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.QuoteSettingTabPage.Size = new System.Drawing.Size(1129, 501);
+            this.QuoteSettingTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.QuoteSettingTabPage.Size = new System.Drawing.Size(750, 329);
             this.QuoteSettingTabPage.TabIndex = 3;
             this.QuoteSettingTabPage.Text = "Quote Information";
             this.QuoteSettingTabPage.UseVisualStyleBackColor = true;
@@ -968,67 +926,60 @@
             this.IsSSPCheckBox.AutoSize = true;
             this.IsSSPCheckBox.Checked = true;
             this.IsSSPCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.IsSSPCheckBox.Location = new System.Drawing.Point(650, 221);
-            this.IsSSPCheckBox.Margin = new System.Windows.Forms.Padding(4);
+            this.IsSSPCheckBox.Location = new System.Drawing.Point(433, 147);
             this.IsSSPCheckBox.Name = "IsSSPCheckBox";
-            this.IsSSPCheckBox.Size = new System.Drawing.Size(126, 25);
+            this.IsSSPCheckBox.Size = new System.Drawing.Size(86, 19);
             this.IsSSPCheckBox.TabIndex = 14;
             this.IsSSPCheckBox.Text = "SSP Quote";
             this.IsSSPCheckBox.UseVisualStyleBackColor = true;
             // 
             // QuoteDescriptionTextBox
             // 
-            this.QuoteDescriptionTextBox.Location = new System.Drawing.Point(158, 141);
-            this.QuoteDescriptionTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteDescriptionTextBox.Location = new System.Drawing.Point(105, 94);
             this.QuoteDescriptionTextBox.Name = "QuoteDescriptionTextBox";
-            this.QuoteDescriptionTextBox.Size = new System.Drawing.Size(562, 28);
+            this.QuoteDescriptionTextBox.Size = new System.Drawing.Size(376, 21);
             this.QuoteDescriptionTextBox.TabIndex = 5;
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(24, 146);
-            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label21.Location = new System.Drawing.Point(16, 97);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(105, 21);
+            this.label21.Size = new System.Drawing.Size(73, 15);
             this.label21.TabIndex = 12;
             this.label21.Text = "Description:";
             // 
             // QuoteTemplateComboBox
             // 
             this.QuoteTemplateComboBox.FormattingEnabled = true;
-            this.QuoteTemplateComboBox.Location = new System.Drawing.Point(268, 286);
-            this.QuoteTemplateComboBox.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteTemplateComboBox.Location = new System.Drawing.Point(179, 191);
             this.QuoteTemplateComboBox.Name = "QuoteTemplateComboBox";
-            this.QuoteTemplateComboBox.Size = new System.Drawing.Size(697, 29);
+            this.QuoteTemplateComboBox.Size = new System.Drawing.Size(466, 23);
             this.QuoteTemplateComboBox.TabIndex = 7;
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(24, 291);
-            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label20.Location = new System.Drawing.Point(16, 194);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(197, 21);
+            this.label20.Size = new System.Drawing.Size(134, 15);
             this.label20.TabIndex = 10;
             this.label20.Text = "Select Quote Template:";
             // 
             // QuoteTypeComboBox
             // 
             this.QuoteTypeComboBox.FormattingEnabled = true;
-            this.QuoteTypeComboBox.Location = new System.Drawing.Point(225, 219);
-            this.QuoteTypeComboBox.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteTypeComboBox.Location = new System.Drawing.Point(150, 146);
             this.QuoteTypeComboBox.Name = "QuoteTypeComboBox";
-            this.QuoteTypeComboBox.Size = new System.Drawing.Size(382, 29);
+            this.QuoteTypeComboBox.Size = new System.Drawing.Size(256, 23);
             this.QuoteTypeComboBox.TabIndex = 6;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(24, 223);
-            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label19.Location = new System.Drawing.Point(16, 149);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(164, 21);
+            this.label19.Size = new System.Drawing.Size(108, 15);
             this.label19.TabIndex = 8;
             this.label19.Text = "Select Quote Type:";
             // 
@@ -1037,10 +988,9 @@
             this.ContactComboBox.DataSource = this.contactsBndingSource;
             this.ContactComboBox.DisplayMember = "FullName";
             this.ContactComboBox.FormattingEnabled = true;
-            this.ContactComboBox.Location = new System.Drawing.Point(664, 26);
-            this.ContactComboBox.Margin = new System.Windows.Forms.Padding(4);
+            this.ContactComboBox.Location = new System.Drawing.Point(443, 17);
             this.ContactComboBox.Name = "ContactComboBox";
-            this.ContactComboBox.Size = new System.Drawing.Size(302, 29);
+            this.ContactComboBox.Size = new System.Drawing.Size(203, 23);
             this.ContactComboBox.TabIndex = 2;
             this.ContactComboBox.ValueMember = "ContactID";
             // 
@@ -1062,10 +1012,9 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(507, 31);
-            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label18.Location = new System.Drawing.Point(338, 21);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(132, 21);
+            this.label18.Size = new System.Drawing.Size(89, 15);
             this.label18.TabIndex = 6;
             this.label18.Text = "Select Contact:";
             // 
@@ -1074,10 +1023,9 @@
             this.AccountComboBox.DataSource = this.accountsBindingSource;
             this.AccountComboBox.DisplayMember = "AccountName";
             this.AccountComboBox.FormattingEnabled = true;
-            this.AccountComboBox.Location = new System.Drawing.Point(194, 26);
-            this.AccountComboBox.Margin = new System.Windows.Forms.Padding(4);
+            this.AccountComboBox.Location = new System.Drawing.Point(129, 17);
             this.AccountComboBox.Name = "AccountComboBox";
-            this.AccountComboBox.Size = new System.Drawing.Size(290, 29);
+            this.AccountComboBox.Size = new System.Drawing.Size(195, 23);
             this.AccountComboBox.TabIndex = 1;
             this.AccountComboBox.ValueMember = "AccountID";
             this.AccountComboBox.SelectedIndexChanged += new System.EventHandler(this.AccountComboBox_SelectedIndexChanged);
@@ -1090,10 +1038,9 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(24, 31);
-            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label17.Location = new System.Drawing.Point(16, 21);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(133, 21);
+            this.label17.Size = new System.Drawing.Size(89, 15);
             this.label17.TabIndex = 4;
             this.label17.Text = "Select Account:";
             // 
@@ -1101,57 +1048,51 @@
             // 
             this.QuoteDateTimePicker.CalendarFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.QuoteDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.QuoteDateTimePicker.Location = new System.Drawing.Point(818, 85);
-            this.QuoteDateTimePicker.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteDateTimePicker.Location = new System.Drawing.Point(545, 57);
             this.QuoteDateTimePicker.Name = "QuoteDateTimePicker";
-            this.QuoteDateTimePicker.Size = new System.Drawing.Size(148, 28);
+            this.QuoteDateTimePicker.Size = new System.Drawing.Size(100, 21);
             this.QuoteDateTimePicker.TabIndex = 4;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(747, 90);
-            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Location = new System.Drawing.Point(498, 60);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(53, 21);
+            this.label16.Size = new System.Drawing.Size(36, 15);
             this.label16.TabIndex = 2;
             this.label16.Text = "Date:";
             // 
             // QuoteTitleTextBox
             // 
-            this.QuoteTitleTextBox.Location = new System.Drawing.Point(80, 85);
-            this.QuoteTitleTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteTitleTextBox.Location = new System.Drawing.Point(53, 57);
             this.QuoteTitleTextBox.Name = "QuoteTitleTextBox";
-            this.QuoteTitleTextBox.Size = new System.Drawing.Size(640, 28);
+            this.QuoteTitleTextBox.Size = new System.Drawing.Size(428, 21);
             this.QuoteTitleTextBox.TabIndex = 3;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(24, 90);
-            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Location = new System.Drawing.Point(16, 60);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(49, 21);
+            this.label15.Size = new System.Drawing.Size(33, 15);
             this.label15.TabIndex = 0;
             this.label15.Text = "Title:";
             // 
             // instLabel2
             // 
             this.instLabel2.AutoSize = true;
-            this.instLabel2.Location = new System.Drawing.Point(423, 766);
-            this.instLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.instLabel2.Location = new System.Drawing.Point(282, 511);
             this.instLabel2.Name = "instLabel2";
-            this.instLabel2.Size = new System.Drawing.Size(274, 18);
+            this.instLabel2.Size = new System.Drawing.Size(189, 14);
             this.instLabel2.TabIndex = 20;
             this.instLabel2.Text = "Right-Click Item Above to View Details";
             // 
             // instLabel1
             // 
             this.instLabel1.AutoSize = true;
-            this.instLabel1.Location = new System.Drawing.Point(20, 766);
-            this.instLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.instLabel1.Location = new System.Drawing.Point(13, 511);
             this.instLabel1.Name = "instLabel1";
-            this.instLabel1.Size = new System.Drawing.Size(236, 18);
+            this.instLabel1.Size = new System.Drawing.Size(164, 14);
             this.instLabel1.TabIndex = 21;
             this.instLabel1.Text = "Drag Item Above to Add to Quote";
             // 
@@ -1159,10 +1100,9 @@
             // 
             this.ClearFiltersButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClearFiltersButton.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ClearFiltersButton.Location = new System.Drawing.Point(327, 75);
-            this.ClearFiltersButton.Margin = new System.Windows.Forms.Padding(4);
+            this.ClearFiltersButton.Location = new System.Drawing.Point(218, 50);
             this.ClearFiltersButton.Name = "ClearFiltersButton";
-            this.ClearFiltersButton.Size = new System.Drawing.Size(69, 35);
+            this.ClearFiltersButton.Size = new System.Drawing.Size(46, 23);
             this.ClearFiltersButton.TabIndex = 22;
             this.ClearFiltersButton.Text = "Clear";
             this.ClearFiltersButton.UseVisualStyleBackColor = false;
@@ -1172,10 +1112,9 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(1175, 778);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Location = new System.Drawing.Point(783, 519);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(174, 21);
+            this.label7.Size = new System.Drawing.Size(112, 15);
             this.label7.TabIndex = 23;
             this.label7.Text = "Quote Items Price:";
             // 
@@ -1183,10 +1122,9 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(1198, 813);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Location = new System.Drawing.Point(799, 542);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(152, 21);
+            this.label8.Size = new System.Drawing.Size(97, 15);
             this.label8.TabIndex = 24;
             this.label8.Text = "Quote Discount:";
             // 
@@ -1194,10 +1132,9 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(1185, 848);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Location = new System.Drawing.Point(790, 565);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(167, 21);
+            this.label9.Size = new System.Drawing.Size(106, 15);
             this.label9.TabIndex = 25;
             this.label9.Text = "Final Quote Price:";
             // 
@@ -1205,10 +1142,9 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(1219, 883);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Location = new System.Drawing.Point(813, 589);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(132, 21);
+            this.label10.Size = new System.Drawing.Size(83, 15);
             this.label10.TabIndex = 26;
             this.label10.Text = "Est. Shipping:";
             // 
@@ -1216,10 +1152,9 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(1519, 778);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Location = new System.Drawing.Point(1013, 519);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(189, 21);
+            this.label11.Size = new System.Drawing.Size(122, 15);
             this.label11.TabIndex = 27;
             this.label11.Text = "Options Items Price:";
             // 
@@ -1227,10 +1162,9 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(1528, 848);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Location = new System.Drawing.Point(1019, 565);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(182, 21);
+            this.label13.Size = new System.Drawing.Size(116, 15);
             this.label13.TabIndex = 29;
             this.label13.Text = "Final Options Price:";
             // 
@@ -1238,10 +1172,9 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(1541, 813);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label14.Location = new System.Drawing.Point(1027, 542);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(167, 21);
+            this.label14.Size = new System.Drawing.Size(107, 15);
             this.label14.TabIndex = 28;
             this.label14.Text = "Options Discount:";
             // 
@@ -1249,50 +1182,45 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(1198, 928);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.Location = new System.Drawing.Point(799, 619);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(322, 21);
+            this.label12.Size = new System.Drawing.Size(207, 15);
             this.label12.TabIndex = 30;
             this.label12.Text = "Total Quote Price (Items + Options):";
             // 
             // QuoteItemsPriceTextBox
             // 
             this.QuoteItemsPriceTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.QuoteItemsPriceTextBox.Location = new System.Drawing.Point(1353, 775);
-            this.QuoteItemsPriceTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteItemsPriceTextBox.Location = new System.Drawing.Point(902, 517);
             this.QuoteItemsPriceTextBox.Name = "QuoteItemsPriceTextBox";
-            this.QuoteItemsPriceTextBox.Size = new System.Drawing.Size(136, 26);
+            this.QuoteItemsPriceTextBox.Size = new System.Drawing.Size(92, 20);
             this.QuoteItemsPriceTextBox.TabIndex = 31;
             this.QuoteItemsPriceTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // QuoteItemsDiscountPercentageTextBox
             // 
             this.QuoteItemsDiscountPercentageTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.QuoteItemsDiscountPercentageTextBox.Location = new System.Drawing.Point(1353, 809);
-            this.QuoteItemsDiscountPercentageTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteItemsDiscountPercentageTextBox.Location = new System.Drawing.Point(902, 539);
             this.QuoteItemsDiscountPercentageTextBox.Name = "QuoteItemsDiscountPercentageTextBox";
-            this.QuoteItemsDiscountPercentageTextBox.Size = new System.Drawing.Size(136, 26);
+            this.QuoteItemsDiscountPercentageTextBox.Size = new System.Drawing.Size(92, 20);
             this.QuoteItemsDiscountPercentageTextBox.TabIndex = 32;
             this.QuoteItemsDiscountPercentageTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // QuoteItemsPriceAfterDiscountTextBox
             // 
             this.QuoteItemsPriceAfterDiscountTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.QuoteItemsPriceAfterDiscountTextBox.Location = new System.Drawing.Point(1353, 844);
-            this.QuoteItemsPriceAfterDiscountTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.QuoteItemsPriceAfterDiscountTextBox.Location = new System.Drawing.Point(902, 563);
             this.QuoteItemsPriceAfterDiscountTextBox.Name = "QuoteItemsPriceAfterDiscountTextBox";
-            this.QuoteItemsPriceAfterDiscountTextBox.Size = new System.Drawing.Size(136, 26);
+            this.QuoteItemsPriceAfterDiscountTextBox.Size = new System.Drawing.Size(92, 20);
             this.QuoteItemsPriceAfterDiscountTextBox.TabIndex = 33;
             this.QuoteItemsPriceAfterDiscountTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // ShippingTextBox
             // 
             this.ShippingTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ShippingTextBox.Location = new System.Drawing.Point(1353, 878);
-            this.ShippingTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.ShippingTextBox.Location = new System.Drawing.Point(902, 585);
             this.ShippingTextBox.Name = "ShippingTextBox";
-            this.ShippingTextBox.Size = new System.Drawing.Size(136, 26);
+            this.ShippingTextBox.Size = new System.Drawing.Size(92, 20);
             this.ShippingTextBox.TabIndex = 34;
             this.ShippingTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ShippingTextBox.LostFocus += new System.EventHandler(this.ShippingTextBox_Lost_Focus);
@@ -1300,50 +1228,45 @@
             // OptionsItemsPriceTextBox
             // 
             this.OptionsItemsPriceTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OptionsItemsPriceTextBox.Location = new System.Drawing.Point(1711, 775);
-            this.OptionsItemsPriceTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.OptionsItemsPriceTextBox.Location = new System.Drawing.Point(1141, 517);
             this.OptionsItemsPriceTextBox.Name = "OptionsItemsPriceTextBox";
-            this.OptionsItemsPriceTextBox.Size = new System.Drawing.Size(136, 26);
+            this.OptionsItemsPriceTextBox.Size = new System.Drawing.Size(92, 20);
             this.OptionsItemsPriceTextBox.TabIndex = 35;
             this.OptionsItemsPriceTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // OptionsItemsDiscountPercentageTextBox
             // 
             this.OptionsItemsDiscountPercentageTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OptionsItemsDiscountPercentageTextBox.Location = new System.Drawing.Point(1711, 809);
-            this.OptionsItemsDiscountPercentageTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.OptionsItemsDiscountPercentageTextBox.Location = new System.Drawing.Point(1141, 539);
             this.OptionsItemsDiscountPercentageTextBox.Name = "OptionsItemsDiscountPercentageTextBox";
-            this.OptionsItemsDiscountPercentageTextBox.Size = new System.Drawing.Size(136, 26);
+            this.OptionsItemsDiscountPercentageTextBox.Size = new System.Drawing.Size(92, 20);
             this.OptionsItemsDiscountPercentageTextBox.TabIndex = 36;
             this.OptionsItemsDiscountPercentageTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // OptionsItemsPriceAfterDiscountTextBox
             // 
             this.OptionsItemsPriceAfterDiscountTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OptionsItemsPriceAfterDiscountTextBox.Location = new System.Drawing.Point(1711, 844);
-            this.OptionsItemsPriceAfterDiscountTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.OptionsItemsPriceAfterDiscountTextBox.Location = new System.Drawing.Point(1141, 563);
             this.OptionsItemsPriceAfterDiscountTextBox.Name = "OptionsItemsPriceAfterDiscountTextBox";
-            this.OptionsItemsPriceAfterDiscountTextBox.Size = new System.Drawing.Size(136, 26);
+            this.OptionsItemsPriceAfterDiscountTextBox.Size = new System.Drawing.Size(92, 20);
             this.OptionsItemsPriceAfterDiscountTextBox.TabIndex = 37;
             this.OptionsItemsPriceAfterDiscountTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // TotalQuotePriceQuoteAndOptionsTextBox
             // 
             this.TotalQuotePriceQuoteAndOptionsTextBox.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TotalQuotePriceQuoteAndOptionsTextBox.Location = new System.Drawing.Point(1517, 924);
-            this.TotalQuotePriceQuoteAndOptionsTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.TotalQuotePriceQuoteAndOptionsTextBox.Location = new System.Drawing.Point(1011, 616);
             this.TotalQuotePriceQuoteAndOptionsTextBox.Name = "TotalQuotePriceQuoteAndOptionsTextBox";
-            this.TotalQuotePriceQuoteAndOptionsTextBox.Size = new System.Drawing.Size(136, 26);
+            this.TotalQuotePriceQuoteAndOptionsTextBox.Size = new System.Drawing.Size(92, 20);
             this.TotalQuotePriceQuoteAndOptionsTextBox.TabIndex = 38;
             this.TotalQuotePriceQuoteAndOptionsTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(1095, 64);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox1.Location = new System.Drawing.Point(730, 43);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(768, 137);
+            this.pictureBox1.Size = new System.Drawing.Size(512, 91);
             this.pictureBox1.TabIndex = 39;
             this.pictureBox1.TabStop = false;
             // 
@@ -1407,38 +1330,38 @@
             this.SalemansNameLabel.AutoSize = true;
             this.SalemansNameLabel.BackColor = System.Drawing.Color.PowderBlue;
             this.SalemansNameLabel.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SalemansNameLabel.Location = new System.Drawing.Point(1473, 8);
-            this.SalemansNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.SalemansNameLabel.Location = new System.Drawing.Point(982, 5);
             this.SalemansNameLabel.Name = "SalemansNameLabel";
-            this.SalemansNameLabel.Size = new System.Drawing.Size(24, 19);
+            this.SalemansNameLabel.Size = new System.Drawing.Size(16, 14);
             this.SalemansNameLabel.TabIndex = 40;
             this.SalemansNameLabel.Text = "...";
             // 
             // NotesTextBox
             // 
-            this.NotesTextBox.Location = new System.Drawing.Point(370, 796);
-            this.NotesTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.NotesTextBox.Location = new System.Drawing.Point(247, 531);
             this.NotesTextBox.Multiline = true;
             this.NotesTextBox.Name = "NotesTextBox";
-            this.NotesTextBox.Size = new System.Drawing.Size(337, 169);
+            this.NotesTextBox.Size = new System.Drawing.Size(226, 114);
             this.NotesTextBox.TabIndex = 41;
             // 
             // label22
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(729, 767);
+            this.label22.Location = new System.Drawing.Point(486, 511);
+            this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(62, 21);
+            this.label22.Size = new System.Drawing.Size(40, 15);
             this.label22.TabIndex = 42;
             this.label22.Text = "Price:";
             // 
             // itemPriceTextBox
             // 
             this.itemPriceTextBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.itemPriceTextBox.Location = new System.Drawing.Point(790, 763);
+            this.itemPriceTextBox.Location = new System.Drawing.Point(527, 509);
+            this.itemPriceTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.itemPriceTextBox.Name = "itemPriceTextBox";
-            this.itemPriceTextBox.Size = new System.Drawing.Size(125, 30);
+            this.itemPriceTextBox.Size = new System.Drawing.Size(85, 23);
             this.itemPriceTextBox.TabIndex = 43;
             // 
             // accountsTableAdapter
@@ -1459,19 +1382,21 @@
             this.RequiredPartsPanel.Controls.Add(this.RequiredPartsPanelHeadingLabel);
             this.RequiredPartsPanel.Controls.Add(this.label23);
             this.RequiredPartsPanel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RequiredPartsPanel.Location = new System.Drawing.Point(407, 166);
+            this.RequiredPartsPanel.Location = new System.Drawing.Point(144, 71);
+            this.RequiredPartsPanel.Margin = new System.Windows.Forms.Padding(2);
             this.RequiredPartsPanel.Name = "RequiredPartsPanel";
-            this.RequiredPartsPanel.Size = new System.Drawing.Size(870, 449);
+            this.RequiredPartsPanel.Size = new System.Drawing.Size(581, 300);
             this.RequiredPartsPanel.TabIndex = 44;
             this.RequiredPartsPanel.Visible = false;
             // 
             // RequiredPanelCancelButton
             // 
-            this.RequiredPanelCancelButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.RequiredPanelCancelButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.RequiredPanelCancelButton.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RequiredPanelCancelButton.Location = new System.Drawing.Point(496, 382);
+            this.RequiredPanelCancelButton.Location = new System.Drawing.Point(331, 255);
+            this.RequiredPanelCancelButton.Margin = new System.Windows.Forms.Padding(2);
             this.RequiredPanelCancelButton.Name = "RequiredPanelCancelButton";
-            this.RequiredPanelCancelButton.Size = new System.Drawing.Size(120, 31);
+            this.RequiredPanelCancelButton.Size = new System.Drawing.Size(80, 21);
             this.RequiredPanelCancelButton.TabIndex = 5;
             this.RequiredPanelCancelButton.Text = "Cancel";
             this.RequiredPanelCancelButton.UseVisualStyleBackColor = false;
@@ -1479,11 +1404,12 @@
             // 
             // RequiredPanelAddButton
             // 
-            this.RequiredPanelAddButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.RequiredPanelAddButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.RequiredPanelAddButton.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RequiredPanelAddButton.Location = new System.Drawing.Point(283, 382);
+            this.RequiredPanelAddButton.Location = new System.Drawing.Point(189, 255);
+            this.RequiredPanelAddButton.Margin = new System.Windows.Forms.Padding(2);
             this.RequiredPanelAddButton.Name = "RequiredPanelAddButton";
-            this.RequiredPanelAddButton.Size = new System.Drawing.Size(89, 31);
+            this.RequiredPanelAddButton.Size = new System.Drawing.Size(59, 21);
             this.RequiredPanelAddButton.TabIndex = 4;
             this.RequiredPanelAddButton.Text = "Add";
             this.RequiredPanelAddButton.UseVisualStyleBackColor = false;
@@ -1492,18 +1418,20 @@
             // RequiredPartCheckedListBox
             // 
             this.RequiredPartCheckedListBox.FormattingEnabled = true;
-            this.RequiredPartCheckedListBox.Location = new System.Drawing.Point(122, 169);
+            this.RequiredPartCheckedListBox.Location = new System.Drawing.Point(81, 113);
+            this.RequiredPartCheckedListBox.Margin = new System.Windows.Forms.Padding(2);
             this.RequiredPartCheckedListBox.Name = "RequiredPartCheckedListBox";
-            this.RequiredPartCheckedListBox.Size = new System.Drawing.Size(623, 165);
+            this.RequiredPartCheckedListBox.Size = new System.Drawing.Size(417, 100);
             this.RequiredPartCheckedListBox.TabIndex = 3;
             // 
             // RequiredPartsPanelSelectAllCheckBox
             // 
             this.RequiredPartsPanelSelectAllCheckBox.AutoSize = true;
             this.RequiredPartsPanelSelectAllCheckBox.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RequiredPartsPanelSelectAllCheckBox.Location = new System.Drawing.Point(122, 114);
+            this.RequiredPartsPanelSelectAllCheckBox.Location = new System.Drawing.Point(81, 76);
+            this.RequiredPartsPanelSelectAllCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.RequiredPartsPanelSelectAllCheckBox.Name = "RequiredPartsPanelSelectAllCheckBox";
-            this.RequiredPartsPanelSelectAllCheckBox.Size = new System.Drawing.Size(117, 27);
+            this.RequiredPartsPanelSelectAllCheckBox.Size = new System.Drawing.Size(84, 20);
             this.RequiredPartsPanelSelectAllCheckBox.TabIndex = 2;
             this.RequiredPartsPanelSelectAllCheckBox.Text = "Select All";
             this.RequiredPartsPanelSelectAllCheckBox.UseVisualStyleBackColor = true;
@@ -1512,18 +1440,20 @@
             // RequiredPartsPanelHeadingLabel
             // 
             this.RequiredPartsPanelHeadingLabel.AutoSize = true;
-            this.RequiredPartsPanelHeadingLabel.Location = new System.Drawing.Point(75, 53);
+            this.RequiredPartsPanelHeadingLabel.Location = new System.Drawing.Point(50, 35);
+            this.RequiredPartsPanelHeadingLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.RequiredPartsPanelHeadingLabel.Name = "RequiredPartsPanelHeadingLabel";
-            this.RequiredPartsPanelHeadingLabel.Size = new System.Drawing.Size(0, 21);
+            this.RequiredPartsPanelHeadingLabel.Size = new System.Drawing.Size(0, 15);
             this.RequiredPartsPanelHeadingLabel.TabIndex = 1;
             // 
             // label23
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(355, 17);
+            this.label23.Location = new System.Drawing.Point(237, 11);
+            this.label23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(151, 24);
+            this.label23.Size = new System.Drawing.Size(113, 16);
             this.label23.TabIndex = 0;
             this.label23.Text = "Required Parts";
             // 
@@ -1533,19 +1463,21 @@
             this.PleaseWaitPanel.Controls.Add(this.PLeaseWaitPanelOKButton);
             this.PleaseWaitPanel.Controls.Add(this.PleaseWaitMessageTextBox);
             this.PleaseWaitPanel.Controls.Add(this.PleaseWaitHeadingLabel);
-            this.PleaseWaitPanel.Location = new System.Drawing.Point(149, 366);
+            this.PleaseWaitPanel.Location = new System.Drawing.Point(99, 244);
+            this.PleaseWaitPanel.Margin = new System.Windows.Forms.Padding(2);
             this.PleaseWaitPanel.Name = "PleaseWaitPanel";
-            this.PleaseWaitPanel.Size = new System.Drawing.Size(464, 325);
+            this.PleaseWaitPanel.Size = new System.Drawing.Size(310, 217);
             this.PleaseWaitPanel.TabIndex = 45;
             this.PleaseWaitPanel.Visible = false;
             // 
             // PLeaseWaitPanelOKButton
             // 
-            this.PLeaseWaitPanelOKButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.PLeaseWaitPanelOKButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.PLeaseWaitPanelOKButton.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PLeaseWaitPanelOKButton.Location = new System.Drawing.Point(195, 263);
+            this.PLeaseWaitPanelOKButton.Location = new System.Drawing.Point(130, 175);
+            this.PLeaseWaitPanelOKButton.Margin = new System.Windows.Forms.Padding(2);
             this.PLeaseWaitPanelOKButton.Name = "PLeaseWaitPanelOKButton";
-            this.PLeaseWaitPanelOKButton.Size = new System.Drawing.Size(89, 37);
+            this.PLeaseWaitPanelOKButton.Size = new System.Drawing.Size(59, 25);
             this.PLeaseWaitPanelOKButton.TabIndex = 5;
             this.PLeaseWaitPanelOKButton.Text = "OK";
             this.PLeaseWaitPanelOKButton.UseVisualStyleBackColor = false;
@@ -1555,13 +1487,14 @@
             // PleaseWaitMessageTextBox
             // 
             this.PleaseWaitMessageTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.PleaseWaitMessageTextBox.Location = new System.Drawing.Point(33, 69);
-            this.PleaseWaitMessageTextBox.MinimumSize = new System.Drawing.Size(4, 200);
+            this.PleaseWaitMessageTextBox.Location = new System.Drawing.Point(22, 46);
+            this.PleaseWaitMessageTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.PleaseWaitMessageTextBox.MinimumSize = new System.Drawing.Size(4, 135);
             this.PleaseWaitMessageTextBox.Multiline = true;
             this.PleaseWaitMessageTextBox.Name = "PleaseWaitMessageTextBox";
             this.PleaseWaitMessageTextBox.ReadOnly = true;
             this.PleaseWaitMessageTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.PleaseWaitMessageTextBox.Size = new System.Drawing.Size(396, 200);
+            this.PleaseWaitMessageTextBox.Size = new System.Drawing.Size(265, 135);
             this.PleaseWaitMessageTextBox.TabIndex = 2;
             this.PleaseWaitMessageTextBox.TabStop = false;
             // 
@@ -1569,9 +1502,10 @@
             // 
             this.PleaseWaitHeadingLabel.AutoSize = true;
             this.PleaseWaitHeadingLabel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PleaseWaitHeadingLabel.Location = new System.Drawing.Point(173, 22);
+            this.PleaseWaitHeadingLabel.Location = new System.Drawing.Point(115, 15);
+            this.PleaseWaitHeadingLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.PleaseWaitHeadingLabel.Name = "PleaseWaitHeadingLabel";
-            this.PleaseWaitHeadingLabel.Size = new System.Drawing.Size(111, 21);
+            this.PleaseWaitHeadingLabel.Size = new System.Drawing.Size(75, 15);
             this.PleaseWaitHeadingLabel.TabIndex = 0;
             this.PleaseWaitHeadingLabel.Text = "Please Wait";
             // 
@@ -1585,19 +1519,40 @@
             this.BugReportPanel.Controls.Add(this.label24);
             this.BugReportPanel.Controls.Add(this.label25);
             this.BugReportPanel.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BugReportPanel.Location = new System.Drawing.Point(232, 141);
+            this.BugReportPanel.Location = new System.Drawing.Point(76, 165);
+            this.BugReportPanel.Margin = new System.Windows.Forms.Padding(2);
             this.BugReportPanel.Name = "BugReportPanel";
-            this.BugReportPanel.Size = new System.Drawing.Size(870, 716);
+            this.BugReportPanel.Size = new System.Drawing.Size(581, 478);
             this.BugReportPanel.TabIndex = 46;
             this.BugReportPanel.Visible = false;
             // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(48, 38);
+            this.label26.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(439, 90);
+            this.label26.TabIndex = 7;
+            this.label26.Text = resources.GetString("label26.Text");
+            // 
+            // BugReportTextBox
+            // 
+            this.BugReportTextBox.Location = new System.Drawing.Point(41, 129);
+            this.BugReportTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.BugReportTextBox.Multiline = true;
+            this.BugReportTextBox.Name = "BugReportTextBox";
+            this.BugReportTextBox.Size = new System.Drawing.Size(501, 267);
+            this.BugReportTextBox.TabIndex = 6;
+            // 
             // BugReportCancelButton
             // 
-            this.BugReportCancelButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.BugReportCancelButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.BugReportCancelButton.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BugReportCancelButton.Location = new System.Drawing.Point(497, 636);
+            this.BugReportCancelButton.Location = new System.Drawing.Point(331, 424);
+            this.BugReportCancelButton.Margin = new System.Windows.Forms.Padding(2);
             this.BugReportCancelButton.Name = "BugReportCancelButton";
-            this.BugReportCancelButton.Size = new System.Drawing.Size(120, 31);
+            this.BugReportCancelButton.Size = new System.Drawing.Size(80, 21);
             this.BugReportCancelButton.TabIndex = 5;
             this.BugReportCancelButton.Text = "Cancel";
             this.BugReportCancelButton.UseVisualStyleBackColor = false;
@@ -1605,11 +1560,12 @@
             // 
             // BugReportSendButton
             // 
-            this.BugReportSendButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.BugReportSendButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.BugReportSendButton.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BugReportSendButton.Location = new System.Drawing.Point(266, 636);
+            this.BugReportSendButton.Location = new System.Drawing.Point(177, 424);
+            this.BugReportSendButton.Margin = new System.Windows.Forms.Padding(2);
             this.BugReportSendButton.Name = "BugReportSendButton";
-            this.BugReportSendButton.Size = new System.Drawing.Size(89, 31);
+            this.BugReportSendButton.Size = new System.Drawing.Size(59, 21);
             this.BugReportSendButton.TabIndex = 4;
             this.BugReportSendButton.Text = "Send";
             this.BugReportSendButton.UseVisualStyleBackColor = false;
@@ -1618,44 +1574,29 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(57, 53);
+            this.label24.Location = new System.Drawing.Point(38, 35);
+            this.label24.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(0, 21);
+            this.label24.Size = new System.Drawing.Size(0, 15);
             this.label24.TabIndex = 1;
             // 
             // label25
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(337, 17);
+            this.label25.Location = new System.Drawing.Point(225, 11);
+            this.label25.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(118, 24);
+            this.label25.Size = new System.Drawing.Size(88, 16);
             this.label25.TabIndex = 0;
             this.label25.Text = "Bug Report";
             // 
-            // BugReportTextBox
-            // 
-            this.BugReportTextBox.Location = new System.Drawing.Point(61, 194);
-            this.BugReportTextBox.Multiline = true;
-            this.BugReportTextBox.Name = "BugReportTextBox";
-            this.BugReportTextBox.Size = new System.Drawing.Size(750, 399);
-            this.BugReportTextBox.TabIndex = 6;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(72, 57);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(642, 126);
-            this.label26.TabIndex = 7;
-            this.label26.Text = resources.GetString("label26.Text");
-            // 
             // MainQuoteForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.BlanchedAlmond;
-            this.ClientSize = new System.Drawing.Size(1881, 997);
+            this.ClientSize = new System.Drawing.Size(1254, 665);
             this.Controls.Add(this.BugReportPanel);
             this.Controls.Add(this.PleaseWaitPanel);
             this.Controls.Add(this.RequiredPartsPanel);
@@ -1705,12 +1646,12 @@
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainQuoteForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tecan Quote Generator";
             this.Load += new System.EventHandler(this.MainQuoteForm_Load);
             this.Shown += new System.EventHandler(this.getProfileAndDatabase);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIsClosing);
             ((System.ComponentModel.ISupportInitialize)(this.partsListBindingNavigator)).EndInit();
             this.partsListBindingNavigator.ResumeLayout(false);
             this.partsListBindingNavigator.PerformLayout();
@@ -1837,12 +1778,10 @@
         private System.Windows.Forms.ToolStripMenuItem loadQuoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveQuoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sendQuoteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem printQuoteToolStripMenuItem;
         private System.Windows.Forms.TextBox QuoteDescriptionTextBox;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.ToolStripMenuItem myProfileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearQuoteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newQuoteToolStripMenuItem;
         private System.Windows.Forms.CheckBox IsSSPCheckBox;
         private System.Windows.Forms.Label SalemansNameLabel;
         private System.Windows.Forms.ToolStripMenuItem viewQuoteToolStripMenuItem;

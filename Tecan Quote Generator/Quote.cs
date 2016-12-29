@@ -18,7 +18,7 @@ namespace Tecan_Quote_Generator
         public short QuoteAccount;
 
         [XmlElementAttribute("Contact")]
-        public string QuoteContact;
+        public short QuoteContact;
 
         [XmlElementAttribute("Title")]
         public string QuoteTitle;

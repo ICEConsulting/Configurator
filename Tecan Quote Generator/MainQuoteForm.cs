@@ -49,7 +49,7 @@ namespace Tecan_Quote_Generator
             // TODO: This line of code loads data into the 'customersDataSet.Contacts' table. You can move, or remove it, as needed.
             // this.contactsTableAdapter.Fill(this.customersDataSet.Contacts);
             // TODO: This line of code loads data into the 'customersDataSet.Accounts' table. You can move, or remove it, as needed.
-            this.accountsTableAdapter.Fill(this.customersDataSet.Accounts);
+            this.accountsTableAdapter.FillBy(this.customersDataSet.Accounts);
             short currentAccountID = Convert.ToInt16(AccountComboBox.SelectedValue);
             this.contactsTableAdapter.FillByAccountID(this.customersDataSet.Contacts, currentAccountID);
 
@@ -84,7 +84,7 @@ namespace Tecan_Quote_Generator
             this.salesTypeTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.SalesType);
             // TODO: This line of code loads data into the 'tecanQuoteGeneratorPartsListDataSet.PartsList' table. You can move, or remove it, as needed.
             this.partsListTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.PartsList);
-            // Check for salesman profile, if no file get salesman information
+
             // Check if Quote Database is empty
             if (partsListBindingSource.Count != 0)
             {
@@ -102,9 +102,20 @@ namespace Tecan_Quote_Generator
             }
         }
 
+        private void FormIsClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!quoteSaved)
+            {
+                if (MessageBox.Show("This quote has not been saved or you have made changes!\r\n\r\nDo you want to save before closing?", "Save Quote", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                    saveQuoteToolStripMenuItem_Click(sender, e);
+                }
+            }
+        }
+
         public void doFormInitialization()
         {
-
             this.subCategoryTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.SubCategory);
             this.categoryTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.Category);
             this.instrumentTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.Instrument);
@@ -142,7 +153,7 @@ namespace Tecan_Quote_Generator
             {
                 showUserProfileForm(false);
             }
-            
+
             // If = 1 then no DB, requires intilization
             //if (partsListBindingSource.Count == 1)
             //{
@@ -430,7 +441,7 @@ namespace Tecan_Quote_Generator
                 System.IO.File.Copy(supplementSourceFile, supplementTargetFile, true);
 
                 // Save the new Db Timestamp
-                getUsersProfile();
+                // getUsersProfile();
                 FileInfo fi = new FileInfo(quoteSourceFile);
                 profile.DatabaseCreationDate = fi.LastWriteTime;
                 saveUsersProfile();
@@ -1745,7 +1756,14 @@ namespace Tecan_Quote_Generator
         {
             ContactsForm contacts = new ContactsForm();
             contacts.Show();
-            contacts.FormClosing += new FormClosingEventHandler(reloadMe);
+            contacts.FormClosing += new FormClosingEventHandler(upDateContacts);
+        }
+
+        private void upDateContacts(object sender, EventArgs e)
+        {
+            this.accountsTableAdapter.FillBy(this.customersDataSet.Accounts);
+            short currentAccountID = Convert.ToInt16(AccountComboBox.SelectedValue);
+            this.contactsTableAdapter.FillByAccountID(this.customersDataSet.Contacts, currentAccountID);
         }
 
         private void reloadMe(object sender, EventArgs e)
@@ -1803,8 +1821,24 @@ namespace Tecan_Quote_Generator
 
         private void saveQuoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (QuoteTitleTextBox.Text == "")
+            if (AccountComboBox.Items.Count == 0)
             {
+                if (MessageBox.Show("You currently have no accounts and contacts added.\n\n Do you want to import or add accounts now?", "Please Add Account Information", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    accountListToolStripMenuItem_Click(sender, e);
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if (QuoteTitleTextBox.Text == "" || AccountComboBox.SelectedIndex == 0)
+            {
+                String messageString = "";
+                if (QuoteTitleTextBox.Text == "") messageString = "Please enter a Quote Title before saving.\n\n";
+                if (AccountComboBox.SelectedIndex == 0) messageString = "Please select an Account and Contact before saving.";
                 QuoteTabControl.SelectedTab = QuoteSettingTabPage;
                 //PleaseWaitHeadingLabel.Text = "Incomplete Quote.";
                 //PleaseWaitMessageTextBox.Text = "Please enter a Quote Title before saving.";
@@ -1812,14 +1846,14 @@ namespace Tecan_Quote_Generator
                 //PleaseWaitPanel.Visible = true;
 
 
-                // QuoteTitleTextBox.Focus();
                 QuoteTitleTextBox.Focus();
-                MessageBox.Show("Please enter a Quote Title before saving.");
+                MessageBox.Show(messageString);
                 return;
             }
             
             Quote quote = new Quote();
             quote.QuoteAccount = (short)Convert.ToInt16(AccountComboBox.SelectedValue);
+            quote.QuoteContact = (short)Convert.ToInt16(ContactComboBox.SelectedValue);
             quote.QuoteTitle = QuoteTitleTextBox.Text;
             quote.QuoteDate = QuoteDateTimePicker.Text;
             quote.QuoteDescription = QuoteDescriptionTextBox.Text;
@@ -1913,22 +1947,8 @@ namespace Tecan_Quote_Generator
 
         private void loadQuoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Int32 quoteRowCount = QuoteDataGridView.Rows.Count;
-            Int32 optionsRowCount = OptionsDataGridView.Rows.Count;
-            if (quoteRowCount > 0 || optionsRowCount > 0)
-            {
-                if (MessageBox.Show("You already have items selected!\r\n\r\nDo you want to clear these items?", "Clear List", MessageBoxButtons.YesNo) == DialogResult.No)
-                {
-                    return;
-                }
-
-            }
-            QuoteDataGridView.Rows.Clear();
-            QuoteItemsPriceTextBox.Text = "";
-            OptionsDataGridView.Rows.Clear();
-            OptionsItemsPriceTextBox.Text = "";
-            //ThirdPartyDataGridView.Rows.Clear();
-            //SmartStartDataGridView.Rows.Clear();
+            Boolean doClear = clearQuote();
+            if (!doClear) return;
 
             // Get Quote Filename and Path
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -1966,7 +1986,8 @@ namespace Tecan_Quote_Generator
                 Decimal itemDiscount;
                 Boolean itemNote;
                 Boolean itemImage;
-
+                QuoteItems replacementItem;
+                String replacementString;
                 foreach (QuoteItems row in quote.Items)
                 {
                     itemSAPID = row.SAPID;
@@ -1977,7 +1998,21 @@ namespace Tecan_Quote_Generator
                     itemNote = row.IncludeNote;
                     itemImage = row.IncludeImage;
 
-                    QuoteDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice, itemNote, itemImage);
+                    replacementItem = validateItem(itemSAPID);
+                    if (replacementItem.SAPID == "found")
+                    {
+                        QuoteDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice, itemNote, itemImage);
+                    }
+                    else
+                    {
+                        replacementString = "This item " +  itemSAPID+ " " + itemDescription + " is no longer available!\r\n\r\n" +
+                            "Do you want to add it's replacement instead?\r\n\r\n Please verify the image and note selection for the new item.";
+                            
+                        if (MessageBox.Show(replacementString, "Part no longer available", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            QuoteDataGridView.Rows.Add(replacementItem.SAPID, replacementItem.Description, replacementItem.Price, itemQuantity, String.Format("{0:P2}", itemDiscount), replacementItem.Price, itemNote, itemImage);
+                        }
+                    }
                 }
 
                 foreach (QuoteItems row in quote.Options)
@@ -1990,13 +2025,95 @@ namespace Tecan_Quote_Generator
                     itemNote = row.IncludeNote;
                     itemImage = row.IncludeImage;
 
-                    OptionsDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice, itemNote, itemImage);
+                    replacementItem = validateItem(itemSAPID);
+                    if (replacementItem.SAPID == "found")
+                    {
+                        OptionsDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice, itemNote, itemImage);
+                    }
+                    else
+                    {
+                        replacementString = "This item " + itemSAPID + " " + itemDescription + " is no longer available!\r\n\r\n" +
+                            "Do you want to add it's replacement instead?\r\n\r\n Please verify the image and note selection for the new item.";
+
+                        if (MessageBox.Show(replacementString, "Part no longer available", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            OptionsDataGridView.Rows.Add(replacementItem.SAPID, replacementItem.Description, replacementItem.Price, itemQuantity, String.Format("{0:P2}", itemDiscount), replacementItem.Price, itemNote, itemImage);
+                        }
+                    }
                 }
 
                 QuoteTabControl.SelectedTab = QuoteTabPage;
                 SumItems(QuoteDataGridView);
                 SumItems(OptionsDataGridView);
             }
+        }
+
+        private QuoteItems validateItem(String itemSAPID)
+        {
+            QuoteItems foundItem = new QuoteItems();
+            Boolean itemFound = false;
+
+            openDB();
+            SqlCeCommand cmd = TecanDatabase.CreateCommand();
+            cmd.CommandText = "SELECT SAPId FROM PartsList WHERE SAPId = '" + itemSAPID + "'";
+            SqlCeDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                itemFound = true;
+            }
+            if (itemFound)
+            {
+                foundItem.SAPID = "found";
+            }
+            else
+            {
+                cmd.CommandText = "SELECT SAPId, Description, ILP FROM PartsList WHERE OldPartNum = '" + itemSAPID + "'";
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    foundItem.SAPID = reader[0].ToString();
+                    foundItem.Description = reader[1].ToString();
+                    foundItem.Price = (Decimal)reader[2];
+                }
+            }
+            reader.Dispose();
+            TecanDatabase.Close();
+            return foundItem;
+        }
+
+        private Boolean clearQuote()
+        {
+            if (!quoteSaved)
+            {
+                if (MessageBox.Show("This quote has not been saved or you have made changes!\r\n\r\nDo you want to clear these items?", "Clear List", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return false;
+                }
+            }
+
+            // Clear Grids
+            QuoteDataGridView.Rows.Clear();
+            OptionsDataGridView.Rows.Clear();
+            //ThirdPartyDataGridView.Rows.Clear();
+            //SmartStartDataGridView.Rows.Clear();
+
+            // Clear all pricing textboxes
+            QuoteItemsPriceTextBox.Text = "";
+            QuoteItemsDiscountPercentageTextBox.Text = "";
+            ShippingTextBox.Text = "";
+            OptionsItemsPriceTextBox.Text = "";
+            OptionsItemsDiscountPercentageTextBox.Text = "";
+            OptionsItemsPriceAfterDiscountTextBox.Text = "";
+            TotalQuotePriceQuoteAndOptionsTextBox.Text = "";
+
+            // Reset all quote info page items
+            QuoteTitleTextBox.Text = "";
+            QuoteDescriptionTextBox.Text = "";
+            AccountComboBox.SelectedIndex = 0;
+            ContactComboBox.SelectedIndex = 0;
+            QuoteTypeComboBox.SelectedIndex = 0;
+            QuoteTemplateComboBox.SelectedIndex = 0;
+            return true;
         }
 
         private void myProfileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2035,6 +2152,35 @@ namespace Tecan_Quote_Generator
 
         private void viewQuoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (AccountComboBox.Items.Count == 0)
+            {
+                if (MessageBox.Show("You currently have no accounts and contacts added.\n\n Do you want to import or add accounts now?", "Please Add Account Information", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    accountListToolStripMenuItem_Click(sender, e);
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if (QuoteTitleTextBox.Text == "" || AccountComboBox.SelectedIndex == 0)
+            {
+                String messageString = "";
+                if (QuoteTitleTextBox.Text == "") messageString = "Please enter a Quote Title before saving.\n\n";
+                if (AccountComboBox.SelectedIndex == 0) messageString = "Please select an Account and Contact before saving.";
+                QuoteTabControl.SelectedTab = QuoteSettingTabPage;
+                //PleaseWaitHeadingLabel.Text = "Incomplete Quote.";
+                //PleaseWaitMessageTextBox.Text = "Please enter a Quote Title before saving.";
+                //PLeaseWaitPanelOKButton.Visible = true;
+                //PleaseWaitPanel.Visible = true;
+
+
+                QuoteTitleTextBox.Focus();
+                MessageBox.Show(messageString);
+                return;
+            }
+
             string pdfTemplate = @"c:\temp\Tecan DiTi Systems Form - Ian2.pdf";
             this.Text += " - " + pdfTemplate;
             PdfReader pdfReader = new PdfReader(pdfTemplate);
@@ -2078,17 +2224,7 @@ namespace Tecan_Quote_Generator
 
         private void clearQuoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!quoteSaved)
-            {
-                if (MessageBox.Show("This quote has not been saved or you have made changes!\r\n\r\nDo you want to clear these items?", "Clear List", MessageBoxButtons.YesNo) == DialogResult.No)
-                {
-                    return;
-                }
-            }
-            QuoteDataGridView.Rows.Clear();
-            QuoteItemsPriceTextBox.Text = "";
-            OptionsDataGridView.Rows.Clear();
-            OptionsItemsPriceTextBox.Text = "";
+            Boolean doClear = clearQuote();
         }
 
         private void AccountComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -2217,6 +2353,7 @@ namespace Tecan_Quote_Generator
         private void sendBugReportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BugReportPanel.Visible = true;
+            BugReportTextBox.Focus();
         }
 
         private void BugReportSendButton_Click(object sender, EventArgs e)
@@ -2265,6 +2402,39 @@ namespace Tecan_Quote_Generator
         {
             BugReportTextBox.Text = "";
             BugReportPanel.Visible = false;
+        }
+
+        private void sendQuoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (AccountComboBox.Items.Count == 0)
+            {
+                if (MessageBox.Show("You currently have no accounts and contacts added.\n\n Do you want to import or add accounts now?", "Please Add Account Information", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    accountListToolStripMenuItem_Click(sender, e);
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if (QuoteTitleTextBox.Text == "" || AccountComboBox.SelectedIndex == 0)
+            {
+                String messageString = "";
+                if (QuoteTitleTextBox.Text == "") messageString = "Please enter a Quote Title before saving.\n\n";
+                if (AccountComboBox.SelectedIndex == 0) messageString = "Please select an Account and Contact before saving.";
+                QuoteTabControl.SelectedTab = QuoteSettingTabPage;
+                //PleaseWaitHeadingLabel.Text = "Incomplete Quote.";
+                //PleaseWaitMessageTextBox.Text = "Please enter a Quote Title before saving.";
+                //PLeaseWaitPanelOKButton.Visible = true;
+                //PleaseWaitPanel.Visible = true;
+
+
+                QuoteTitleTextBox.Focus();
+                MessageBox.Show(messageString);
+                return;
+            }
+
         }
 
     }

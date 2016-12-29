@@ -27,13 +27,15 @@ namespace Tecan_Quote_Generator
         private void Contacts_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'customersDataSet.Accounts' table. You can move, or remove it, as needed.
-            this.accountsTableAdapter.Fill(this.customersDataSet.Accounts);
+            this.accountsTableAdapter.FillBy(this.customersDataSet.Accounts);
         }
 
         private void SetContactDisplay(object sender, EventArgs e)
         {
-            if(AccountsComboBox.SelectedValue != null) 
-                loadContactsList();
+            // if(AccountsComboBox.SelectedValue != null)
+            if(AccountsComboBox.Items.Count != 0) AccountsComboBox.SelectedIndex = 0;
+            this.Height = 175;
+            loadContactsList();
         }
 
         private void loadContactsList()
@@ -57,9 +59,7 @@ namespace Tecan_Quote_Generator
             }
             reader.Dispose();
             ContactsDatabase.Close();
-
             setDisplayHeightListContacts();
-
         }
 
         private void AccountsComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -76,7 +76,7 @@ namespace Tecan_Quote_Generator
         {
             if (ContactsListBox.Items.Count == 0)
             {
-                ContactsListBox.Items.Add("Seleced account has no contacts.");
+                if (AccountsComboBox.Items.Count != 0 && AccountsComboBox.SelectedIndex != 0) ContactsListBox.Items.Add("Seleced account has no contacts.");
                 clearContact();
                 this.Height = 175;
                 editLabel.Visible = false;
@@ -123,6 +123,8 @@ namespace Tecan_Quote_Generator
         private void AddAccountButton_Click(object sender, EventArgs e)
         {
             accountUpdateMode = false;
+            this.Height = 175;
+            editLabel.Visible = false;
             AddAccountPanel.Visible = true;
             AddAccountTextBox.Focus();
         }
@@ -141,6 +143,14 @@ namespace Tecan_Quote_Generator
         {
             openDB();
             SqlCeCommand cmd = ContactsDatabase.CreateCommand();
+
+            // Initialize Accounts Db if required
+            if (AccountsComboBox.Items.Count == 0)
+            {
+                cmd.CommandText = "INSERT INTO Accounts (AccountID, AccountName) Values (0 , '- Please Select An Account -')";
+                cmd.ExecuteNonQuery();
+            }
+
             short selectedAccount;
             
             if (accountUpdateMode)
@@ -159,7 +169,7 @@ namespace Tecan_Quote_Generator
             }
             cmd.ExecuteNonQuery();
             ContactsDatabase.Close();
-            this.accountsTableAdapter.Fill(this.customersDataSet.Accounts);
+            this.accountsTableAdapter.FillBy(this.customersDataSet.Accounts);
             if (!accountUpdateMode)
             {
                 AccountsComboBox.SelectedIndex = AccountsComboBox.Items.Count - 1;
@@ -352,12 +362,12 @@ namespace Tecan_Quote_Generator
             }
             String fullFilePathName = @tempFilePath + "\\ContactsList.csv";
 
-            string sData = "Account Name,First,Last,Address,City,State,Postal Code,Work Phone,Fax,Email\n";
+            string sData = "Account ID,Account Name,Contact ID,First,Last,Address,City,State,Postal Code,Work Phone,Fax,Email\n";
 
             openDB();
             SqlCeCommand cmd = ContactsDatabase.CreateCommand();
 
-            cmd.CommandText = "SELECT A.AccountName, C.First, C.Last, C.Address, C.City, C.State, C.PostalCode,  C.WorkPhone, C.Fax, C.Email " +
+            cmd.CommandText = "SELECT A.AccountID, A.AccountName, C.ContactID, C.First, C.Last, C.Address, C.City, C.State, C.PostalCode,  C.WorkPhone, C.Fax, C.Email " +
                 " FROM Accounts A LEFT OUTER JOIN Contacts C " +
                 " ON A.AccountID = C.AccountID" +
                 " ORDER BY A.AccountName, C.First";
@@ -367,7 +377,7 @@ namespace Tecan_Quote_Generator
             {
                 sData += reader[0].ToString() + "," + reader[1].ToString() + "," + reader[2].ToString() + "," + reader[3].ToString() +
                 "," + reader[4].ToString() + "," + reader[5].ToString() + "," + reader[6].ToString() + "," + reader[7].ToString() +
-                "," + reader[8].ToString() + "," + reader[9].ToString() + "\n";
+                "," + reader[8].ToString() + "," + reader[9].ToString() + reader[10].ToString() + reader[11].ToString() + "\n";
             }
             reader.Dispose();
             ContactsDatabase.Close();
@@ -438,6 +448,10 @@ namespace Tecan_Quote_Generator
                 cmd.ExecuteNonQuery();
             }
 
+            // Initialize Accounts Db
+            cmd.CommandText = "INSERT INTO Accounts (AccountID, AccountName) Values (0 , '- Please Select An Account -')";
+            cmd.ExecuteNonQuery();
+
             // Get the contacts cvs file
             String filePath;
 
@@ -503,7 +517,7 @@ namespace Tecan_Quote_Generator
                     }
                     ContactsDatabase.Close();
                     importContactsPanel.Visible = false;
-                    this.accountsTableAdapter.Fill(this.customersDataSet.Accounts);
+                    this.accountsTableAdapter.FillBy(this.customersDataSet.Accounts);
                     this.Show();
                 }
                 catch (Exception)

@@ -19,6 +19,7 @@ using iTextSharp.text.xml;
 using System.Threading;
 using System.Diagnostics;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace Tecan_Quote_Generator
 {
@@ -46,9 +47,6 @@ namespace Tecan_Quote_Generator
 
         public void MainQuoteForm_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'customersDataSet.Contacts' table. You can move, or remove it, as needed.
-            // this.contactsTableAdapter.Fill(this.customersDataSet.Contacts);
-            // TODO: This line of code loads data into the 'customersDataSet.Accounts' table. You can move, or remove it, as needed.
             this.accountsTableAdapter.FillBy(this.customersDataSet.Accounts);
             short currentAccountID = Convert.ToInt16(AccountComboBox.SelectedValue);
             this.contactsTableAdapter.FillByAccountID(this.customersDataSet.Contacts, currentAccountID);
@@ -74,25 +72,16 @@ namespace Tecan_Quote_Generator
             this.ClientSize.Height / 2 - BugReportPanel.Size.Height / 2);
             BugReportPanel.Anchor = AnchorStyles.None;
 
-            // TODO: This line of code loads data into the 'tecanQuoteGeneratorPartsListDataSet.SubCategory' table. You can move, or remove it, as needed.
             this.subCategoryTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.SubCategory);
-            // TODO: This line of code loads data into the 'tecanQuoteGeneratorPartsListDataSet.Category' table. You can move, or remove it, as needed.
             this.categoryTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.Category);
-            // TODO: This line of code loads data into the 'tecanQuoteGeneratorPartsListDataSet.Instrument' table. You can move, or remove it, as needed.
             this.instrumentTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.Instrument);
-            // TODO: This line of code loads data into the 'tecanQuoteGeneratorPartsListDataSet.SalesType' table. You can move, or remove it, as needed.
             this.salesTypeTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.SalesType);
-            // TODO: This line of code loads data into the 'tecanQuoteGeneratorPartsListDataSet.PartsList' table. You can move, or remove it, as needed.
             this.partsListTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.PartsList);
 
             // Check if Quote Database is empty
             if (partsListBindingSource.Count != 0)
             {
                 loadFilterComboBoxes();
-                // int newGridHeight;
-                // newGridHeight = Screen.PrimaryScreen.Bounds.Height - (this.menuStrip1.Height + this.partsListBindingNavigator.Height);
-                // this.partsListDataGridView.Height = newGridHeight - 500;
-                // this.partsListDataGridView.Height = 525;
                 setPartDetailTextBox();
                 QuoteDataGridView.AllowDrop = true;
                 OptionsDataGridView.AllowDrop = true;
@@ -153,70 +142,6 @@ namespace Tecan_Quote_Generator
             {
                 showUserProfileForm(false);
             }
-
-            // If = 1 then no DB, requires intilization
-            //if (partsListBindingSource.Count == 1)
-            //{
-
-            //    if (MessageBox.Show("The Tecan Quote Generator must be intilized!\r\n\r\nDo you want to perform intialization now?", "Initial Installation", MessageBoxButtons.YesNo) == DialogResult.No)
-            //    {
-            //        this.Close();
-            //    }
-            //    else
-            //    {
-            //        if (!File.Exists(profileFile))
-            //        {
-            //            ProfileForm profileForm = new ProfileForm(true);
-            //            profileForm.SetForm1Instance(this);
-            //            profileForm.Show();
-            //            Application.OpenForms["ProfileForm"].BringToFront();
-            //        }
-            //        else
-            //        {
-            //            String distributionFolder;
-            //            getUsersProfile();
-            //            distributionFolder = profile.DistributionFolder;
-
-            //            if (distributionFolder == null)
-            //            {
-            //                ProfileForm profileForm = new ProfileForm(true);
-            //                profileForm.SetForm1Instance(this);
-            //                profileForm.Show();
-            //                Application.OpenForms["ProfileForm"].BringToFront();
-            //                MessageBox.Show("There's a problem with your profile settings.  Please re-enter and save your information!");
-            //            }
-
-            //            Boolean fileFound;
-            //            fileFound = copyDatabaseToWorkingFolder(distributionFolder);
-            //            if (!fileFound)
-            //            {
-            //                MessageBox.Show("The Distribution Folder you selected in your profile does not contain the Parts List Database!\n\nPlease select a new folder");
-            //                ProfileForm profileForm = new ProfileForm(true);
-            //                profileForm.SetForm1Instance(this);
-            //                profileForm.Show();
-            //                Application.OpenForms["ProfileForm"].BringToFront();
-            //            }
-            //            else
-            //            {
-            //                MainQuoteForm_Load(sender, e);
-            //            }
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    if (!File.Exists(profileFile))
-            //    {
-            //        ProfileForm profileForm = new ProfileForm(false);
-            //        profileForm.SetForm1Instance(this);
-            //        profileForm.Show();
-            //        Application.OpenForms["ProfileForm"].BringToFront();
-            //    }
-            //    else
-            //    {
-            //        getUsersProfile();
-            //    }
-            //}
         }
 
         public void checkForNewDatabase()
@@ -278,131 +203,6 @@ namespace Tecan_Quote_Generator
                 PleaseWaitHeadingLabel.Text = "Copy Failed!";
                 PLeaseWaitPanelOKButton.Visible = true;
             }
-                //Thread.Sleep(5000);
-            //if(!PleaseWaitMessage.Text.Contains("failed"))
-            //{
-            //    MainQuoteForm_Load(sender, e);
-            //}
-
-                //{
-                //    String quoteSourceFile = "";
-                //    String supplementSourceFile = "";
-                //    String sourcePath = profile.DistributionFolder;
-
-                //    // Db source file locations
-                //    quoteSourceFile = System.IO.Path.Combine(sourcePath, "TecanQuoteGeneratorPartsList.sdf");
-                //    supplementSourceFile = System.IO.Path.Combine(sourcePath, "TecanSuppDocs.sdf");
-
-                //    String errorMessage = "";
-                //    Boolean foundError = false;
-
-                //    // Test file exists
-                //    if (!File.Exists(quoteSourceFile))
-                //    {
-                //        errorMessage = "Your distribution folder does not contain a Partslist Database file (TecanQuoteGeneratorPartsList.sdf) \r\n\r\n";
-                //        foundError = true;
-                //    }
-                //    else if (!File.Exists(supplementSourceFile))
-                //    {
-                //        errorMessage += "Your distribution folder does not contain a Suppumental Documents file (TecanSuppDocs.sdf) \r\n";
-                //        foundError = true;
-                //    }
-
-                //    if (!foundError)
-                //    {
-                //        // Where new files will go
-                //        String quoteTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanQuoteGeneratorPartsList.sdf");
-                //        String supplementTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanSuppDocs.sdf");
-
-                //        // Copy the files
-                //        System.IO.File.Copy(quoteSourceFile, quoteTargetFile, true);
-                //        System.IO.File.Copy(supplementSourceFile, supplementTargetFile, true);
-
-                //        // Save the new Db Timestamp
-                //        getUsersProfile();
-                //        FileInfo fi = new FileInfo(quoteSourceFile);
-                //        profile.DatabaseCreationDate = fi.CreationTime;
-                //        saveUsersProfile();
-
-                //        if (this.PleaseWaitMessage.InvokeRequired)
-                //        {
-                //            // It's on a different thread, so use Invoke.
-                //            SetTextCallback d = new SetTextCallback(SetText);
-                //            this.Invoke
-                //                (d, new object[] { "Copy Complete!" });
-                //        }
-                //        else
-                //        {
-                //            // It's on the same thread, no need for Invoke 
-                //            this.PleaseWaitMessage.Text = "Copy Complete!";
-                //        }
-
-
-                //        PleaseWaitMessage.Text = "Copy Complete!";
-                //        Thread.Sleep(100);
-                //        PleaseWaitPanel.Visible = false;
-                //    }
-                //    else
-                //    {
-                //        // Tell user to get the files
-                //        PleaseWaitMessage.Text = "Copying the database failed!\r\n\r\n" + errorMessage;
-
-                //    }
-                //}).Start();
-
-            //FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
-            //folderBrowserDialog1.Description = "Please select your New Database folder location.";
-            //folderBrowserDialog1.SelectedPath = profile.DistributionFolder;
-            //folderBrowserDialog1.ShowNewFolderButton = false;
-
-            //if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            //{
-
-
-            //    String profileFile = @"c:\TecanFiles\" + "TecanQuoteConfig.cfg";
-            //    if (File.Exists(profileFile))
-            //    {
-            //        //PleaseWaitMessage.Text = ("Copying the database may take a couple minutes!");
-            //        //PleaseWaitPanel.Visible = true;
-
-            //        String quoteSourceFile = "";
-            //        String supplementSourceFile;
-            //        Boolean copyWorked = false;
-
-            //        // Where new files will go
-            //        String quoteTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanQuoteGeneratorPartsList.sdf");
-            //        String supplementTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanSuppDocs.sdf");
-            //        quoteSourceFile = System.IO.Path.Combine(sourcePath, "TecanQuoteGeneratorPartsList.sdf");
-            //        supplementSourceFile = System.IO.Path.Combine(sourcePath, "TecanSuppDocs.sdf");
-
-            //        System.IO.File.Copy(quoteSourceFile, quoteTargetFile, true);
-            //        System.IO.File.Copy(supplementSourceFile, supplementTargetFile, true);
-            //        FileInfo fi = new FileInfo(quoteSourceFile);
-            //        return fi.CreationTime.ToShortDateString();
-
-            //        getUsersProfile();
-            //        profile.DatabaseCreationDate = Convert.ToDateTime(done);
-            //        saveUsersProfile();
-            //        PleaseWaitPanel.Visible = false;
-
-            //        PleaseWaitMessage.Text = ("Copying the database may take a couple minutes!");
-            //        PleaseWaitPanel.Visible = true;
-
-            //        Thread.Sleep(5000);
-
-            //        var theFiles = new List<string>() { quoteSourceFile, quoteTargetFile, supplementSourceFile, supplementTargetFile };
-
-            //        ThreadedExecuter<string> executer = new ThreadedExecuter<string>(copyTheFiles(theFiles), copyComplete);
-            //        executer.Start();
-
-            //        return true;
-            //    }
-            //    else
-            //    {
-            //        getUsersProfile();
-            //        return false;
-            //    }
-            //}
         }
 
         private void doTheCopy()
@@ -610,91 +410,6 @@ namespace Tecan_Quote_Generator
                 if (hasRequiredParts != null)
                 {
                     doAddRequiredParts(hasRequiredParts, itemSAPID, itemDescription, "QuoteItems");
-                    //// Check if they are already added
-                    //DataGridViewRowCollection itemsRows = QuoteDataGridView.Rows;
-                    //DataGridViewRowCollection optionRows = OptionsDataGridView.Rows;
-                    //String existsSAPID;
-                    //var PartsToAddList = new List<string>();
-                    //String[] requiredPart;
-                    //Boolean foundSAPID = false;
-                    //// Loop throught required parts
-                    //foreach (String part in hasRequiredParts)
-                    //{
-                    //    requiredPart = part.Split('^');
-                    //    foundSAPID = false;
-                    //    // Already selected items in quote
-                    //    foreach (DataGridViewRow rowItem in itemsRows)
-                    //    {
-                    //        existsSAPID = rowItem.Cells[0].Value.ToString();
-                    //        if (existsSAPID == requiredPart[0])
-                    //        {
-                    //            foundSAPID = true;
-                    //            break;
-                    //        }
-                    //    }
-                    //    // Already selected items in options
-                    //    foreach (DataGridViewRow rowOption in optionRows)
-                    //    {
-                    //        existsSAPID = rowOption.Cells[0].Value.ToString();
-                    //        if (existsSAPID == requiredPart[0])
-                    //        {
-                    //            foundSAPID = true;
-                    //            break;
-                    //        }
-                    //    }
-                    //    if (!foundSAPID)
-                    //    {
-                    //        PartsToAddList.Add(part);
-                    //    }
-                    //}
-                    //String[] toAddPart = PartsToAddList.ToArray();
-                    //switch (toAddPart.Length)
-                    //{
-                    //    // Required part already added, do nothing
-                    //    case 0:
-                    //        break;
-
-                    //    // 1 required part, simple message
-                    //    case 1:
-                    //        String[] partToAdd = null;
-                    //        partToAdd = toAddPart[0].Split('^');
-                    //        Decimal partItemPrice = Convert.ToDecimal(partToAdd[2]);
-                    //        // Ask to add part
-                    //        if (MessageBox.Show("The part\r\n\r\n" + itemSAPID + "  " + itemDescription + "\r\n\r\nhas a required part \r\n\r\n" + partToAdd[0] + "  " + partToAdd[1] + ".\r\n\r\nDo you want to add it?", "Required Part", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    //        {
-                    //            QuoteDataGridView.Rows.Add(partToAdd[0], partToAdd[1], partItemPrice, 1, String.Format("{0:P2}", 0.00), partItemPrice);
-                    //        }
-                    //        break;
-
-                    //    // Multiple requires parts, do required panel
-                    //    default:
-                    //    // Ask to add parts
-                    //        RequiredPartCheckedListBox.Items.Clear();
-                    //        RequiredPartsPanelSelectAllCheckBox.Checked = false;
-                    //        RequiredPartsPanelHeadingLabel.Text = "The part " + itemSAPID + "  " + itemDescription + " has multiple parts that are required.\r\nPlease select (Double-Click) the parts you would like to add.";
-                    //        RequiredPartsPanel.Location = new Point(
-                    //        this.ClientSize.Width / 2 - RequiredPartsPanel.Size.Width / 2,
-                    //        this.ClientSize.Height / 2 - RequiredPartsPanel.Size.Height / 2);
-                    //        RequiredPartsPanel.Anchor = AnchorStyles.None;
-                    //        RequiredPartsPanel.Visible = true;
-
-                    //        ArrayList quoteItems = new ArrayList();
-                    //        foreach (String part in toAddPart)
-                    //        {
-                    //            requiredPart = part.Split('^');
-                    //            RequiredPartCheckedListBox.Items.Add(requiredPart[0] + "  " + requiredPart[1]);
-
-                    //            QuoteItems newItem = new QuoteItems();
-                    //            newItem.SAPID = requiredPart[0];
-                    //            newItem.Description = requiredPart[1];
-                    //            newItem.Price = Convert.ToDecimal(requiredPart[2]);
-                    //            quoteItems.Add(newItem);
-                    //        }
-                    //        passRequiredItems.QuoteTitle = "QuoteItems";
-                    //        passRequiredItems.Items = quoteItems;
-                    //        break;
-                    //}
-
                 }
             }
             SumItems(QuoteDataGridView);
@@ -716,13 +431,16 @@ namespace Tecan_Quote_Generator
             {
                 rowIndex = myDataGridView.Rows[s].Index;
                 DataGridViewRow srow = myDataGridView.Rows[rowIndex];
-                itemPrice = (Decimal)srow.Cells[2].Value;
-                itemQty = Convert.ToInt32(srow.Cells[3].Value);
-                totalItemPrice = totalItemPrice + (itemPrice * itemQty);
-                discountPercentage = Convert.ToDecimal(srow.Cells[4].Value.ToString().Replace(" %", ""));
-                itemDiscount = (itemPrice * (discountPercentage/100)) * itemQty;
-                totalDiscount = totalDiscount + itemDiscount;
-                extendedPrice = extendedPrice + (Decimal)srow.Cells[5].Value;
+                if (srow.Cells[0].FormattedValue.ToString() != "Heading")
+                {
+                    itemPrice = (Decimal)srow.Cells[2].Value;
+                    itemQty = Convert.ToInt32(srow.Cells[3].Value);
+                    totalItemPrice = totalItemPrice + (itemPrice * itemQty);
+                    discountPercentage = Convert.ToDecimal(srow.Cells[4].Value.ToString().Replace(" %", ""));
+                    itemDiscount = (itemPrice * (discountPercentage / 100)) * itemQty;
+                    totalDiscount = totalDiscount + itemDiscount;
+                    extendedPrice = extendedPrice + (Decimal)srow.Cells[5].Value;
+                }
             }
 
             switch (myDataGridView.Name)
@@ -771,9 +489,19 @@ namespace Tecan_Quote_Generator
         {
             if (e.RowIndex >= 0)
             {
-                processCellValueChange(QuoteDataGridView, e);
+                String firstCellValue;
+                firstCellValue = QuoteDataGridView.Rows[e.RowIndex].Cells[0].FormattedValue.ToString();
+                if (firstCellValue != "Heading")
+                {
+                    processCellValueChange(QuoteDataGridView, e);
+                }
+                else
+                {
+                    QuoteDataGridView.Columns[1].ReadOnly = true;
+                    QuoteDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    QuoteDataGridView.BeginEdit(false);
+                }
             }
-
         }
 
         private void processCellValueChange(DataGridView myDataGridView, DataGridViewCellEventArgs e)
@@ -785,16 +513,6 @@ namespace Tecan_Quote_Generator
             Decimal itemDiscount = 0;
             Decimal discountPercentage;
             Decimal extendedPrice = 0;
-            //String itemPriceCheck;
-            //String discountCheck;
-
-            // itemPriceCheck = myDataGridView.Rows[e.RowIndex].Cells[2].Value.ToString();
-            // discountCheck = myDataGridView.Rows[e.RowIndex].Cells[4].Value.ToString();
-
-            //if ((itemPriceCheck.IndexOf("$") == -1) || (discountCheck.IndexOf("%") == -1))
-            //{
-            //    formatOnly = false;
-            //}
 
             rowIndex = e.RowIndex;
             DataGridViewRow srow = myDataGridView.Rows[rowIndex];
@@ -806,46 +524,7 @@ namespace Tecan_Quote_Generator
             // totalDiscount = totalDiscount + itemDiscount;
             extendedPrice = (itemPrice * itemQty) - itemDiscount;
 
-
-
-
-            //if ((e.ColumnIndex == 3 || e.ColumnIndex == 4))
-            //{
-            //    itemPrice = (Decimal)myDataGridView.Rows[e.RowIndex].Cells[2].Value;
-            //    itemQty = Convert.ToInt32(myDataGridView.Rows[e.RowIndex].Cells[3].Value);
-            //    itemDiscount = Convert.ToDecimal(myDataGridView.Rows[e.RowIndex].Cells[4].Value);
-            //    extendedPrice = itemPrice * itemQty;
-            //    if (itemDiscount != 0)
-            //    {
-            //        extendedPrice = extendedPrice * (itemDiscount / 100);
-            //    }
-            //}
-
-            //switch (e.ColumnIndex)
-            //{
-            //    // Price
-            //    case 2:
-            //        if (itemPriceCheck.IndexOf("$") == -1)
-            //        {
-            //            formatOnly = true;
-            //            itemPrice = Convert.ToDecimal(itemPriceCheck);
-            //            QuoteDataGridView.Rows[e.RowIndex].Cells[2].Value = String.Format("{0:C2}", itemPrice);
-            //        }
-            //        break;
-
-            //    // Discount
-            //    case 4:
-            //        if (discountCheck.IndexOf("%") == -1)
-            //        {
-            //            formatOnly = true;
-            //            discountPercentage = Convert.ToDecimal(discountCheck);
-            //            QuoteDataGridView.Rows[e.RowIndex].Cells[4].Value = String.Format("{0:P2}", discountPercentage / 100);
-            //        }
-            //        break;
-            //}
-            //QuoteDataGridView.Rows[e.RowIndex].Cells[2].Value = String.Format("{0:C2}", itemPrice);
             myDataGridView.Rows[e.RowIndex].Cells[4].Value = String.Format("{0:P2}", discountPercentage / 100);
-            // myDataGridView.Rows[e.RowIndex].Cells[5].Value = String.Format("{0:C2}", extendedPrice);
             myDataGridView.Rows[e.RowIndex].Cells[5].Value = extendedPrice;
             SumItems(myDataGridView);
         }
@@ -880,90 +559,6 @@ namespace Tecan_Quote_Generator
                 if (hasRequiredParts != null)
                 {
                     doAddRequiredParts(hasRequiredParts, itemSAPID, itemDescription, "QuoteOptions");
-                    //// Check if they are already added
-                    //DataGridViewRowCollection itemsRows = QuoteDataGridView.Rows;
-                    //DataGridViewRowCollection optionRows = OptionsDataGridView.Rows;
-                    //String existsSAPID;
-                    //var PartsToAddList = new List<string>();
-                    //String[] requiredPart;
-                    //Boolean foundSAPID = false;
-                    //// Loop throught required parts
-                    //foreach (String part in hasRequiredParts)
-                    //{
-                    //    requiredPart = part.Split('^');
-                    //    foundSAPID = false;
-                    //    // Already selected items in quote
-                    //    foreach (DataGridViewRow rowItem in itemsRows)
-                    //    {
-                    //        existsSAPID = rowItem.Cells[0].Value.ToString();
-                    //        if (existsSAPID == requiredPart[0])
-                    //        {
-                    //            foundSAPID = true;
-                    //            break;
-                    //        }
-                    //    }
-                    //    // Already selected items in options
-                    //    foreach (DataGridViewRow rowOption in optionRows)
-                    //    {
-                    //        existsSAPID = rowOption.Cells[0].Value.ToString();
-                    //        if (existsSAPID == requiredPart[0])
-                    //        {
-                    //            foundSAPID = true;
-                    //            break;
-                    //        }
-                    //    }
-                    //    if (!foundSAPID)
-                    //    {
-                    //        PartsToAddList.Add(part);
-                    //    }
-                    //}
-                    //String[] toAddPart = PartsToAddList.ToArray();
-                    //switch (toAddPart.Length)
-                    //{
-                    //    // Required part already added, do nothing
-                    //    case 0:
-                    //        break;
-
-                    //    // 1 required part, simple message
-                    //    case 1:
-                    //        String[] partToAdd = null;
-                    //        partToAdd = toAddPart[0].Split('^');
-                    //        Decimal partItemPrice = Convert.ToDecimal(partToAdd[2]);
-                    //        // Ask to add part
-                    //        if (MessageBox.Show("The part\r\n\r\n" + itemSAPID + "  " + itemDescription + "\r\n\r\nhas a required part \r\n\r\n" + partToAdd[0] + "  " + partToAdd[1] + ".\r\n\r\nDo you want to add it?", "Required Part", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    //        {
-                    //            OptionsDataGridView.Rows.Add(partToAdd[0], partToAdd[1], partItemPrice, 1, String.Format("{0:P2}", 0.00), partItemPrice);
-                    //        }
-                    //        break;
-
-                    //    // Multiple requires parts, do required panel
-                    //    default:
-                    //        // Ask to add parts
-                    //        RequiredPartCheckedListBox.Items.Clear();
-                    //        RequiredPartsPanelHeadingLabel.Text = "The part " + itemSAPID + "  " + itemDescription + " has multiple parts that are required.\r\nPlease select (Double-Click) the parts you would like to add.";
-                    //        RequiredPartsPanel.Location = new Point(
-                    //        this.ClientSize.Width / 2 - RequiredPartsPanel.Size.Width / 2,
-                    //        this.ClientSize.Height / 2 - RequiredPartsPanel.Size.Height / 2);
-                    //        RequiredPartsPanel.Anchor = AnchorStyles.None;
-                    //        RequiredPartsPanel.Visible = true;
-
-                    //        ArrayList quoteItems = new ArrayList();
-                    //        foreach (String part in toAddPart)
-                    //        {
-                    //            requiredPart = part.Split('^');
-                    //            RequiredPartCheckedListBox.Items.Add(requiredPart[0] + "  " + requiredPart[1]);
-
-                    //            QuoteItems newItem = new QuoteItems();
-                    //            newItem.SAPID = requiredPart[0];
-                    //            newItem.Description = requiredPart[1];
-                    //            newItem.Price = Convert.ToDecimal(requiredPart[2]);
-                    //            quoteItems.Add(newItem);
-                    //        }
-                    //        passRequiredItems.QuoteTitle = "QuoteOptions";
-                    //        passRequiredItems.Items = quoteItems;
-                    //        break;
-                    //}
-
                 }
             }
             SumItems(OptionsDataGridView);
@@ -1087,10 +682,6 @@ namespace Tecan_Quote_Generator
                     RequiredPartCheckedListBox.Items.Clear();
                     RequiredPartsPanelSelectAllCheckBox.Checked = false;
                     RequiredPartsPanelHeadingLabel.Text = "The part " + itemSAPID + "  " + itemDescription + " has multiple parts that are required.\r\nPlease select (Double-Click) the parts you would like to add.";
-                    //RequiredPartsPanel.Location = new Point(
-                    //this.ClientSize.Width / 2 - RequiredPartsPanel.Size.Width / 2,
-                    //this.ClientSize.Height / 2 - RequiredPartsPanel.Size.Height / 2);
-                    //RequiredPartsPanel.Anchor = AnchorStyles.None;
                     RequiredPartsPanel.Visible = true;
 
                     ArrayList quoteItems = new ArrayList();
@@ -1774,15 +1365,55 @@ namespace Tecan_Quote_Generator
         private void QuoteRemoveSelectedButton_Click(object sender, EventArgs e)
         {
             RemoveItems(QuoteDataGridView);
-            SumItems(QuoteDataGridView);
+            // SumItems(QuoteDataGridView);
+        }
+
+        private void MoveToOptionsButton_Click(object sender, EventArgs e)
+        {
+            MoveItems(QuoteDataGridView, OptionsDataGridView);
+        }
+
+        private void QuoteAddHeadingButton_Click(object sender, EventArgs e)
+        {
+            userInsertHeading(QuoteDataGridView);
+            //Int32 selectedRow = QuoteDataGridView.SelectedRows[0].Index;
+
+            //QuoteDataGridView.Columns[1].ReadOnly = false;
+            //QuoteDataGridView.Rows.Insert(selectedRow, "Heading");
+            //DataGridViewCell cell = QuoteDataGridView.Rows[selectedRow].Cells[1];
+            //QuoteDataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            //QuoteDataGridView.CurrentCell = cell;
+            //QuoteDataGridView.BeginEdit(true);
         }
 
         private void OptionsRemoveSelectedButton_Click(object sender, EventArgs e)
         {
             RemoveItems(OptionsDataGridView);
-            SumItems(OptionsDataGridView);
+            // SumItems(OptionsDataGridView);
         }
 
+        private void MoveToItemsButton_Click(object sender, EventArgs e)
+        {
+            MoveItems(OptionsDataGridView, QuoteDataGridView);
+        }
+
+        private void OptionsAddHeadingButton_Click(object sender, EventArgs e)
+        {
+            userInsertHeading(OptionsDataGridView);
+        }
+
+        private void userInsertHeading(DataGridView myDataGridView)
+        {
+            Int32 selectedRow = myDataGridView.SelectedRows[0].Index;
+
+            myDataGridView.Columns[1].ReadOnly = false;
+            myDataGridView.Rows.Insert(selectedRow, "Heading");
+            DataGridViewCell cell = myDataGridView.Rows[selectedRow].Cells[1];
+            myDataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            myDataGridView.CurrentCell = cell;
+            myDataGridView.BeginEdit(true);
+
+        }
         //private void ThirdPartyRemoveSelectedButton_Click(object sender, EventArgs e)
         //{
         //    RemoveItems(ThirdPartyDataGridView);
@@ -1816,7 +1447,37 @@ namespace Tecan_Quote_Generator
                         removedRowCount++;
                     }
                 }
+                SumItems(myDataGridView);
             }
+        }
+
+        private void MoveItems(DataGridView fromDataGridView, DataGridView toDataGridView)
+        {
+            quoteSaved = false;
+            String itemSAPID;
+            String itemDescription;
+            Decimal itemPrice;
+            Int32 itemQty;
+            String itemDiscount;
+            
+            Int32 selectedRowCount = fromDataGridView.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            if (selectedRowCount > 0)
+            {
+                // Copy the items in the Rows collection into an array.
+                DataGridViewRow[] rowArray = new DataGridViewRow[selectedRowCount]; 
+                fromDataGridView.SelectedRows.CopyTo(rowArray, 0);
+                foreach (DataGridViewRow row in rowArray)
+                {
+                    itemSAPID = row.Cells[0].Value.ToString();
+                    itemDescription = row.Cells[1].Value.ToString();
+                    itemPrice = (decimal)row.Cells[2].Value;
+                    itemQty = Convert.ToInt32(row.Cells[3].Value);
+                    itemDiscount = row.Cells[4].Value.ToString();
+                    toDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQty, String.Format("{0:P2}", itemDiscount), itemPrice);
+                }
+            }
+            RemoveItems(fromDataGridView);
+            SumItems(toDataGridView);
         }
 
         private void saveQuoteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1910,26 +1571,37 @@ namespace Tecan_Quote_Generator
             String discountCheck;
             Int16 rowCount = 0;
 
-            // todo Remove myDataGridView.Rows[rowCount] with row
+            // todo Remove myDataGridView.Rows[rowCount] with row and do for each
             foreach (DataGridViewRow row in myDataGridView.Rows)
             {
                 SAPID = myDataGridView.Rows[rowCount].Cells[0].Value.ToString();
                 Description = myDataGridView.Rows[rowCount].Cells[1].Value.ToString();
 
-                itemPriceCheck = myDataGridView.Rows[rowCount].Cells[2].Value.ToString();
-                discountCheck = myDataGridView.Rows[rowCount].Cells[4].Value.ToString();
+                if (myDataGridView.Rows[rowCount].Cells[0].FormattedValue.ToString() != "Heading")
+                {
+                    itemPriceCheck = myDataGridView.Rows[rowCount].Cells[2].Value.ToString();
+                    discountCheck = myDataGridView.Rows[rowCount].Cells[4].Value.ToString();
 
-                if (itemPriceCheck.IndexOf("$") != -1) itemPriceCheck = itemPriceCheck.Substring(1, itemPriceCheck.Length - 1);
-                itemPrice = Convert.ToDecimal(itemPriceCheck);
+                    if (itemPriceCheck.IndexOf("$") != -1) itemPriceCheck = itemPriceCheck.Substring(1, itemPriceCheck.Length - 1);
+                    itemPrice = Convert.ToDecimal(itemPriceCheck);
 
-                if (discountCheck.IndexOf("%") != -1) discountCheck = discountCheck.Substring(0, discountCheck.Length - 2);
-                discountPercentage = Convert.ToDecimal(discountCheck);
+                    if (discountCheck.IndexOf("%") != -1) discountCheck = discountCheck.Substring(0, discountCheck.Length - 2);
+                    discountPercentage = Convert.ToDecimal(discountCheck);
 
-                itemQty = Convert.ToInt32(myDataGridView.Rows[rowCount].Cells[3].Value);
+                    itemQty = Convert.ToInt32(myDataGridView.Rows[rowCount].Cells[3].Value);
 
-                Note = Convert.ToBoolean(myDataGridView.Rows[rowCount].Cells[6].Value);
-                Image = Convert.ToBoolean(myDataGridView.Rows[rowCount].Cells[7].Value);
+                    Note = Convert.ToBoolean(myDataGridView.Rows[rowCount].Cells[6].Value);
+                    Image = Convert.ToBoolean(myDataGridView.Rows[rowCount].Cells[7].Value);
+                }
+                else
+                {
+                    itemQty = 0;
+                    itemPrice = 0;
+                    discountPercentage = 0;
+                    Note = false;
+                    Image = false;
 
+                }
                 QuoteItems newItem = new QuoteItems();
                 newItem.SAPID = SAPID;
                 newItem.Description = Description;
@@ -1965,6 +1637,7 @@ namespace Tecan_Quote_Generator
                 quote = (Quote)reader.Deserialize(file);
 
                 AccountComboBox.SelectedValue = quote.QuoteAccount;
+                ContactComboBox.SelectedValue = quote.QuoteContact;
                 QuoteTitleTextBox.Text = quote.QuoteTitle;
                 QuoteDateTimePicker.Text = quote.QuoteDate;
                 QuoteDescriptionTextBox.Text = quote.QuoteDescription;
@@ -1986,8 +1659,9 @@ namespace Tecan_Quote_Generator
                 Decimal itemDiscount;
                 Boolean itemNote;
                 Boolean itemImage;
-                QuoteItems replacementItem;
+                QuoteItems replacementItem = new QuoteItems();
                 String replacementString;
+                Boolean itemFound;
                 foreach (QuoteItems row in quote.Items)
                 {
                     itemSAPID = row.SAPID;
@@ -1997,9 +1671,21 @@ namespace Tecan_Quote_Generator
                     itemDiscount = row.Discount;
                     itemNote = row.IncludeNote;
                     itemImage = row.IncludeImage;
+                    itemFound = false;
+                    if (itemSAPID != "Heading")
+                    {
+                        replacementItem = validateItem(itemSAPID);
+                        if (replacementItem.SAPID == "found")
+                        {
+                            itemFound = true;
+                        }
+                    }
+                    else
+                    {
+                        itemFound = true;
+                    }
 
-                    replacementItem = validateItem(itemSAPID);
-                    if (replacementItem.SAPID == "found")
+                    if (itemFound)
                     {
                         QuoteDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice, itemNote, itemImage);
                     }
@@ -2026,6 +1712,7 @@ namespace Tecan_Quote_Generator
                     itemImage = row.IncludeImage;
 
                     replacementItem = validateItem(itemSAPID);
+                    // "found" indicates that the item was found in the Db and no replacement is required
                     if (replacementItem.SAPID == "found")
                     {
                         OptionsDataGridView.Rows.Add(itemSAPID, itemDescription, itemPrice, itemQuantity, String.Format("{0:P2}", itemDiscount), itemPrice, itemNote, itemImage);
@@ -2109,10 +1796,10 @@ namespace Tecan_Quote_Generator
             // Reset all quote info page items
             QuoteTitleTextBox.Text = "";
             QuoteDescriptionTextBox.Text = "";
-            AccountComboBox.SelectedIndex = 0;
-            ContactComboBox.SelectedIndex = 0;
-            QuoteTypeComboBox.SelectedIndex = 0;
-            QuoteTemplateComboBox.SelectedIndex = 0;
+            if (AccountComboBox.Items.Count != 0) AccountComboBox.SelectedIndex = 0;
+            if (ContactComboBox.Items.Count != 0) ContactComboBox.SelectedIndex = 0;
+            if (QuoteTypeComboBox.Items.Count != 0) QuoteTypeComboBox.SelectedIndex = 0;
+            if (QuoteTemplateComboBox.Items.Count != 0) QuoteTemplateComboBox.SelectedIndex = 0;
             return true;
         }
 
@@ -2244,41 +1931,6 @@ namespace Tecan_Quote_Generator
                 // Show please wait panel with error, open profile form
                 MessageBox.Show("error");
             }
-                // var folderSpec = "";
-            //FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
-            //folderBrowserDialog1.Description = "Please select your New Database folder location.";
-            //folderBrowserDialog1.SelectedPath = profile.DistributionFolder;
-            //folderBrowserDialog1.ShowNewFolderButton = false;
-
-            //if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            //{
-            //    var folderSpec = new List<string>() { folderBrowserDialog1.SelectedPath };
-            //    Thread.Sleep(5000);
-            //    ThreadedExecuter<string> executer = new ThreadedExecuter<string>(copyDatabaseToWorkingFolder, copyComplete);
-            //    executer.Start();
-            //}
-
-
-
-            //FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
-            //folderBrowserDialog1.Description = "Please select your New Database folder location.";
-            //folderBrowserDialog1.SelectedPath = profile.DistributionFolder;
-            //folderBrowserDialog1.ShowNewFolderButton = false;
-
-            //Boolean dBUpdated = false;
-
-            //if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            //{
-            //    dBUpdated = copyDatabaseToWorkingFolder(folderBrowserDialog1.SelectedPath);
-            //    if (dBUpdated)
-            //    {
-            //        MessageBox.Show("Database Updated!");
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Database Updated Failed!");
-            //    }
-            //}
         }
 
         private void RequiredPanelCancelButton_Click(object sender, EventArgs e)
@@ -2297,17 +1949,17 @@ namespace Tecan_Quote_Generator
                     if (passRequiredItems.QuoteTitle == "QuoteItems")
                     {
                         QuoteDataGridView.Rows.Add(row.SAPID, row.Description, Convert.ToDecimal(row.Price), 1, String.Format("{0:P2}", 0.00), Convert.ToDecimal(row.Price));
-                        SumItems(QuoteDataGridView);
                     }
                     else
                     {
                         OptionsDataGridView.Rows.Add(row.SAPID, row.Description, Convert.ToDecimal(row.Price), 1, String.Format("{0:P2}", 0.00), Convert.ToDecimal(row.Price));
-                        SumItems(OptionsDataGridView);
                     }
                 }
                 i++;
             }
             RequiredPartsPanel.Visible = false;
+            SumItems(QuoteDataGridView);
+            SumItems(OptionsDataGridView);
         }
 
         private void RequiredPartsPanelSelectAllCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -2435,6 +2087,47 @@ namespace Tecan_Quote_Generator
                 return;
             }
 
+        }
+
+        private void convertQuoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Boolean doClear = clearQuote();
+            if (!doClear) return;
+
+            // Get Old Quote Filename and Path to Convert
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                QuoteTitleTextBox.Text = System.IO.Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
+                openDB();
+                SqlCeCommand cmd = TecanDatabase.CreateCommand();
+                SqlCeDataReader reader;
+
+                // Read the file and display it line by line.
+                System.IO.StreamReader file = new System.IO.StreamReader(openFileDialog1.FileName);
+                
+                String line;
+                String SAPId;
+                while ((line = file.ReadLine()) != null)
+                {
+                    if (Regex.IsMatch(line, @"^\d{8}"))
+                    {
+                        // Find Item in Db, add item to quote
+                        SAPId = line.Substring(0, 8);
+                        cmd.CommandText = "SELECT SAPId, Description, ILP FROM PartsList WHERE SAPId = '" + SAPId + "'";
+                        reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            QuoteDataGridView.Rows.Add(reader[0].ToString(), reader[1].ToString(), (Decimal)reader[2], 1, String.Format("{0:P2}", 0.00), (Decimal)reader[2]);
+                        }
+                    }
+                }
+                SumItems(QuoteDataGridView);
+            }
         }
 
     }

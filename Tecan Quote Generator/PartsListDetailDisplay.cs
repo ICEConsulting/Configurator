@@ -615,6 +615,7 @@ namespace Tecan_Quote_Generator
             if (managerPasswordTextBox.Text == "Roses Are Red")
             {
                 priceBox.Height = 320;
+                mainForm.convertQuoteToolStripMenuItem.Visible = true;
                 MainQuoteForm.isManager = true;
             }
             managerPasswordPanel.Visible = false;

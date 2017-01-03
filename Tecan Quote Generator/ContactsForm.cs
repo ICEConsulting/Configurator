@@ -315,8 +315,7 @@ namespace Tecan_Quote_Generator
 
         private short getNewID(string indexFieldName, string currentTable)
         {
-            String newRowCount = "";
-            int newRowCountNum = 0;
+            int newIDNum = 0;
             openDB();
             SqlCeCommand cmd = ContactsDatabase.CreateCommand();
             if (indexFieldName == "AccountID")
@@ -332,19 +331,14 @@ namespace Tecan_Quote_Generator
             SqlCeDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                newRowCount = reader[0].ToString();
+                newIDNum = Convert.ToInt32(reader[0]);
             }
             ContactsDatabase.Close();
-            if (newRowCount != "")
+            if (newIDNum == 0)
             {
-                newRowCountNum = Convert.ToInt16(newRowCount);
-                newRowCountNum++;
+                newIDNum = 1;
             }
-            else
-            {
-                newRowCountNum = 1;
-            }
-            return (short)newRowCountNum;
+            return (short)newIDNum;
         }
 
         private void listPrintContactsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -417,44 +411,177 @@ namespace Tecan_Quote_Generator
             Process.Start("https://support.google.com/mail/answer/1069522?hl=en");
         }
 
+        // todo Once Loaded no longer allow replace
         private void importContactsButton_Click(object sender, EventArgs e)
         {
-            
-            Boolean deleteDb = false;
-            short newAccountID = 0;
-            short newContactID = 0;
-            // If replace is selected and contacts dB not empty, verify action
-            if (replaceRadioButton.Checked == true && AccountsComboBox.Items.Count != 0)
-            {
-                if (MessageBox.Show("This will delete all current Accounts and Contacts and Replace them with your selected Contacts List.\r\n\r\nDo you want to proceed?", "Replace Contacts", MessageBoxButtons.YesNo) == DialogResult.No)
-                {
-                    return;
-                }
-                else
-                {
-                    deleteDb = true;
-                }
-            }
-            
-            openDB();
-            SqlCeCommand cmd = ContactsDatabase.CreateCommand();
-            SqlCeDataReader reader;
-
-            if (deleteDb)
-            {
-                cmd.CommandText = "DELETE FROM Accounts";
-                cmd.ExecuteNonQuery();
-                cmd.CommandText = "DELETE FROM Contacts";
-                cmd.ExecuteNonQuery();
-            }
-
-            // Initialize Accounts Db
-            cmd.CommandText = "INSERT INTO Accounts (AccountID, AccountName) Values (0 , '- Please Select An Account -')";
-            cmd.ExecuteNonQuery();
+            Int32 NewAccountID = 1;
+            Int32 CurrentAccountID;
+            Int32 NewContactID = 1;
 
             // Get the contacts cvs file
-            String filePath;
+            String[] newContacts = getContactsFile();
 
+            String[] thisContact = null;
+            List<Contact> alreadyAddedAccounts_Contacts = new List<Contact>();
+
+            openDB();
+            SqlCeCommand cmd = ContactsDatabase.CreateCommand();
+
+            if (AccountsBindingSource.Count == 0)
+            {
+                // Initialize Accounts Db
+                cmd.CommandText = "INSERT INTO Accounts (AccountID, AccountName) Values (0 , '- Please Select An Account -')";
+                cmd.ExecuteNonQuery();
+            }
+            else
+            {
+                cmd.CommandText = "SELECT A.AccountName, C.First, C.Last, C.Address, C.City, C.State, C.PostalCode,  C.WorkPhone, C.Fax, C.Email, C.ContactID, A.AccountID " +
+                " FROM Accounts A LEFT OUTER JOIN Contacts C " +
+                " ON A.AccountID = C.AccountID" +
+                " ORDER BY A.AccountName, C.First";
+                SqlCeDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    // Add to alreadyAddedAccounts_Contacts list
+                    alreadyAddedAccounts_Contacts.Add(new Contact
+                    {
+                        accountName = reader[0].ToString(),
+                        first = reader[1].ToString(),
+                        last = reader[2].ToString(),
+                        address = reader[3].ToString(),
+                        city = reader[4].ToString(),
+                        state = reader[5].ToString(),
+                        postalCode = reader[6].ToString(),
+                        workPhone = reader[7].ToString(),
+                        fax = reader[8].ToString(),
+                        email = reader[9].ToString(),
+                        fullName = reader[1].ToString() + " " + reader[2].ToString(),
+                        contactID = Convert.ToInt32(reader[10]),
+                        accountID = Convert.ToInt32(reader[11])
+                    });
+                }
+                reader.Dispose();
+            }
+
+            foreach (string newContact in newContacts)
+            {
+                thisContact = newContact.Split(',');
+                // Accounts
+                var theContact = alreadyAddedAccounts_Contacts.SingleOrDefault(x => x.accountName == thisContact[0]);
+                // Account exisits
+                if (theContact != null)
+                {
+                    CurrentAccountID = theContact.accountID;
+                }
+                else
+                // Account does not exist - Add account and contact
+                {
+                    // Add account to accounts table
+                    cmd.CommandText = "INSERT INTO Accounts (AccountID, AccountName) Values (" + NewAccountID + " , '" + thisContact[0] + "')";
+                    cmd.ExecuteNonQuery();
+
+                    // Add contact to contact table
+                    cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, FullName, ContactID, AccountID)" +
+                    " Values " +
+                    "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @FullName, @ContactID, @AccountID)";
+
+                    cmd.Parameters.AddWithValue("@First", thisContact[1]);
+                    cmd.Parameters.AddWithValue("@Last", thisContact[2]);
+                    cmd.Parameters.AddWithValue("@Address", thisContact[3]);
+                    cmd.Parameters.AddWithValue("@City", thisContact[4]);
+                    cmd.Parameters.AddWithValue("@State", thisContact[5]);
+                    cmd.Parameters.AddWithValue("@PostalCode", thisContact[6]);
+                    cmd.Parameters.AddWithValue("@WorkPhone", thisContact[7]);
+                    cmd.Parameters.AddWithValue("@Fax", thisContact[8]);
+                    cmd.Parameters.AddWithValue("@Email", thisContact[9]);
+                    cmd.Parameters.AddWithValue("@FullName", thisContact[1] + " " + thisContact[2]);
+                    cmd.Parameters.AddWithValue("@ContactID", 1);
+                    cmd.Parameters.AddWithValue("@AccountID", NewAccountID);
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+
+                    // Add to alreadyAddedAccounts_Contacts list
+                    alreadyAddedAccounts_Contacts.Add(new Contact
+                    {
+                        accountName = thisContact[0],
+                        first = thisContact[1],
+                        last = thisContact[2],
+                        address = thisContact[3],
+                        city = thisContact[4],
+                        state = thisContact[5],
+                        postalCode = thisContact[6],
+                        workPhone = thisContact[7],
+                        fax = thisContact[8],
+                        email = thisContact[9],
+                        fullName = thisContact[1] + " " + thisContact[2],
+                        contactID = 1,
+                        accountID = NewAccountID
+                    });
+                    NewAccountID++;
+                    continue;
+                }
+
+                // Account found, test if contact for this accoun exists
+                theContact = alreadyAddedAccounts_Contacts.SingleOrDefault(x => x.accountName == thisContact[0] && x.first == thisContact[1] && x.last == thisContact[2]);
+                // Contact for this account exists - do nothing
+                if (theContact != null)
+                {
+                    continue;
+                }
+                else
+                // Account exist - Contact does not exist - update list add contact to table
+                {
+                    theContact = alreadyAddedAccounts_Contacts.Last(x => x.accountName == thisContact[0]);
+                    NewContactID = theContact.contactID;
+                    NewContactID++;
+                    // Add contact to contact table
+                    cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, FullName, ContactID, AccountID)" +
+                    " Values " +
+                    "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @FullName, @ContactID, @AccountID)";
+
+                    cmd.Parameters.AddWithValue("@First", thisContact[1]);
+                    cmd.Parameters.AddWithValue("@Last", thisContact[2]);
+                    cmd.Parameters.AddWithValue("@Address", thisContact[3]);
+                    cmd.Parameters.AddWithValue("@City", thisContact[4]);
+                    cmd.Parameters.AddWithValue("@State", thisContact[5]);
+                    cmd.Parameters.AddWithValue("@PostalCode", thisContact[6]);
+                    cmd.Parameters.AddWithValue("@WorkPhone", thisContact[7]);
+                    cmd.Parameters.AddWithValue("@Fax", thisContact[8]);
+                    cmd.Parameters.AddWithValue("@Email", thisContact[9]);
+                    cmd.Parameters.AddWithValue("@FullName", thisContact[1] + " " + thisContact[2]);
+                    cmd.Parameters.AddWithValue("@ContactID", NewContactID);
+                    cmd.Parameters.AddWithValue("@AccountID", CurrentAccountID);
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+
+                    // Add to alreadyAddedAccounts_Contacts list
+                    alreadyAddedAccounts_Contacts.Add(new Contact
+                    {
+                        accountName = thisContact[0],
+                        first = thisContact[1],
+                        last = thisContact[2],
+                        address = thisContact[3],
+                        city = thisContact[4],
+                        state = thisContact[5],
+                        postalCode = thisContact[6],
+                        workPhone = thisContact[7],
+                        fax = thisContact[8],
+                        email = thisContact[9],
+                        fullName = thisContact[1] + " " + thisContact[2],
+                        contactID = NewContactID,
+                        accountID = CurrentAccountID
+                    });
+                }
+            }
+            ContactsDatabase.Close();
+            importContactsPanel.Visible = false;
+        }
+
+        private String[] getContactsFile()
+        {
+            String filePath;
+            String[] theContacts = null;
             // Get csv Filename and Path
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
@@ -470,63 +597,16 @@ namespace Tecan_Quote_Generator
                 filePath = openFileDialog1.FileName;
                 try
                 {
-                    var newContacts = File.ReadAllLines(filePath).Select(x => x.Split(',')).ToArray();
-                    foreach (string[] newContact in newContacts)
-                    {
-                        // Get Account Name, test if exists, add or use AccountID
-                        cmd.CommandText = "SELECT AccountName, AccountID FROM Accounts WHERE AccountName = '" + newContact[0] + "'";
-                        reader = cmd.ExecuteReader();
-                        if (reader.Read())
-                        {
-                            newAccountID = (short)Convert.ToInt16(reader[1]);
-                        }
-                        else if (newContact[0] != "")
-                        {
-                            newAccountID = getNewID("AccountID", "Accounts");
-                            cmd.CommandText = "INSERT INTO Accounts (AccountID, AccountName) Values (" + newAccountID + ", '" + newContact[0] + "')";
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        // Get Contact Name, test if exists, add if not found
-                        cmd.CommandText = "SELECT AccountID, First, Last FROM Contacts WHERE AccountID = '" + newAccountID + "' AND First = '" +
-                            newContact[1] + "' AND Last = '" + newContact[2] + "'";
-                        reader = cmd.ExecuteReader();
-                        if (!reader.Read() && (newContact[1] != "" || newContact[2] != ""))
-                        {
-                            newContactID = getNewID("ContactID", "Contacts");
-                            cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, FullName, ContactID, AccountID)" +
-                            " Values " +
-                            "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @FullName, @ContactID, @AccountID)";
-
-                            cmd.Parameters.AddWithValue("@First", newContact[1]);
-                            cmd.Parameters.AddWithValue("@Last", newContact[2]);
-                            cmd.Parameters.AddWithValue("@Address", newContact[3]);
-                            cmd.Parameters.AddWithValue("@City", newContact[4]);
-                            cmd.Parameters.AddWithValue("@State", newContact[5]);
-                            cmd.Parameters.AddWithValue("@PostalCode", newContact[6]);
-                            cmd.Parameters.AddWithValue("@WorkPhone", newContact[7]);
-                            cmd.Parameters.AddWithValue("@Fax", newContact[8]);
-                            cmd.Parameters.AddWithValue("@Email", newContact[9]);
-                            cmd.Parameters.AddWithValue("@FullName", newContact[1] + " " + newContact[2]);
-                            cmd.Parameters.AddWithValue("@ContactID", newContactID);
-                            cmd.Parameters.AddWithValue("@AccountID", newAccountID);
-                            cmd.ExecuteNonQuery();
-                            cmd.Parameters.Clear();
-                        }
-                        reader.Dispose();
-                    }
-                    ContactsDatabase.Close();
-                    importContactsPanel.Visible = false;
-                    this.accountsTableAdapter.FillBy(this.customersDataSet.Accounts);
-                    this.Show();
+                    theContacts = File.ReadAllLines(filePath);
                 }
                 catch (Exception)
                 {
                     MessageBox.Show("Please close the contacts file and try again");
                     importContactsPanel.Visible = false;
-                    return;
+                    return theContacts;
                 }
             }
+            return theContacts;
         }
 
         private void CancelNewContactButton_Click(object sender, EventArgs e)

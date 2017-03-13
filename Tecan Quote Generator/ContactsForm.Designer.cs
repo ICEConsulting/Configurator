@@ -485,7 +485,7 @@
             this.importContactsPanel.Controls.Add(this.label14);
             this.importContactsPanel.Controls.Add(this.label13);
             this.importContactsPanel.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.importContactsPanel.Location = new System.Drawing.Point(9, 30);
+            this.importContactsPanel.Location = new System.Drawing.Point(10, 30);
             this.importContactsPanel.Margin = new System.Windows.Forms.Padding(2);
             this.importContactsPanel.Name = "importContactsPanel";
             this.importContactsPanel.Size = new System.Drawing.Size(520, 297);
@@ -600,8 +600,8 @@
             // 
             // ContactsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.BlanchedAlmond;
             this.ClientSize = new System.Drawing.Size(537, 357);
             this.Controls.Add(this.importContactsPanel);

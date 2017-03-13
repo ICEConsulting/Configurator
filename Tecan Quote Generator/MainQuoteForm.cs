@@ -27,6 +27,8 @@ namespace Tecan_Quote_Generator
     {
         public static Boolean isManager = false;
         SqlCeConnection TecanDatabase = null;
+        SqlCeConnection TecanAppDocDatabase = null;
+        SqlCeConnection ContactDatabase = null;
 
         Boolean searchPreformed = true;
         Boolean salesTypeChanged = false;
@@ -37,6 +39,7 @@ namespace Tecan_Quote_Generator
         Boolean quoteSaved = true;
 
         PartsListDetailDisplay DetailsForm;
+
         public Profile profile = new Profile();
         Quote passRequiredItems = new Quote();
 
@@ -78,17 +81,80 @@ namespace Tecan_Quote_Generator
             this.salesTypeTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.SalesType);
             this.partsListTableAdapter.Fill(this.tecanQuoteGeneratorPartsListDataSet.PartsList);
 
+            QuoteDataGridView.AllowDrop = true;
+            OptionsDataGridView.AllowDrop = true;
+
             // Check if Quote Database is empty
             if (partsListBindingSource.Count != 0)
             {
                 loadFilterComboBoxes();
                 setPartDetailTextBox();
-                QuoteDataGridView.AllowDrop = true;
-                OptionsDataGridView.AllowDrop = true;
+                loadTemplateCategories();
+                //QuoteDataGridView.AllowDrop = true;
+                //OptionsDataGridView.AllowDrop = true;
                 // ThirdPartyDataGridView.AllowDrop = true;
                 // SmartStartDataGridView.AllowDrop = true;
                 QuoteTabControl.SelectedTab = QuoteSettingTabPage;
             }
+        }
+
+        private void loadTemplateCategories()
+        {
+            // Load appication categories
+            openAppDocDatabase();
+            SqlCeCommand cmd = TecanAppDocDatabase.CreateCommand();
+            SqlCeDataReader reader;
+
+            // Load Load AppCat combobox
+            cmd.CommandText = "SELECT AppCategoryID, AppCategoryName FROM ApplicationCategories WHERE AppCategoryName != 'General'";
+            reader = cmd.ExecuteReader();
+            DataTable ct = new DataTable();
+            ct.Columns.Add("AppCategoryID");
+            ct.Columns.Add("AppCategoryName");
+            ct.Load(reader);
+            QuoteTypeComboBox.ValueMember = "AppCategoryID";
+            QuoteTypeComboBox.DisplayMember = "AppCategoryName";
+            QuoteTypeComboBox.DataSource = ct;
+            QuoteTypeComboBox.SelectedIndex = 0;
+            TecanAppDocDatabase.Close();
+            reader.Dispose();
+        }
+
+        private void loadTemplateList()
+        {
+            // Load appication categories
+            openAppDocDatabase();
+            SqlCeCommand cmd = TecanAppDocDatabase.CreateCommand();
+            SqlCeDataReader reader;
+
+            // Load Template combobox
+            cmd.CommandText = "SELECT DocID, DocumentDescription FROM Documents WHERE ApplicationCategory = " + QuoteTypeComboBox.SelectedValue + " AND DocumentPosition = 1";
+            reader = cmd.ExecuteReader();
+            DataTable st = new DataTable();
+            st.Clear();
+            st.Columns.Add("DocID");
+            st.Columns.Add("DocumentDescription");
+            st.Load(reader);
+            // MessageBox.Show(st.Rows.Count.ToString());
+            SmartStartHeaderComboBox.ValueMember = "DocID";
+            SmartStartHeaderComboBox.DisplayMember = "DocumentDescription";
+            SmartStartHeaderComboBox.DataSource = st;
+            // SmartStartHeaderComboBox.Refresh();
+
+            cmd.CommandText = "SELECT DocID, DocumentDescription FROM Documents WHERE ApplicationCategory = " + QuoteTypeComboBox.SelectedValue + " AND DocumentPosition = 2";
+            reader = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Clear();
+            dt.Columns.Add("DocID");
+            dt.Columns.Add("DocumentDescription");
+            dt.Load(reader);
+            QuoteTemplateComboBox.ValueMember = "DocID";
+            QuoteTemplateComboBox.DisplayMember = "DocumentDescription";
+            QuoteTemplateComboBox.DataSource = dt;
+            // QuoteTemplateComboBox.Refresh();
+            
+            TecanAppDocDatabase.Close();
+            reader.Dispose();
         }
 
         private void FormIsClosing(object sender, FormClosingEventArgs e)
@@ -117,6 +183,7 @@ namespace Tecan_Quote_Generator
             {
                 loadFilterComboBoxes();
                 setPartDetailTextBox();
+                loadTemplateCategories();
                 QuoteTabControl.SelectedTab = QuoteSettingTabPage;
             }
         }
@@ -146,6 +213,7 @@ namespace Tecan_Quote_Generator
 
         public void checkForNewDatabase()
         {
+            // todo May want to check dates on all files (Smart Start, Supp, and App databases)
             String distributionPath = profile.DistributionFolder;
             String quoteDistributionFile;
             DateTime distributionFileDate;
@@ -208,12 +276,16 @@ namespace Tecan_Quote_Generator
         private void doTheCopy()
         {
             String quoteSourceFile = "";
+            String smartStartSourceFile = "";
             String supplementSourceFile = "";
+            String appDocsSourceFile = "";
             String sourcePath = profile.DistributionFolder;
 
             // Db source file locations
             quoteSourceFile = System.IO.Path.Combine(sourcePath, "TecanQuoteGeneratorPartsList.sdf");
+            smartStartSourceFile = System.IO.Path.Combine(sourcePath, "TecanSmartStartQuoteGeneratorPartsList.sdf");
             supplementSourceFile = System.IO.Path.Combine(sourcePath, "TecanSuppDocs.sdf");
+            appDocsSourceFile = System.IO.Path.Combine(sourcePath, "TecanAppDocs.sdf");
 
             String errorMessage = "";
             Boolean foundError = false;
@@ -224,21 +296,36 @@ namespace Tecan_Quote_Generator
                 errorMessage = "Your distribution folder does not contain a Partslist Database file (TecanQuoteGeneratorPartsList.sdf) \r\n\r\n";
                 foundError = true;
             }
+            else if (!File.Exists(smartStartSourceFile))
+            {
+                errorMessage += "Your distribution folder does not contain a Smart Start Partslist Database file (TecanSmartStartQuoteGeneratorPartsList.sdf) \r\n";
+                foundError = true;
+            }
             else if (!File.Exists(supplementSourceFile))
             {
                 errorMessage += "Your distribution folder does not contain a Suppumental Documents file (TecanSuppDocs.sdf) \r\n";
+                foundError = true;
+            }
+            else if (!File.Exists(appDocsSourceFile))
+            {
+                errorMessage += "Your distribution folder does not contain a Template Documents file (TecanAppDocs.sdf) \r\n";
                 foundError = true;
             }
 
             if (!foundError)
             {
                 // Where new files will go
-                String quoteTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanQuoteGeneratorPartsList.sdf");
-                String supplementTargetFile = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "TecanSuppDocs.sdf");
+                String currentFolder = Directory.GetCurrentDirectory();
+                String quoteTargetFile = System.IO.Path.Combine(currentFolder, "TecanQuoteGeneratorPartsList.sdf");
+                String smartStartTargetFile = System.IO.Path.Combine(currentFolder, "TecanSmartStartQuoteGeneratorPartsList.sdf");
+                String supplementTargetFile = System.IO.Path.Combine(currentFolder, "TecanSuppDocs.sdf");
+                String appDocsTargetFile = System.IO.Path.Combine(currentFolder, "TecanAppDocs.sdf");
 
                 // Copy the files
                 System.IO.File.Copy(quoteSourceFile, quoteTargetFile, true);
+                System.IO.File.Copy(smartStartSourceFile, smartStartTargetFile, true);
                 System.IO.File.Copy(supplementSourceFile, supplementTargetFile, true);
+                System.IO.File.Copy(appDocsSourceFile, appDocsTargetFile, true);
 
                 // Save the new Db Timestamp
                 // getUsersProfile();
@@ -368,13 +455,13 @@ namespace Tecan_Quote_Generator
                 if (DetailsForm == null || DetailsForm.IsDisposed) DetailsForm = new PartsListDetailDisplay();
                 try
                 {
+                    DetailsForm.SetForm1Instance(this);
                     DetailsForm.LoadParts(SelectedRow.SAPId);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-                DetailsForm.SetForm1Instance(this);
                 DetailsForm.Show();
                 Application.OpenForms["PartsListDetailDisplay"].BringToFront();
             }
@@ -841,11 +928,30 @@ namespace Tecan_Quote_Generator
         private void openDB()
         {
             TecanDatabase = new SqlCeConnection();
-            String dataPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
-            TecanDatabase.ConnectionString = "Data Source=|DataDirectory|\\TecanQuoteGeneratorPartsList.sdf;Max Database Size=4000;Max Buffer Size=1024;Persist Security Info=False";
+            if (IsSSPCheckBox.Checked == false)
+            {
+                TecanDatabase.ConnectionString = "Data Source=|DataDirectory|\\TecanQuoteGeneratorPartsList.sdf;Max Database Size=4000;Max Buffer Size=1024;Persist Security Info=False";
+            }
+            else
+            {
+                TecanDatabase.ConnectionString = "Data Source=|DataDirectory|\\TecanSmartStartQuoteGeneratorPartsList.sdf;Max Database Size=4000;Max Buffer Size=1024;Persist Security Info=False";
+            }
             TecanDatabase.Open();
         }
 
+        private void openAppDocDatabase()
+        {
+            TecanAppDocDatabase = new SqlCeConnection();
+            TecanAppDocDatabase.ConnectionString = "Data Source=|DataDirectory|\\TecanAppDocs.sdf;Max Database Size=4000;Max Buffer Size=1024;Persist Security Info=False";
+            TecanAppDocDatabase.Open();
+        }
+
+        private void openContactsDatabase()
+        {
+            ContactDatabase = new SqlCeConnection();
+            ContactDatabase.ConnectionString = "Data Source=|DataDirectory|\\Customers.sdf;Max Database Size=4000;Max Buffer Size=1024;Persist Security Info=False";
+            ContactDatabase.Open();
+        }
 
         public static System.Drawing.Image ResizeImage(System.Drawing.Image image, Size size, bool preserveAspectRatio = true)
         {
@@ -1376,14 +1482,6 @@ namespace Tecan_Quote_Generator
         private void QuoteAddHeadingButton_Click(object sender, EventArgs e)
         {
             userInsertHeading(QuoteDataGridView);
-            //Int32 selectedRow = QuoteDataGridView.SelectedRows[0].Index;
-
-            //QuoteDataGridView.Columns[1].ReadOnly = false;
-            //QuoteDataGridView.Rows.Insert(selectedRow, "Heading");
-            //DataGridViewCell cell = QuoteDataGridView.Rows[selectedRow].Cells[1];
-            //QuoteDataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            //QuoteDataGridView.CurrentCell = cell;
-            //QuoteDataGridView.BeginEdit(true);
         }
 
         private void OptionsRemoveSelectedButton_Click(object sender, EventArgs e)
@@ -1407,13 +1505,14 @@ namespace Tecan_Quote_Generator
             Int32 selectedRow = myDataGridView.SelectedRows[0].Index;
 
             myDataGridView.Columns[1].ReadOnly = false;
-            myDataGridView.Rows.Insert(selectedRow, "Heading");
-            DataGridViewCell cell = myDataGridView.Rows[selectedRow].Cells[1];
+            myDataGridView.Rows.Insert(selectedRow+1, "Heading");
+            DataGridViewCell cell = myDataGridView.Rows[selectedRow+1].Cells[1];
             myDataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
             myDataGridView.CurrentCell = cell;
             myDataGridView.BeginEdit(true);
 
         }
+
         //private void ThirdPartyRemoveSelectedButton_Click(object sender, EventArgs e)
         //{
         //    RemoveItems(ThirdPartyDataGridView);
@@ -1536,10 +1635,11 @@ namespace Tecan_Quote_Generator
 
             // Save theQuote file
             String tecanFilesFilePath = @"c:\TecanFiles";
+            String quoteDate = QuoteDateTimePicker.Text.Replace("/","_");
             System.IO.Directory.CreateDirectory(tecanFilesFilePath);
-            String QuoteFileName = QuoteTitleTextBox.Text + ".tbq";
+            String QuoteFileName = AccountComboBox.Text + "_" + QuoteTitleTextBox.Text + "_" + quoteDate + ".tbq";
 
-            if(File.Exists(@"c:\TecanFiles\" + QuoteFileName))
+            if (File.Exists(tecanFilesFilePath + "\\" + QuoteFileName))
             {
                 if (MessageBox.Show("The Quote file c:\\TecanFiles\\" + QuoteFileName + " already exists!\r\n\r\nDo you want to overwrite quote?", "Overwrite Quote", MessageBoxButtons.YesNo) == DialogResult.No)
                 {
@@ -1553,7 +1653,19 @@ namespace Tecan_Quote_Generator
             System.IO.StreamWriter file = new System.IO.StreamWriter(@"c:\TecanFiles\" + QuoteFileName);
             writer.Serialize(file, quote);
             file.Close();
-            MessageBox.Show("Quote c:\\TecanFiles\\" + QuoteFileName + " saved.");
+
+            // Save the pdf version
+            createQuotePDFHeader();
+            int pageCount = quotePDFaddItemsToQuote();
+            quotePDFaddApplicationDocument(pageCount);
+            String tempFilePath = AddHeaderFooter();
+            String fullTempPDF = tempFilePath + "\\" + QuoteTitleTextBox.Text + ".pdf";
+
+            String QuotePDFFileName = AccountComboBox.Text + "_" + QuoteTitleTextBox.Text + "_" + quoteDate + ".pdf";
+            String fullPDFfilename = tecanFilesFilePath + "\\" + QuotePDFFileName;
+            System.IO.File.Copy(fullTempPDF, fullPDFfilename, true);
+
+            MessageBox.Show("Quote c:\\TecanFiles\\" + QuoteFileName + " and c:\\TecanFiles\\" + fullPDFfilename + " saved.");
         }
 
         private ArrayList AddQuoteItems(DataGridView myDataGridView)
@@ -1627,6 +1739,7 @@ namespace Tecan_Quote_Generator
 
             openFileDialog1.InitialDirectory = "c:\\TecanFiles";
             openFileDialog1.FilterIndex = 2;
+            openFileDialog1.Filter = "tbq files (*.tbq)|*.tbq";
             openFileDialog1.RestoreDirectory = true;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -1635,6 +1748,7 @@ namespace Tecan_Quote_Generator
                 System.IO.StreamReader file = new System.IO.StreamReader(openFileDialog1.FileName);
                 Quote quote = new Quote();
                 quote = (Quote)reader.Deserialize(file);
+                file.Close();
 
                 AccountComboBox.SelectedValue = quote.QuoteAccount;
                 ContactComboBox.SelectedValue = quote.QuoteContact;
@@ -1758,9 +1872,12 @@ namespace Tecan_Quote_Generator
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    foundItem.SAPID = reader[0].ToString();
-                    foundItem.Description = reader[1].ToString();
-                    foundItem.Price = (Decimal)reader[2];
+                    if (reader[0].ToString() != "")
+                    {
+                        foundItem.SAPID = reader[0].ToString();
+                        foundItem.Description = reader[1].ToString();
+                        foundItem.Price = (Decimal)reader[2];
+                    }
                 }
             }
             reader.Dispose();
@@ -1799,7 +1916,8 @@ namespace Tecan_Quote_Generator
             if (AccountComboBox.Items.Count != 0) AccountComboBox.SelectedIndex = 0;
             if (ContactComboBox.Items.Count != 0) ContactComboBox.SelectedIndex = 0;
             if (QuoteTypeComboBox.Items.Count != 0) QuoteTypeComboBox.SelectedIndex = 0;
-            if (QuoteTemplateComboBox.Items.Count != 0) QuoteTemplateComboBox.SelectedIndex = 0;
+            IsSSPCheckBox.Checked = false;
+            // if (QuoteTemplateComboBox.Items.Count != 0) QuoteTemplateComboBox.SelectedIndex = 0;
             return true;
         }
 
@@ -1839,74 +1957,873 @@ namespace Tecan_Quote_Generator
 
         private void viewQuoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (AccountComboBox.Items.Count == 0)
+            if (!quoteSaved)
             {
-                if (MessageBox.Show("You currently have no accounts and contacts added.\n\n Do you want to import or add accounts now?", "Please Add Account Information", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    accountListToolStripMenuItem_Click(sender, e);
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            if (QuoteTitleTextBox.Text == "" || AccountComboBox.SelectedIndex == 0)
-            {
-                String messageString = "";
-                if (QuoteTitleTextBox.Text == "") messageString = "Please enter a Quote Title before saving.\n\n";
-                if (AccountComboBox.SelectedIndex == 0) messageString = "Please select an Account and Contact before saving.";
-                QuoteTabControl.SelectedTab = QuoteSettingTabPage;
-                //PleaseWaitHeadingLabel.Text = "Incomplete Quote.";
-                //PleaseWaitMessageTextBox.Text = "Please enter a Quote Title before saving.";
-                //PLeaseWaitPanelOKButton.Visible = true;
-                //PleaseWaitPanel.Visible = true;
-
-
-                QuoteTitleTextBox.Focus();
-                MessageBox.Show(messageString);
+                saveQuoteToolStripMenuItem_Click(sender, e);
                 return;
             }
 
-            string pdfTemplate = @"c:\temp\Tecan DiTi Systems Form - Ian2.pdf";
-            this.Text += " - " + pdfTemplate;
-            PdfReader pdfReader = new PdfReader(pdfTemplate);
-            StringBuilder sb = new StringBuilder();
-            foreach (DictionaryEntry de in pdfReader.AcroFields.Fields)
-            {
-                sb.Append(de.Key.ToString() + Environment.NewLine);
-            }
+            //createQuotePDFHeader();
+            //int pageCount = quotePDFaddItemsToQuote();
+            //quotePDFaddApplicationDocument(pageCount);
+            //String tempFilePath = AddHeaderFooter();
+            String tecanFilesFilePath = @"c:\TecanFiles";
+            String quoteDate = QuoteDateTimePicker.Text.Replace("/", "_");
+            String QuoteFileName = AccountComboBox.Text + "_" + QuoteTitleTextBox.Text + "_" + quoteDate + ".pdf";
 
+            Process.Start(tecanFilesFilePath + "\\" + QuoteFileName);
+            //String fullTempPDF = tempFilePath + "\\" + QuoteTitleTextBox.Text + ".pdf";
+
+            // Save theQuote file
+            //String tecanFilesFilePath = @"c:\TecanFiles";
+            //System.IO.Directory.CreateDirectory(tecanFilesFilePath);
+            //String QuoteFileName = AccountComboBox.Text + "_" + QuoteTitleTextBox.Text + "_" + QuoteDateTimePicker.Text + ".tbq";
+            //String fullPDFfilename = tecanFilesFilePath + "\\" + QuoteFileName;
+            //System.IO.File.Copy(fullTempPDF, fullPDFfilename, true);
+        }
+
+        private void createQuotePDFHeader()
+        {
+            // Get Account & Contact Address Information
+            String AccountName = AccountComboBox.Text;
+            String ContactName = ContactComboBox.Text;
+            String Address = "";
+            String Address2 = "";
+            String Email = "";
+            String Phone = "";
+            String Fax = "";
+
+            openContactsDatabase();
+            SqlCeCommand cmd = ContactDatabase.CreateCommand();
+            cmd.CommandText = "SELECT Address, City, State, PostalCode,  WorkPhone, Fax, Email FROM Contacts WHERE AccountID = " + (short)Convert.ToInt16(AccountComboBox.SelectedValue) + " AND ContactID = " + (short)Convert.ToInt16(ContactComboBox.SelectedValue);
+            SqlCeDataReader dBreader = cmd.ExecuteReader();
+            while (dBreader.Read())
+            {
+                Address = dBreader[0].ToString();
+                Address2 = dBreader[1].ToString() + ", " + dBreader[2].ToString() + " " + dBreader[3].ToString();
+                Phone = dBreader[4].ToString();
+                Fax = dBreader[5].ToString();
+                Email = dBreader[6].ToString();
+            }
+            dBreader.Dispose();
+            ContactDatabase.Close();
+
+            if (IsSSPCheckBox.Checked == false)
+            {
+                BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+                iTextSharp.text.Font font = new iTextSharp.text.Font(bf, 7);
+                Document document = new Document(iTextSharp.text.PageSize.LETTER);
+
+                // Create the temp directory if it does not exist
+                String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\pdftemp";
+                System.IO.Directory.CreateDirectory(tempFilePath);
+
+                // If temp directory current contains any files, delete them
+                System.IO.DirectoryInfo tempFiles = new DirectoryInfo(tempFilePath);
+
+                foreach (FileInfo delfile in tempFiles.GetFiles())
+                {
+                    delfile.Delete();
+                }
+
+                System.IO.FileStream file = new System.IO.FileStream(tempFilePath + "\\heading.pdf", System.IO.FileMode.OpenOrCreate);
+                PdfWriter writer = PdfWriter.GetInstance(document, file);
+
+                document.Open();
+
+                // For non Smart Start - Smart Start will use fields.
+                // Quote Heading Table
+                PdfPTable table = new PdfPTable(4);
+                PdfPCell cell = new PdfPCell(new Phrase("Customer Name:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(ContactName, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Quote ID:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("The Quote ID", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                //
+                cell = new PdfPCell(new Phrase("Company:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(AccountName, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Quote Description:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(QuoteTitleTextBox.Text, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                //
+                cell = new PdfPCell(new Phrase("Address:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Address, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Quote Date:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(QuoteDateTimePicker.Text, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                //
+                cell = new PdfPCell(new Phrase("City, State, Zip:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Address2, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                //
+                cell = new PdfPCell(new Phrase("Email:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Email, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Sales Rep:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(profile.Name, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                //
+                cell = new PdfPCell(new Phrase("Phone:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Phone, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Sales Rep Email:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(profile.Email, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                //
+                cell = new PdfPCell(new Phrase("Fax:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(Fax, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase("Sales Rep Phone:", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 2;
+                table.AddCell(cell);
+
+                cell = new PdfPCell(new Phrase(profile.Phone, font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.WHITE;
+                table.AddCell(cell);
+                document.Add(table);
+                // End non-Smart Start Heading
+
+                document.Close();
+                file.Close();
+            }
+            else
+            {
+                // get the smart start header document
+                Int16 whichDoc = (short)Convert.ToInt16(QuoteTemplateComboBox.SelectedValue);
+                string pdfTemplate = getApplicationDocument(whichDoc);
+
+                // this.Text += " - " + pdfTemplate;
+                PdfReader pdfReader = new PdfReader(pdfTemplate);
+                AcroFields pdfFormFields = pdfReader.AcroFields;
+
+                string newFile = @"c:\temp\heading.pdf";
+                PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileStream(newFile, FileMode.Create));
+                pdfFormFields = pdfStamper.AcroFields;
+
+                // set form pdfFormFields
+                pdfFormFields.SetField("Customer Name", ContactName);
+                pdfFormFields.SetField("Company", AccountName);
+                pdfFormFields.SetField("Sales Rep", profile.Name);
+                pdfFormFields.SetField("Phone", Phone);
+                pdfFormFields.SetField("Email", Email);
+                pdfFormFields.SetField("Quote ID", "");
+                pdfFormFields.SetField("Budgetary Quote Date", QuoteDateTimePicker.Text);
+                pdfFormFields.SetField("Quote Description", QuoteTitleTextBox.Text);
+                pdfFormFields.SetField("Instrument Description", QuoteDescriptionTextBox.Text);
+
+                pdfFormFields.SetField("ReaderTotal", "100");
+                pdfFormFields.SetField("WasherTotal", "200");
+                // pdfFormFields.SetField("QCKitTotal", "300");
+                // pdfFormFields.SetField("HPTotal", "400");
+                // pdfFormFields.SetField("TipsTotal", "1000");
+                pdfFormFields.SetField("AppSuppTotal", "2000");
+                pdfFormFields.SetField("ContractTotal", "3000");
+                pdfFormFields.SetField("Total Price", "10000");
+                pdfFormFields.SetField("Instrument Price", "10000");
+
+                // flatten the form to remove editting options, set it to false
+                // to leave the form open to subsequent manual edits
+                pdfStamper.FormFlattening = false;
+
+                // close the pdf
+                pdfStamper.Close();
+            }
+        }
+
+        private int quotePDFaddItemsToQuote()
+        {
+            BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            iTextSharp.text.Font font = new iTextSharp.text.Font(bf, 7);
+
+            // Create the temp directory if it does not exist
+            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\pdftemp";
+            // System.IO.Directory.CreateDirectory(tempFilePath);
+
+            PdfReader reader = new PdfReader(tempFilePath + "\\heading.pdf");
+            int pageCount = 1;
+            PdfStamper stamper = new PdfStamper(reader, new FileStream(tempFilePath + "\\heading_and_items" + pageCount + ".pdf", FileMode.Create));
+
+            // calling PDFFooter class to Include in document
+            // writer.PageEvent = new PDFFooter();
+            //document.Open();
+
+            Quote quote = new Quote();
+            quote.QuoteTitle = QuoteTitleTextBox.Text;
+            quote.Items = AddQuoteItems(QuoteDataGridView);
+            quote.Options = AddQuoteItems(OptionsDataGridView);
+
+            PdfPCell cell;
+            // Quote Items Heading
+            PdfPTable QuoteHeading = new PdfPTable(1);
+            QuoteHeading.SpacingBefore = 4;
+            QuoteHeading.SpacingAfter = 1;
+            cell = new PdfPCell(new Phrase(quote.QuoteTitle.ToString(), font));
+            cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+            cell.HorizontalAlignment = 1;
+            QuoteHeading.AddCell(cell);
+            ColumnText ct = new ColumnText(stamper.GetOverContent(1));
+            ct.AddElement(QuoteHeading);
+            iTextSharp.text.Rectangle rect = new iTextSharp.text.Rectangle(36, 682, 577, 50);
+            ct.SetSimpleColumn(rect);
+            ct.Go();
+
+            // // Item Column Headings
+            PdfPTable ItemHeading = new PdfPTable(8);
+            ItemHeading.SpacingBefore = 1;
+            float[] theWidths = new float[] { 10f, 15f, 35f, 55f, 60f, 120f, 30f, 30f };
+            ItemHeading.SetWidths(theWidths);
+
+            cell = new PdfPCell(new Phrase("#", font));
+            cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+            cell.HorizontalAlignment = 1;
+            ItemHeading.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase("Qty", font));
+            cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+            cell.HorizontalAlignment = 1;
+            ItemHeading.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase("Part #", font));
+            cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+            cell.HorizontalAlignment = 1;
+            ItemHeading.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase("Description", font));
+            cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+            cell.HorizontalAlignment = 1;
+            ItemHeading.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase("Detail Description", font));
+            cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+            cell.HorizontalAlignment = 1;
+            ItemHeading.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase("Image", font));
+            cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+            cell.HorizontalAlignment = 1;
+            ItemHeading.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase("Unit Price", font));
+            cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+            cell.HorizontalAlignment = 1;
+            ItemHeading.AddCell(cell);
+
+            cell = new PdfPCell(new Phrase("Price", font));
+            cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+            cell.HorizontalAlignment = 1;
+            ItemHeading.AddCell(cell);
+            ct.AddElement(ItemHeading);
+            rect = new iTextSharp.text.Rectangle(36, 667, 577, 50);
+            ct.SetSimpleColumn(rect);
+            ct.Go();
+
+            // The Items Table
+            PdfPTable table3 = new PdfPTable(9);
+            table3.SpacingBefore = 1;
+            float[] theWidths2 = new float[] { 10f, 15f, 35f, 55f, 60f, 90f, 30f, 30f, 30f };
+            table3.SetWidths(theWidths2);
+
+            // Add items
+            String DetailDescription = "";
+            float lly = 654;
+            int loopCount = 0;
+            int endOfLoop = 5;
+            foreach (QuoteItems row in quote.Items)
+            {
+                if (loopCount == endOfLoop)
+                {
+                    stamper.Close();
+                    reader = new PdfReader(tempFilePath + "\\heading_and_items" + pageCount + ".pdf");
+                    pageCount++;
+                    stamper = new PdfStamper(reader, new FileStream(tempFilePath + "\\heading_and_items" + pageCount + ".pdf", FileMode.Create));
+                    stamper.InsertPage(pageCount, iTextSharp.text.PageSize.LETTER);
+                    ct = new ColumnText(stamper.GetOverContent(pageCount));
+                    ct.AddElement(ItemHeading);
+                    rect = new iTextSharp.text.Rectangle(36, 760, 577, 50);
+                    ct.SetSimpleColumn(rect);
+                    ct.Go();
+                    lly = 747;
+                    loopCount = 0;
+                    endOfLoop = 6;
+                    // break;
+                }
+
+                if (row.SAPID == "Heading")
+                {
+                    cell = new PdfPCell(new Phrase(row.Description, font));
+                    cell.Colspan = 9;
+                    // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                    cell.HorizontalAlignment = 1;
+                    table3.AddCell(cell);
+                }
+                else
+                {
+                    cell = new PdfPCell(new Phrase("1", font));
+                    // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                    cell.HorizontalAlignment = 1;
+                    table3.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(row.Quantity.ToString(), font));
+                    // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                    cell.HorizontalAlignment = 1;
+                    table3.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(row.SAPID, font));
+                    // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                    cell.HorizontalAlignment = 1;
+                    table3.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(row.Description, font));
+                    // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                    cell.Colspan = 4;
+                    cell.FixedHeight = 13f;
+                    cell.HorizontalAlignment = 0;
+                    table3.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(String.Format("{0:C2}", row.Price), font));
+                    // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                    cell.HorizontalAlignment = 1;
+                    table3.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(String.Format("{0:C2}", row.Price * row.Quantity), font));
+                    // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                    cell.HorizontalAlignment = 1;
+                    table3.AddCell(cell);
+
+                    DetailDescription = getDetailDescription(row.SAPID);
+                    cell = new PdfPCell(new Phrase(DetailDescription, font));
+                    // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                    cell.Colspan = 6;
+                    cell.FixedHeight = 90f;
+                    cell.HorizontalAlignment = 0;
+                    table3.AddCell(cell);
+
+                    cell = new PdfPCell(getImage(row.SAPID));
+                    // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                    cell.Colspan = 3;
+                    cell.HorizontalAlignment = 1;
+                    cell.Padding = 5f;
+                    table3.AddCell(cell);
+                    ct.AddElement(table3);
+                    rect = new iTextSharp.text.Rectangle(36, lly, 577, 103);
+                    ct.SetSimpleColumn(rect);
+                    ct.Go();
+                    table3.DeleteBodyRows();
+                    lly = lly - 103;
+                    loopCount++;
+                }
+            }
+            stamper.Close();
+
+            // Add Options
+            if (quote.Options.Count > 0)
+            {
+                reader = new PdfReader(tempFilePath + "\\heading_and_items" + pageCount + ".pdf");
+                pageCount++;
+                stamper = new PdfStamper(reader, new FileStream(tempFilePath + "\\heading_and_items" + pageCount + ".pdf", FileMode.Create));
+                stamper.InsertPage(pageCount, iTextSharp.text.PageSize.LETTER);
+                ct = new ColumnText(stamper.GetOverContent(pageCount));
+
+                // Quote Options Heading
+                PdfPTable OptionsHeading = new PdfPTable(1);
+                cell = new PdfPCell(new Phrase("Quote Options", font));
+                cell.BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY;
+                cell.HorizontalAlignment = 1;
+                OptionsHeading.AddCell(cell);
+                ct.AddElement(OptionsHeading);
+                rect = new iTextSharp.text.Rectangle(36, 760, 577, 50);
+                ct.SetSimpleColumn(rect);
+                ct.Go();
+                ct.AddElement(ItemHeading);
+                rect = new iTextSharp.text.Rectangle(36, 748, 577, 50);
+                ct.SetSimpleColumn(rect);
+                ct.Go();
+
+                // The Option Items Table
+                PdfPTable table4 = new PdfPTable(9);
+                table4.SpacingBefore = 1;
+                table4.SetWidths(theWidths2);
+
+                // Add options
+                lly = 735;
+                loopCount = 0;
+                endOfLoop = 6;
+                foreach (QuoteItems row in quote.Options)
+                {
+                    if (loopCount == endOfLoop)
+                    {
+                        stamper.Close();
+                        reader = new PdfReader(tempFilePath +  "\\heading_and_items" + pageCount + ".pdf");
+                        pageCount++;
+                        stamper = new PdfStamper(reader, new FileStream(tempFilePath + "\\heading_and_items" + pageCount + ".pdf", FileMode.Create));
+                        stamper.InsertPage(pageCount, iTextSharp.text.PageSize.LETTER);
+                        ct = new ColumnText(stamper.GetOverContent(pageCount));
+                        ct.AddElement(ItemHeading);
+                        rect = new iTextSharp.text.Rectangle(36, 760, 577, 50);
+                        ct.SetSimpleColumn(rect);
+                        ct.Go();
+                        lly = 748;
+                        loopCount = 0;
+                    }
+
+                    if (row.SAPID == "Heading")
+                    {
+                        cell = new PdfPCell(new Phrase(row.Description, font));
+                        cell.Colspan = 9;
+                        // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                        cell.HorizontalAlignment = 1;
+                        table4.AddCell(cell);
+                    }
+                    else
+                    {
+                        cell = new PdfPCell(new Phrase("1", font));
+                        // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                        cell.HorizontalAlignment = 1;
+                        table4.AddCell(cell);
+
+                        cell = new PdfPCell(new Phrase(row.Quantity.ToString(), font));
+                        // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                        cell.HorizontalAlignment = 1;
+                        table4.AddCell(cell);
+
+                        cell = new PdfPCell(new Phrase(row.SAPID, font));
+                        // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                        cell.HorizontalAlignment = 1;
+                        table4.AddCell(cell);
+
+                        cell = new PdfPCell(new Phrase(row.Description, font));
+                        // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                        cell.Colspan = 4;
+                        cell.FixedHeight = 13f;
+                        cell.HorizontalAlignment = 0;
+                        table4.AddCell(cell);
+
+                        cell = new PdfPCell(new Phrase(String.Format("{0:C2}", row.Price), font));
+                        // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                        cell.HorizontalAlignment = 1;
+                        table4.AddCell(cell);
+
+                        cell = new PdfPCell(new Phrase(String.Format("{0:C2}", row.Price * row.Quantity), font));
+                        // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                        cell.HorizontalAlignment = 1;
+                        table4.AddCell(cell);
+
+                        DetailDescription = getDetailDescription(row.SAPID);
+                        cell = new PdfPCell(new Phrase(DetailDescription, font));
+                        // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                        cell.Colspan = 6;
+                        cell.FixedHeight = 90f;
+                        cell.HorizontalAlignment = 0;
+                        table4.AddCell(cell);
+
+                        cell = new PdfPCell(getImage(row.SAPID));
+                        // cell.BackgroundColor = iTextSharp.text.Color.LIGHT_GRAY;
+                        cell.Colspan = 3;
+                        cell.HorizontalAlignment = 1;
+                        cell.Padding = 5f;
+                        table4.AddCell(cell);
+                        ct.AddElement(table4);
+                        rect = new iTextSharp.text.Rectangle(36, lly, 577, 103);
+                        ct.SetSimpleColumn(rect);
+                        ct.Go();
+                        table4.DeleteBodyRows();
+                        lly = lly - 103;
+                        loopCount++;
+                    }
+                }
+            }
+            stamper.Close();
+            return pageCount;
+        }
+
+        private void stamperTest()
+        {
+            // Get the file contents from the database
+            openAppDocDatabase();
+            SqlCeCommand cmd = TecanAppDocDatabase.CreateCommand();
+            SqlCeDataReader reader;
+
+            cmd.CommandText = "SELECT DocID, FileName FROM Documents WHERE DocumentPosition = 1";
+            reader = cmd.ExecuteReader();
+
+            PdfReader pdfReader;
+            AcroFields pdfFormFields;
+            StringBuilder sb = new StringBuilder();
+            while (reader.Read())
+            {
+                // get the smart start header document
+                Int16 whichDoc = (short)Convert.ToInt16(reader[0]);
+                string pdfTemplate = getApplicationDocument(whichDoc);
+
+                pdfReader = new PdfReader(pdfTemplate);
+                pdfFormFields = pdfReader.AcroFields;
+
+                sb.Append(reader[1].ToString() + Environment.NewLine);
+                foreach (KeyValuePair<string, AcroFields.Item> kvp in pdfFormFields.Fields)
+                {
+                    sb.Append(kvp.Key.ToString() + Environment.NewLine);
+                }
+                sb.Append(Environment.NewLine + Environment.NewLine);
+            }
             string fieldsFile = @"c:\temp\fields.txt";
             System.IO.File.WriteAllText(fieldsFile, sb.ToString());
 
-            string newFile = @"c:\temp\output.pdf";
-            PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileStream(newFile, FileMode.Create));
-            AcroFields pdfFormFields = pdfStamper.AcroFields;
+            reader.Dispose();
+            TecanAppDocDatabase.Close();
 
-            // set form pdfFormFields
-            pdfFormFields.SetField("Company", "The Company Name");
-            pdfFormFields.SetField("Customer Name", "The Customer");
-            pdfFormFields.SetField("Address", "123 Main Street");
-            pdfFormFields.SetField("Phone", "919-555-1212");
-            pdfFormFields.SetField("Email", "email@email.com");
+            //string pdfTemplate = @"c:\temp\SS D300e.pdf";
+            //// this.Text += " - " + pdfTemplate;
+            //PdfReader pdfReader = new PdfReader(pdfTemplate);
+            //AcroFields pdfFormFields = pdfReader.AcroFields;
+            //StringBuilder sb = new StringBuilder();
+            //foreach (KeyValuePair<string, AcroFields.Item> kvp in pdfFormFields.Fields)
+            //{
+            //    sb.Append(kvp.Key.ToString() + Environment.NewLine);
+            //}
 
-            pdfFormFields.SetField("ReadersTotal", "100");
-            pdfFormFields.SetField("WasherTotal", "200");
-            pdfFormFields.SetField("QCKitTotal", "300");
-            pdfFormFields.SetField("HPTotal", "400");
-            pdfFormFields.SetField("TipsTotal", "1000");
-            pdfFormFields.SetField("AppSuppTotal", "2000");
-            pdfFormFields.SetField("ContractTotal", "3000");
-            pdfFormFields.SetField("Price", "10000");
-            pdfFormFields.SetField("Instrument Price", "10000");
+            //string fieldsFile = @"c:\temp\fields.txt";
+            //System.IO.File.WriteAllText(fieldsFile, sb.ToString());
 
-            // flatten the form to remove editting options, set it to false
-            // to leave the form open to subsequent manual edits
-            pdfStamper.FormFlattening = false;
-            
-            // close the pdf
-            pdfStamper.Close();
+            //string newFile = @"c:\temp\output.pdf";
+            //PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileStream(newFile, FileMode.Create));
+            //pdfFormFields = pdfStamper.AcroFields;
+
+            //// set form pdfFormFields
+            //pdfFormFields.SetField("Customer Name", ContactName);
+            //pdfFormFields.SetField("Company", AccountName);
+            //pdfFormFields.SetField("Sales Rep", profile.Name);
+            //pdfFormFields.SetField("Phone", Phone);
+            //pdfFormFields.SetField("Email", Email);
+            //pdfFormFields.SetField("Quote ID", quote.QuoteDate);
+            //pdfFormFields.SetField("Budgetary Quote Date", quote.QuoteDate);
+            //pdfFormFields.SetField("Quote Description", QuoteTitleTextBox.Text);
+            //pdfFormFields.SetField("Instrument Description", QuoteDescriptionTextBox.Text);
+
+            //pdfFormFields.SetField("ReaderTotal", "100");
+            //pdfFormFields.SetField("WasherTotal", "200");
+            //// pdfFormFields.SetField("QCKitTotal", "300");
+            //// pdfFormFields.SetField("HPTotal", "400");
+            //// pdfFormFields.SetField("TipsTotal", "1000");
+            //pdfFormFields.SetField("AppSuppTotal", "2000");
+            //pdfFormFields.SetField("ContractTotal", "3000");
+            //pdfFormFields.SetField("Total Price", "10000");
+            //pdfFormFields.SetField("Instrument Price", "10000");
+
+            //// flatten the form to remove editting options, set it to false
+            //// to leave the form open to subsequent manual edits
+            //pdfStamper.FormFlattening = false;
+
+            //// close the pdf
+            //pdfStamper.Close();
+        }
+
+        private void quotePDFaddApplicationDocument(int pageCount)
+        {
+            // Create the temp directory if it does not exist
+            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\pdftemp";
+            System.IO.Directory.CreateDirectory(tempFilePath);
+
+            Document document = new Document();
+            PdfCopy writer = new PdfCopy(document, new FileStream(tempFilePath + "\\withApp.pdf", FileMode.Create));
+            if (writer == null)
+            {
+                return;
+            }
+            document.Open();
+
+            // get the heading document we just created
+            PdfReader reader = new PdfReader(tempFilePath + "\\heading_and_items" + pageCount + ".pdf");
+            reader.ConsolidateNamedDestinations();
+
+            PdfContentByte cb = writer.DirectContent;
+            for (int i = 1; i <= reader.NumberOfPages; i++)
+            {
+                PdfImportedPage page = writer.GetImportedPage(reader, i);
+                writer.AddPage(page);
+            }
+            reader.Close();
+
+            // get the application document
+            Int16 whichDoc = (short)Convert.ToInt16(QuoteTemplateComboBox.SelectedValue);
+            reader = new PdfReader(getApplicationDocument(whichDoc));
+            reader.ConsolidateNamedDestinations();
+
+            // step 4: we add content
+            for (int i = 1; i <= reader.NumberOfPages; i++)
+            {
+                PdfImportedPage page = writer.GetImportedPage(reader, i);
+                writer.AddPage(page);
+            }
+            reader.Close();
+
+            // get the terms document
+            reader = new PdfReader(getApplicationDocument(99999));
+            reader.ConsolidateNamedDestinations();
+
+            // step 4: we add content
+            for (int i = 1; i <= reader.NumberOfPages; i++)
+            {
+                PdfImportedPage page = writer.GetImportedPage(reader, i);
+                writer.AddPage(page);
+            }
+            reader.Close();
+
+            writer.Close();
+            document.Close();
+        }
+
+        private String getApplicationDocument(int whichDoc)
+        {
+            // Get the file contents from the database
+            openAppDocDatabase();
+            SqlCeCommand cmd = TecanAppDocDatabase.CreateCommand();
+            SqlCeDataReader reader;
+
+            if (whichDoc != 99999)
+            {
+                cmd.CommandText = "SELECT Document FROM Documents WHERE DocID = '" + whichDoc + "'";
+            }
+            else
+            {
+                cmd.CommandText = "SELECT Document FROM Documents WHERE FileName = 'terms.pdf'";
+            }
+            reader = cmd.ExecuteReader();
+
+            Byte[] documentData = new Byte[0];
+            while (reader.Read())
+            {
+                documentData = (byte[])reader[0];
+            }
+            reader.Dispose();
+            TecanAppDocDatabase.Close();
+
+            // Create the temp directory if it does not exist
+            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\pdftemp";
+            System.IO.Directory.CreateDirectory(tempFilePath);
+
+            String fullFilePathName = @tempFilePath + "\\" + whichDoc;
+            System.IO.FileStream fs = System.IO.File.Create(fullFilePathName);
+            fs.Close();
+
+            // Write file contents into file
+            BinaryWriter Writer = null;
+
+            try
+            {
+                // Create a new stream to write to the file
+                Writer = new BinaryWriter(File.OpenWrite(fullFilePathName));
+
+                // Writer raw data                
+                Writer.Write(documentData);
+                Writer.Flush();
+                Writer.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return fullFilePathName;
+        }
+
+        protected String AddHeaderFooter()
+        {
+            // Create the temp directory if it does not exist
+            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\pdftemp";
+            System.IO.Directory.CreateDirectory(tempFilePath);
+
+            byte[] bytes = File.ReadAllBytes(tempFilePath + "\\withApp.pdf");
+            BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            iTextSharp.text.Font boxfont = new iTextSharp.text.Font(bf, 5);
+            iTextSharp.text.Font font = new iTextSharp.text.Font(bf, 8);
+
+            PdfPTable tabHead = new PdfPTable(new float[] { 1F });
+            tabHead.SpacingAfter = 10F;
+            PdfPCell cell;
+            tabHead.TotalWidth = 615;
+            cell = new PdfPCell(new Phrase("\n", boxfont));
+
+            cell.BackgroundColor = iTextSharp.text.BaseColor.RED;
+            cell.Border = iTextSharp.text.Rectangle.BOX;
+            cell.BorderColor = iTextSharp.text.BaseColor.RED;
+            cell.HorizontalAlignment = 1;
+            tabHead.AddCell(cell);
+
+            String HeaderSting = "TECAN U.S.  9401 Globe Center Drive Suite 140 Morrisville, NC 27560 \nTelephone (919) 361-5200 \u2022" +
+                " (800) 338-3226 \u2022 Fax (919) 361-3601";
+            cell = new PdfPCell(new Phrase(HeaderSting, font));
+            cell.Border = iTextSharp.text.Rectangle.NO_BORDER;
+            cell.HorizontalAlignment = 1;
+            tabHead.AddCell(cell);
+
+
+            PdfPTable tabFot = new PdfPTable(new float[] { 1F });
+            tabFot.TotalWidth = 615;
+            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+            Stream myStream = myAssembly.GetManifestResourceStream("Tecan_Quote_Generator.footer.png");
+            iTextSharp.text.Image newImage = iTextSharp.text.Image.GetInstance(myStream);
+            newImage.ScaleAbsolute(580f, 20f);
+
+            cell = new PdfPCell(newImage);
+            cell.Border = iTextSharp.text.Rectangle.NO_BORDER;
+            cell.HorizontalAlignment = 1;
+            tabFot.AddCell(cell);
+
+            String pageNumberPhrase = "";
+            using (MemoryStream stream = new MemoryStream())
+            {
+                PdfReader reader = new PdfReader(bytes);
+                int pages = reader.NumberOfPages;
+                using (PdfStamper stamper = new PdfStamper(reader, stream))
+                {
+                    // int pages = reader.NumberOfPages;
+                    for (int i = 1; i <= pages; i++)
+                    {
+                        pageNumberPhrase = "Page " + i.ToString() + " of " + pages.ToString();
+                        ColumnText.ShowTextAligned(stamper.GetUnderContent(i), Element.ALIGN_LEFT, new Phrase(pageNumberPhrase, font), 10, 25, 0);
+                        tabHead.WriteSelectedRows(0, -1, 0, 792, stamper.GetOverContent(i));
+                        tabFot.WriteSelectedRows(0, -1, 0, 20, stamper.GetOverContent(i));
+                    }
+                }
+                bytes = stream.ToArray();
+            }
+            File.WriteAllBytes(tempFilePath +  "\\" + QuoteTitleTextBox.Text + ".pdf", bytes);
+            return tempFilePath;
+        }
+
+        private iTextSharp.text.Image getImage(string SAPID)
+        {
+            Byte[] imageData;
+            try
+            {
+                openDB();
+                SqlCeCommand cmd = TecanDatabase.CreateCommand();
+                cmd.CommandText = "SELECT Document FROM PartImages WHERE SAPId = '" + SAPID + "'";
+                imageData = (byte[])cmd.ExecuteScalar();
+                if (imageData != null)
+                {
+                    iTextSharp.text.Image newImage = byteArrayToImage2(imageData);
+                    newImage.ScaleAbsolute(80f, 80f);
+                    return newImage;
+                }
+                else
+                {
+                    // If no image available
+                    System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                    Stream myStream = myAssembly.GetManifestResourceStream("Tecan_Quote_Generator.noimage.bmp");
+                    // Bitmap image = new Bitmap(myStream);
+                    iTextSharp.text.Image newImage = iTextSharp.text.Image.GetInstance(myStream);
+                    newImage.ScaleAbsolute(80f, 80f);
+                    return newImage;
+                }
+
+            }
+            finally
+            {
+                TecanDatabase.Close();
+            }
+        }
+
+        public iTextSharp.text.Image byteArrayToImage2(byte[] byteArrayIn)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            iTextSharp.text.Image returnImage = iTextSharp.text.Image.GetInstance(ms);
+            return returnImage;
+        }
+
+        private String getDetailDescription(String SAPID)
+        {
+            String detailDescription = "";
+            openDB();
+            SqlCeCommand cmd = TecanDatabase.CreateCommand();
+            cmd.CommandText = "SELECT DetailDescription FROM PartsList WHERE SAPId = '" + SAPID + "'";
+            detailDescription = (string)cmd.ExecuteScalar();
+            TecanDatabase.Close();
+            return detailDescription;
         }
 
         private void clearQuoteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2022,7 +2939,7 @@ namespace Tecan_Quote_Generator
             // mailMessage.Attachments.Add(new Attachment(fullAttachmentPathName));
 
             // var filename = attachmentPath + "\\mymessage.eml";
-            String tempFilePath = createTempFile();
+            String tempFilePath = createTempFolder();
             var filename = tempFilePath + "\\mymessage.eml";
 
             //save the MailMessage to the filesystem
@@ -2034,10 +2951,10 @@ namespace Tecan_Quote_Generator
             BugReportPanel.Visible = false;
         }
 
-        private string createTempFile()
+        private string createTempFolder()
         {
-            // Create the new file in temp directory
-            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "temp";
+            // Create the temp directory if it does not exist
+            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\temp";
             System.IO.Directory.CreateDirectory(tempFilePath);
 
             // If temp directory current contains any files, delete them
@@ -2058,35 +2975,47 @@ namespace Tecan_Quote_Generator
 
         private void sendQuoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (AccountComboBox.Items.Count == 0)
+            if (!quoteSaved)
             {
-                if (MessageBox.Show("You currently have no accounts and contacts added.\n\n Do you want to import or add accounts now?", "Please Add Account Information", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    accountListToolStripMenuItem_Click(sender, e);
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            if (QuoteTitleTextBox.Text == "" || AccountComboBox.SelectedIndex == 0)
-            {
-                String messageString = "";
-                if (QuoteTitleTextBox.Text == "") messageString = "Please enter a Quote Title before saving.\n\n";
-                if (AccountComboBox.SelectedIndex == 0) messageString = "Please select an Account and Contact before saving.";
-                QuoteTabControl.SelectedTab = QuoteSettingTabPage;
-                //PleaseWaitHeadingLabel.Text = "Incomplete Quote.";
-                //PleaseWaitMessageTextBox.Text = "Please enter a Quote Title before saving.";
-                //PLeaseWaitPanelOKButton.Visible = true;
-                //PleaseWaitPanel.Visible = true;
-
-
-                QuoteTitleTextBox.Focus();
-                MessageBox.Show(messageString);
+                saveQuoteToolStripMenuItem_Click(sender, e);
                 return;
             }
 
+            // Get Contact email Address
+            String Email = "";
+            openContactsDatabase();
+            SqlCeCommand cmd = ContactDatabase.CreateCommand();
+            cmd.CommandText = "SELECT Email FROM Contacts WHERE AccountID = " + (short)Convert.ToInt16(AccountComboBox.SelectedValue) + " AND ContactID = " + (short)Convert.ToInt16(ContactComboBox.SelectedValue);
+            SqlCeDataReader dBreader = cmd.ExecuteReader();
+            while (dBreader.Read())
+            {
+                Email = dBreader[0].ToString();
+            }
+            dBreader.Dispose();
+            ContactDatabase.Close();
+
+            // Setup mail message
+            MailAddress to = new MailAddress(Email);
+            MailAddress from = new MailAddress(profile.Email);
+            var mailMessage = new MailMessage(from, to);
+            mailMessage.Subject = "Tecan Budgetary Quote - " + QuoteTitleTextBox.Text;
+            // mailMessage.Body = "Tecan Budgetary Quote - " + QuoteTitleTextBox.Text;
+
+            String tecanFilesFilePath = @"c:\TecanFiles";
+            String quoteDate = QuoteDateTimePicker.Text.Replace("/", "_");
+            String QuoteFileName = AccountComboBox.Text + "_" + QuoteTitleTextBox.Text + "_" + quoteDate + ".pdf";
+            String fullPDFfilename = tecanFilesFilePath + "\\" + QuoteFileName;
+            mailMessage.Attachments.Add(new Attachment(fullPDFfilename));
+
+
+            // var filename = attachmentPath + "\\mymessage.eml";
+            String tempFilePath = createTempFolder();
+            var filename = tempFilePath + "\\mymessage.eml";
+            //save the MailMessage to the filesystem
+            mailMessage.Save(filename);
+
+            //Open the file with the default associated application registered on the local machine
+            Process.Start(filename);
         }
 
         private void convertQuoteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2128,6 +3057,32 @@ namespace Tecan_Quote_Generator
                 }
                 SumItems(QuoteDataGridView);
             }
+        }
+
+        private void IsSSPCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            String myConnStr = partsListTableAdapter.Connection.ConnectionString;
+            if (IsSSPCheckBox.Checked == true)
+            {
+                myConnStr = myConnStr.Replace("TecanQuoteGeneratorPartsList", "TecanSmartStartQuoteGeneratorPartsList");
+                SmartStartHeaderComboBox.Visible = true;
+            }
+            else
+            {
+                myConnStr = myConnStr.Replace("TecanSmartStartQuoteGeneratorPartsList", "TecanQuoteGeneratorPartsList");
+                SmartStartHeaderComboBox.Visible = false;
+            }
+            partsListTableAdapter.Connection.ConnectionString = myConnStr;
+            salesTypeTableAdapter.Connection.ConnectionString = myConnStr;
+            subCategoryTableAdapter.Connection.ConnectionString = myConnStr;
+            categoryTableAdapter.Connection.ConnectionString = myConnStr;
+            instrumentTableAdapter.Connection.ConnectionString = myConnStr;
+            doFormInitialization();
+        }
+
+        private void QuoteTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadTemplateList();
         }
 
     }

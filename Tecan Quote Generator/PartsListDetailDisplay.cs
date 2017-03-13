@@ -33,6 +33,24 @@ namespace Tecan_Quote_Generator
 
         internal void LoadParts(String SAPID)
         {
+            String myConnStr = partsListTableAdapter.Connection.ConnectionString;
+            if (mainForm.IsSSPCheckBox.Checked == true)
+            {
+                myConnStr = myConnStr.Replace("TecanQuoteGeneratorPartsList", "TecanSmartStartQuoteGeneratorPartsList");
+            }
+            else
+            {
+                myConnStr = myConnStr.Replace("TecanSmartStartQuoteGeneratorPartsList", "TecanQuoteGeneratorPartsList");
+            }
+            partsListTableAdapter.Connection.ConnectionString = myConnStr;
+            suppumentalDocsTableAdapter.Connection.ConnectionString = myConnStr;
+            requiredPartsTableAdapter.Connection.ConnectionString = myConnStr;
+            sSPCategoryTableAdapter.Connection.ConnectionString = myConnStr;
+            salesTypeTableAdapter.Connection.ConnectionString = myConnStr;
+            subCategoryTableAdapter.Connection.ConnectionString = myConnStr;
+            categoryTableAdapter.Connection.ConnectionString = myConnStr;
+            instrumentTableAdapter.Connection.ConnectionString = myConnStr;
+
             this.partsListTableAdapter.FillBySAPID(this.tecanQuoteGeneratorPartsListDataSet.PartsList, SAPID);
             this.suppumentalDocsTableAdapter.FillBySAPID(this.tecanQuoteGeneratorPartsListDataSet.SuppumentalDocs, SAPID);
             this.requiredPartsTableAdapter.FillBySAPID(this.tecanQuoteGeneratorPartsListDataSet.RequiredParts, SAPID);
@@ -202,7 +220,7 @@ namespace Tecan_Quote_Generator
             SqlCeConnection TecanSuppDocsDatabase = null;
 
             TecanSuppDocsDatabase = new SqlCeConnection();
-            String dataPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+            // String dataPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
             TecanSuppDocsDatabase.ConnectionString = "Data Source=|DataDirectory|\\TecanSuppDocs.sdf;Max Database Size=4000;Max Buffer Size=1024;Persist Security Info=False";
             TecanSuppDocsDatabase.Open();
             SqlCeCommand cmd = TecanSuppDocsDatabase.CreateCommand();
@@ -218,8 +236,8 @@ namespace Tecan_Quote_Generator
             reader.Dispose();
             TecanSuppDocsDatabase.Close();
 
-            // Create the new file in temp directory
-            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "temp";
+            // Create the temp directory if it does not exist
+            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\temp";
             System.IO.Directory.CreateDirectory(tempFilePath);
 
             // If temp directory current contains any files, delete them
@@ -473,8 +491,14 @@ namespace Tecan_Quote_Generator
         private void openDB()
         {
             TecanDatabase = new SqlCeConnection();
-            String dataPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
-            TecanDatabase.ConnectionString = "Data Source=|DataDirectory|\\TecanQuoteGeneratorPartsList.sdf;Max Database Size=4000;Max Buffer Size=1024;Persist Security Info=False";
+            if (mainForm.IsSSPCheckBox.Checked == false)
+            {
+                TecanDatabase.ConnectionString = "Data Source=|DataDirectory|\\TecanQuoteGeneratorPartsList.sdf;Max Database Size=4000;Max Buffer Size=1024;Persist Security Info=False";
+            }
+            else
+            {
+                TecanDatabase.ConnectionString = "Data Source=|DataDirectory|\\TecanSmartStartQuoteGeneratorPartsList.sdf;Max Database Size=4000;Max Buffer Size=1024;Persist Security Info=False";
+            }
             TecanDatabase.Open();
         }
 
@@ -739,8 +763,8 @@ namespace Tecan_Quote_Generator
 
         private string createTempFile()
         {
-            // Create the new file in temp directory
-            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "temp";
+            // Create the temp directory if it does not exist
+            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\temp";
             System.IO.Directory.CreateDirectory(tempFilePath);
 
             // If temp directory current contains any files, delete them

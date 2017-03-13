@@ -215,6 +215,7 @@
     <Content Include="Customers.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="footer.png" />
     <Content Include="System.Data.SqlServerCe.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

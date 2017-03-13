@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Data.SqlServerCe;
 using System.IO;
@@ -30,12 +31,21 @@ namespace Tecan_Quote_Generator
             this.accountsTableAdapter.FillBy(this.customersDataSet.Accounts);
         }
 
+        // Run at form shown
         private void SetContactDisplay(object sender, EventArgs e)
         {
             // if(AccountsComboBox.SelectedValue != null)
-            if(AccountsComboBox.Items.Count != 0) AccountsComboBox.SelectedIndex = 0;
-            this.Height = 175;
-            loadContactsList();
+            if (AccountsComboBox.Items.Count == 0)
+            {
+                this.Height = 100;
+                editAccountNameButton.Visible = false;
+            }
+            else
+            {
+                AccountsComboBox.SelectedIndex = 0;
+                this.Height = 175;
+                loadContactsList();
+            }
         }
 
         private void loadContactsList()
@@ -76,14 +86,14 @@ namespace Tecan_Quote_Generator
         {
             if (ContactsListBox.Items.Count == 0)
             {
-                if (AccountsComboBox.Items.Count != 0 && AccountsComboBox.SelectedIndex != 0) ContactsListBox.Items.Add("Seleced account has no contacts.");
+                ContactsListBox.Items.Add("Seleced account has no contacts.");
                 clearContact();
                 this.Height = 175;
                 editLabel.Visible = false;
             }
             else
             {
-                ContactsListBox.SelectedIndex = 0;
+                // ContactsListBox.SelectedIndex = 0;
                 displayContact();
                 this.Height = 375;
                 editLabel.Visible = true;
@@ -95,7 +105,14 @@ namespace Tecan_Quote_Generator
             short selectedAccount;
             selectedAccount = (short)Convert.ToInt16(AccountsComboBox.SelectedValue);
             short selectedContact;
-            selectedContact = (short)currentContacts[ContactsListBox.SelectedIndex];
+            if (ContactsListBox.SelectedIndex == -1)
+            {
+                selectedContact = 1;
+            }
+            else
+            {
+                selectedContact = (short)currentContacts[ContactsListBox.SelectedIndex];
+            }
 
             openDB();
             SqlCeCommand cmd = ContactsDatabase.CreateCommand();
@@ -122,11 +139,35 @@ namespace Tecan_Quote_Generator
 
         private void AddAccountButton_Click(object sender, EventArgs e)
         {
-            accountUpdateMode = false;
-            this.Height = 175;
-            editLabel.Visible = false;
-            AddAccountPanel.Visible = true;
-            AddAccountTextBox.Focus();
+            if (AccountsComboBox.Items.Count == 0)
+            {
+                String importMessage = "You currently have no accounts and contacts.\n\n" +
+                    "If you are planning on importing accounts, please do that before adding new accounts.\n\n" +
+                    "If you choose to import accounts later, you will loose all saved account information.\n\n" +
+                    "Do you want to go ahead and add a new account and contact?";
+
+                if (MessageBox.Show(importMessage, "Confirm Adding Account", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    accountUpdateMode = false;
+                    this.Height = 175;
+                    editLabel.Visible = false;
+                    AddAccountPanel.Visible = true;
+                    AddAccountTextBox.Focus();
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                accountUpdateMode = false;
+                this.Height = 175;
+                editLabel.Visible = false;
+                AddAccountPanel.Visible = true;
+                AddAccountTextBox.Focus();
+            }
         }
 
         private void editAccountNameButton_Click(object sender, EventArgs e)
@@ -343,8 +384,8 @@ namespace Tecan_Quote_Generator
 
         private void listPrintContactsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Create the new file in temp directory
-            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "temp";
+            // Create the temp directory if it does not exist
+            String tempFilePath = @AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\temp";
             System.IO.Directory.CreateDirectory(tempFilePath);
 
             // If temp directory current contains any files, delete them
@@ -361,7 +402,7 @@ namespace Tecan_Quote_Generator
             openDB();
             SqlCeCommand cmd = ContactsDatabase.CreateCommand();
 
-            cmd.CommandText = "SELECT A.AccountID, A.AccountName, C.ContactID, C.First, C.Last, C.Address, C.City, C.State, C.PostalCode,  C.WorkPhone, C.Fax, C.Email " +
+            cmd.CommandText = "SELECT A.AccountID, A.AccountName, C.ContactID, C.First, C.Last, C.Address, C.City, C.State, C.PostalCode,  C.WorkPhone, C.Fax, C.Email" +
                 " FROM Accounts A LEFT OUTER JOIN Contacts C " +
                 " ON A.AccountID = C.AccountID" +
                 " ORDER BY A.AccountName, C.First";
@@ -371,7 +412,7 @@ namespace Tecan_Quote_Generator
             {
                 sData += reader[0].ToString() + "," + reader[1].ToString() + "," + reader[2].ToString() + "," + reader[3].ToString() +
                 "," + reader[4].ToString() + "," + reader[5].ToString() + "," + reader[6].ToString() + "," + reader[7].ToString() +
-                "," + reader[8].ToString() + "," + reader[9].ToString() + reader[10].ToString() + reader[11].ToString() + "\n";
+                "," + reader[8].ToString() + "," + reader[9].ToString() + "," + reader[10].ToString() + "," + reader[11].ToString() + "\n";
             }
             reader.Dispose();
             ContactsDatabase.Close();
@@ -414,27 +455,39 @@ namespace Tecan_Quote_Generator
         // todo Once Loaded no longer allow replace
         private void importContactsButton_Click(object sender, EventArgs e)
         {
-            Int32 NewAccountID = 1;
+            Int32 NewAccountID = 0;
             Int32 CurrentAccountID;
             Int32 NewContactID = 1;
 
             // Get the contacts cvs file
             String[] newContacts = getContactsFile();
 
+            // test for invalid records
+            String contactsErrorMessage = testNewContacts(newContacts);
+            if (contactsErrorMessage != "")
+            {
+                MessageBox.Show(contactsErrorMessage);
+                importContactsPanel.Visible = false;
+                return;
+            }
+
             String[] thisContact = null;
             List<Contact> alreadyAddedAccounts_Contacts = new List<Contact>();
 
             openDB();
             SqlCeCommand cmd = ContactsDatabase.CreateCommand();
-
+            
+            // No contacts in DB
             if (AccountsBindingSource.Count == 0)
             {
                 // Initialize Accounts Db
                 cmd.CommandText = "INSERT INTO Accounts (AccountID, AccountName) Values (0 , '- Please Select An Account -')";
                 cmd.ExecuteNonQuery();
+                NewAccountID = 1;
             }
             else
             {
+                // Have accounts and contacts, put them in an array to test for existing contacts when adding 
                 cmd.CommandText = "SELECT A.AccountName, C.First, C.Last, C.Address, C.City, C.State, C.PostalCode,  C.WorkPhone, C.Fax, C.Email, C.ContactID, A.AccountID " +
                 " FROM Accounts A LEFT OUTER JOIN Contacts C " +
                 " ON A.AccountID = C.AccountID" +
@@ -444,35 +497,96 @@ namespace Tecan_Quote_Generator
                 while (reader.Read())
                 {
                     // Add to alreadyAddedAccounts_Contacts list
-                    alreadyAddedAccounts_Contacts.Add(new Contact
+                    if (reader[0].ToString() != "- Please Select An Account -")
                     {
-                        accountName = reader[0].ToString(),
-                        first = reader[1].ToString(),
-                        last = reader[2].ToString(),
-                        address = reader[3].ToString(),
-                        city = reader[4].ToString(),
-                        state = reader[5].ToString(),
-                        postalCode = reader[6].ToString(),
-                        workPhone = reader[7].ToString(),
-                        fax = reader[8].ToString(),
-                        email = reader[9].ToString(),
-                        fullName = reader[1].ToString() + " " + reader[2].ToString(),
-                        contactID = Convert.ToInt32(reader[10]),
-                        accountID = Convert.ToInt32(reader[11])
-                    });
+                        alreadyAddedAccounts_Contacts.Add(new Contact
+                        {
+                            accountName = reader[0].ToString(),
+                            first = reader[1].ToString(),
+                            last = reader[2].ToString(),
+                            address = reader[3].ToString(),
+                            city = reader[4].ToString(),
+                            state = reader[5].ToString(),
+                            postalCode = reader[6].ToString(),
+                            workPhone = reader[7].ToString(),
+                            fax = reader[8].ToString(),
+                            email = reader[9].ToString(),
+                            fullName = reader[1].ToString() + " " + reader[2].ToString(),
+                            contactID = Convert.ToInt32(reader[10]),
+                            accountID = Convert.ToInt32(reader[11])
+                        });
+                    }
                 }
                 reader.Dispose();
+
+                // Get Last AccountID 
+                cmd.CommandText = "SELECT AccountID FROM Accounts ORDER BY AccountID";
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    NewAccountID = Convert.ToInt16(reader[0]);
+                }
+                reader.Dispose();
+                NewAccountID++;
             }
 
+            // Loop through the contacts inported from the csv file 
             foreach (string newContact in newContacts)
             {
                 thisContact = newContact.Split(',');
                 // Accounts
-                var theContact = alreadyAddedAccounts_Contacts.SingleOrDefault(x => x.accountName == thisContact[0]);
+                var theAccount = alreadyAddedAccounts_Contacts.FirstOrDefault(x => x.accountName == thisContact[0]);
                 // Account exisits
-                if (theContact != null)
+                if (theAccount != null)
                 {
-                    CurrentAccountID = theContact.accountID;
+                    CurrentAccountID = theAccount.accountID;
+                    // Account found, test if contact for this account exists
+                    var theContact = alreadyAddedAccounts_Contacts.SingleOrDefault(x => x.accountName == thisContact[0] && x.first == thisContact[1] && x.last == thisContact[2]);
+                    // Contact for this account exists - do nothing
+                    if (theContact == null)
+                    // Account exist - Contact does not exist - update list add contact to table
+                    {
+                        var theContactData = alreadyAddedAccounts_Contacts.Last(x => x.accountName == thisContact[0]);
+                        NewContactID = theContactData.contactID;
+                        NewContactID++;
+                        // Add contact to contact table
+                        cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, FullName, ContactID, AccountID)" +
+                        " Values " +
+                        "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @FullName, @ContactID, @AccountID)";
+
+                        cmd.Parameters.AddWithValue("@First", thisContact[1]);
+                        cmd.Parameters.AddWithValue("@Last", thisContact[2]);
+                        cmd.Parameters.AddWithValue("@Address", thisContact[3]);
+                        cmd.Parameters.AddWithValue("@City", thisContact[4]);
+                        cmd.Parameters.AddWithValue("@State", thisContact[5]);
+                        cmd.Parameters.AddWithValue("@PostalCode", thisContact[6]);
+                        cmd.Parameters.AddWithValue("@WorkPhone", thisContact[7]);
+                        cmd.Parameters.AddWithValue("@Fax", thisContact[8]);
+                        cmd.Parameters.AddWithValue("@Email", thisContact[9]);
+                        cmd.Parameters.AddWithValue("@FullName", thisContact[1] + " " + thisContact[2]);
+                        cmd.Parameters.AddWithValue("@ContactID", NewContactID);
+                        cmd.Parameters.AddWithValue("@AccountID", CurrentAccountID);
+                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
+
+                        // Add to alreadyAddedAccounts_Contacts list
+                        alreadyAddedAccounts_Contacts.Add(new Contact
+                        {
+                            accountName = thisContact[0],
+                            first = thisContact[1],
+                            last = thisContact[2],
+                            address = thisContact[3],
+                            city = thisContact[4],
+                            state = thisContact[5],
+                            postalCode = thisContact[6],
+                            workPhone = thisContact[7],
+                            fax = thisContact[8],
+                            email = thisContact[9],
+                            fullName = thisContact[1] + " " + thisContact[2],
+                            contactID = NewContactID,
+                            accountID = CurrentAccountID
+                        });
+                    }
                 }
                 else
                 // Account does not exist - Add account and contact
@@ -519,63 +633,13 @@ namespace Tecan_Quote_Generator
                         accountID = NewAccountID
                     });
                     NewAccountID++;
-                    continue;
                 }
 
-                // Account found, test if contact for this accoun exists
-                theContact = alreadyAddedAccounts_Contacts.SingleOrDefault(x => x.accountName == thisContact[0] && x.first == thisContact[1] && x.last == thisContact[2]);
-                // Contact for this account exists - do nothing
-                if (theContact != null)
-                {
-                    continue;
-                }
-                else
-                // Account exist - Contact does not exist - update list add contact to table
-                {
-                    theContact = alreadyAddedAccounts_Contacts.Last(x => x.accountName == thisContact[0]);
-                    NewContactID = theContact.contactID;
-                    NewContactID++;
-                    // Add contact to contact table
-                    cmd.CommandText = "INSERT INTO Contacts (First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email, FullName, ContactID, AccountID)" +
-                    " Values " +
-                    "(@First, @Last, @Address, @City, @State, @PostalCode, @WorkPhone, @Fax, @Email, @FullName, @ContactID, @AccountID)";
-
-                    cmd.Parameters.AddWithValue("@First", thisContact[1]);
-                    cmd.Parameters.AddWithValue("@Last", thisContact[2]);
-                    cmd.Parameters.AddWithValue("@Address", thisContact[3]);
-                    cmd.Parameters.AddWithValue("@City", thisContact[4]);
-                    cmd.Parameters.AddWithValue("@State", thisContact[5]);
-                    cmd.Parameters.AddWithValue("@PostalCode", thisContact[6]);
-                    cmd.Parameters.AddWithValue("@WorkPhone", thisContact[7]);
-                    cmd.Parameters.AddWithValue("@Fax", thisContact[8]);
-                    cmd.Parameters.AddWithValue("@Email", thisContact[9]);
-                    cmd.Parameters.AddWithValue("@FullName", thisContact[1] + " " + thisContact[2]);
-                    cmd.Parameters.AddWithValue("@ContactID", NewContactID);
-                    cmd.Parameters.AddWithValue("@AccountID", CurrentAccountID);
-                    cmd.ExecuteNonQuery();
-                    cmd.Parameters.Clear();
-
-                    // Add to alreadyAddedAccounts_Contacts list
-                    alreadyAddedAccounts_Contacts.Add(new Contact
-                    {
-                        accountName = thisContact[0],
-                        first = thisContact[1],
-                        last = thisContact[2],
-                        address = thisContact[3],
-                        city = thisContact[4],
-                        state = thisContact[5],
-                        postalCode = thisContact[6],
-                        workPhone = thisContact[7],
-                        fax = thisContact[8],
-                        email = thisContact[9],
-                        fullName = thisContact[1] + " " + thisContact[2],
-                        contactID = NewContactID,
-                        accountID = CurrentAccountID
-                    });
-                }
             }
             ContactsDatabase.Close();
             importContactsPanel.Visible = false;
+            this.accountsTableAdapter.FillBy(this.customersDataSet.Accounts);
+            SetContactDisplay(sender, e);
         }
 
         private String[] getContactsFile()
@@ -607,6 +671,72 @@ namespace Tecan_Quote_Generator
                 }
             }
             return theContacts;
+        }
+
+        private String testNewContacts(String[] newContacts)
+        {
+            Boolean hasError = false;
+            RegexUtilities util = new RegexUtilities();
+            Regex phoneNumpattern = new Regex(@"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}");
+            Regex zipCodepattern = new Regex(@"^\d{5}(-\d{4})?$");
+
+            String ErrorMessage = "Please correct items in your imported contact file.\n\n";
+            ErrorMessage += "Account Name, First, and Last cannot be blank.\n";
+            ErrorMessage += "Phone numbers and email address must be valid. State field can only conatin 2 characters.\n\n";
+            String[] thisContact = null;
+            foreach (string newContact in newContacts)
+            {
+                thisContact = newContact.Split(',');
+                // Account Name, First, Last, Address, City, State, PostalCode, WorkPhone, Fax, Email
+                if(thisContact[0] == "" && !ErrorMessage.Contains("Blank Account Name"))
+                {
+                    ErrorMessage += "Blank Account Name\n";
+                    hasError = true;
+                }
+                if(thisContact[1] == "" && !ErrorMessage.Contains("Blank First Name"))
+                {
+                    ErrorMessage += "Blank First Name\n";
+                    hasError = true;
+                }
+                if(thisContact[2] == "" && !ErrorMessage.Contains("Blank Last Name"))
+                {
+                    ErrorMessage += "Blank Last Name\n";
+                    hasError = true;
+                }
+                if(thisContact[5].Length > 2 && thisContact[0] != "" && thisContact[1] != "" && thisContact[2] != "")
+                {
+                    ErrorMessage += thisContact[0] + ", " + thisContact[1] + " " + thisContact[2] + " has an invalid state\n";
+                    hasError = true;
+                }
+                if (thisContact[6] != "" && !zipCodepattern.IsMatch(thisContact[6]) && thisContact[0] != "" && thisContact[1] != "" && thisContact[2] != "")
+                {
+                    ErrorMessage += thisContact[0] + ", " + thisContact[1] + " " + thisContact[2] + " has an invalid zipcode\n";
+                    hasError = true;
+                }
+                if (thisContact[7] != "" && !phoneNumpattern.IsMatch(thisContact[7]) && thisContact[0] != "" && thisContact[1] != "" && thisContact[2] != "")
+                {
+                    ErrorMessage += thisContact[0] + ", " + thisContact[1] + " " + thisContact[2] + " has an invalid phone number\n";
+                    hasError = true;
+                }
+                if (thisContact[8] != "" && !phoneNumpattern.IsMatch(thisContact[8]) && thisContact[0] != "" && thisContact[1] != "" && thisContact[2] != "")
+                {
+                    ErrorMessage += thisContact[0] + ", " + thisContact[1] + " " + thisContact[2] + " has an invalid fax number\n";
+                    hasError = true;
+                }
+                if (thisContact[8] != "" && !util.IsValidEmail(thisContact[9]) && thisContact[0] != "" && thisContact[1] != "" && thisContact[2] != "")
+                {
+                    ErrorMessage += thisContact[0] + ", " + thisContact[1] + " " + thisContact[2] + " has an invalid email address\n";
+                    hasError = true;
+                }
+            }
+            if (hasError)
+            {
+                return ErrorMessage;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         private void CancelNewContactButton_Click(object sender, EventArgs e)
